@@ -53,9 +53,9 @@ for tool in eaccess_shim; do
   if [ -f "${src}" ]; then
     echo "building shim: ${src}"
     if [ -f "${hdr}" ]; then
-      ${CC} ${CFLAGS} -include "${SRCDIR}/${hdr}" -o "${OUTDIR}/${tool}" "${SRCDIR}/${src}"
+      ${CC} -I${SRCDIR} -I. -o "${OUTDIR}/${tool}" "${SRCDIR}/${src}"
     else
-      ${CC} ${CFLAGS} -o "${OUTDIR}/${tool}" "${SRCDIR}/${src}"
+      ${CC} -o "${OUTDIR}/${tool}" "${SRCDIR}/${src}"
     fi
   fi
   # Optional: reproducible improvements
