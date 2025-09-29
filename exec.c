@@ -47,6 +47,11 @@ __FBSDID("$FreeBSD$");
 #include <stdbool.h>
 #include <stdlib.h>
 
+/* PATCH FOR no 'eaccess' implementation */
+#ifndef EACCESS_H
+#include "eaccess_shim.h"
+#endif /* !EACCESS_H */
+
 /*
  * When commands are first encountered, they are entered in a hash table.
  * This ensures that a full path search will not have to be done for them
