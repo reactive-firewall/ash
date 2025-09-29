@@ -1,0 +1,125 @@
+#!/bin/sh
+# Minimal automated build script for the provided FreeBSD sh subtree.
+# Assumes source tree is at ~/sh-src (adjust SRCDIR), POSIX toolchain installed.
+# Produces a standalone `sh` in OUTDIR. Does not use FreeBSD build system.
+
+set -e
+
+# === Config — adjust as needed ===
+SRCDIR="${PWD}/ash"          # location of the provided Makefile and .c/.h files
+OUTDIR="${PWD}/obj/ash"      # where .o and final binary go
+CHMOD="${CHMOD:-chmod}"
+BIN_MODE="${BIN_MODE:-751}"
+TOUCH="${TOUCH:-touch}"      # needs -r and -h options
+CC="${CC:-cc}"
+CFLAGS="-DSHELL -I${SRCDIR} -I."
+LDFLAGS=""
+LIBS="-ledit"                # set to "" if libedit not available
+if [[ ( -x "${YACC:-yacc}" ) ]] ; then
+	YACC="${YACC:-yacc}"         # or bison -y
+else
+  if [[ ( -x $(which "bison") ) ]] ; then
+    YACC="bison -y"         # or bison -y
+  fi
+fi
+LEX="${LEX:-flex}"           # or lex
+# ================================
+
+mkdir -p "${OUTDIR}"
+cd "${SRCDIR}"
+
+# 1) Build generator tools from their .c if present
+for tool in mknodes mksyntax mktokens mkbuiltins; do
+  src="${tool}.c"
+  if [ -f "${src}" ]; then
+    echo "building generator: ${src}"
+    ${CC} ${CFLAGS} -o "${OUTDIR}/${tool}" "${SRCDIR}/${src}"
+  else
+    if [ -f "${SRCDIR}/${tool}" ] ; then
+      cp -vf "${SRCDIR}/${tool}" "${OUTDIR}/${tool}"
+    fi
+  fi
+  # Optional: reproducible improvements
+  if [ -x ${CHMOD} ] ; then
+    ${CHMOD} ${BIN_MODE} "${OUTDIR}/${tool}" || true
+    ${TOUCH} -r "${OUTDIR}" -h "${OUTDIR}/${tool}" || true
+  fi
+done
+
+# Use local tools from OUTDIR when invoking
+PATH="${OUTDIR}:$PATH"
+export PATH
+
+# 2) Run generator tools (if present) to create generated sources/headers
+if [ -x "${OUTDIR}/mknodes" ]; then
+  echo "running mknodes..."
+  "${OUTDIR}/mknodes" "${SRCDIR}/nodetypes" "${SRCDIR}/nodes.c.pat"
+fi
+if [ -x "${OUTDIR}/mksyntax" ]; then
+  echo "running mksyntax..."
+  "${OUTDIR}/mksyntax"
+fi
+if [ -x "${OUTDIR}/mktokens" ]; then
+  echo "running ${OUTDIR}/mktokens"
+  "${OUTDIR}/mktokens"
+fi
+if [ -x "${OUTDIR}/mkbuiltins" ]; then
+  echo "running mkbuiltins..."
+  "${OUTDIR}/mkbuiltins" "${SRCDIR}"
+fi
+
+# 3) Generate yacc/lex outputs if needed
+if [ -f arith_yacc.y ] && [ ! -f arith_yacc.c ]; then
+  ${YACC:-yacc} -d -o arith_yacc.c arith_yacc.y
+fi
+if [ -f arith_yylex.l ] && [ ! -f arith_yylex.c ]; then
+  ${LEX:-flex} -o arith_yylex.c arith_yylex.l
+fi
+
+# 4) Compile sources
+SRCS="
+alias.c arith_yacc.c arith_yylex.c cd.c echo.c error.c eval.c \
+exec.c expand.c histedit.c input.c jobs.c kill.c mail.c main.c memalloc.c \
+miscbltin.c mystring.c options.c output.c parser.c printf.c redir.c show.c \
+test.c trap.c var.c builtins.c nodes.c syntax.c
+"
+OBJLIST=""
+for s in $SRCS; do
+  [ -f "${SRCDIR}/${s}" ] || { echo "skipping missing ${s}"; continue; }
+  obj="${OUTDIR}/${s%.c}.o"
+  EXTRA_CFLAGS=""
+  if [ ${s} == *eval.c* ] ; then
+    EXTRA_CFLAGS="-Wno-implicit-function-declaration"
+  fi
+  echo "compiling ${s}"
+  ${CC} ${CFLAGS} ${EXTRA_CFLAGS} -c "${SRCDIR}/${s}" -o "${obj}"
+  OBJLIST="${OBJLIST} ${obj}"
+done
+
+# 5) Link
+echo "linking sh..."
+cd "${OUTDIR}"
+if ${CC} -o sh ${OBJLIST} ${LDFLAGS} ${LIBS} 2>/dev/null; then
+  echo "linked with ${LIBS}"
+else
+  ${CC} -o sh ${OBJLIST} ${LDFLAGS}
+fi
+
+# 6) Test binary quickly
+if [ -x ./sh ]; then
+  echo "build succeeded: ${OUTDIR}/sh"
+  ./sh -c 'echo sh_ok' 2>/dev/null || echo "built sh did not run 'echo sh_ok' successfully"
+else
+  echo "sh binary not found after link"
+  exit 1
+fi
+
+# 7) Optional: stage-install to DESTDIR if requested via env var DESTDIR
+if [ -n "${DESTDIR}" ]; then
+  dst="${DESTDIR}"
+  mkdir -p "${dst}/bin"
+  echo "installing to ${dst}/bin/sh"
+  install -m 755 ./sh "${dst}/bin/sh"
+fi
+
+echo "done."
