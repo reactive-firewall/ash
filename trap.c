@@ -43,20 +43,54 @@ __FBSDID("$FreeBSD$");
 #include <signal.h>
 
 /* PATCH for sys_nsig */
+/*
+ assumptions:
+ 1. only ever handling possix shell signals
+ */
 #ifndef NSIG
 #include <signal.h>
 #ifdef sys_nsig
+
 #ifndef NSIG
-#define NSIG (sys_nsig - 1)      /* Hopefully */
-#endif
+#ifdef _NSIG
+#define NSIG _NSIG
 #else
+#ifdef __DARWIN_NSIG
+#define NSIG __DARWIN_NSIG
+#else
+#define NSIG (sys_nsig - 1)      /* Hopefully */
+#endif /* !__DARWIN_NSIG */
+#endif /* !_NSIG */
+#endif /* !NSIG */
+
+#else
+
 #ifndef NSIG
-#define NSIG (_SIGMAX + 1)      /* For QNX */
-#endif
+#ifdef _NSIG
+#define NSIG _NSIG
+#else
+#ifdef __DARWIN_NSIG
+#define NSIG __DARWIN_NSIG
+#else
+#define NSIG (SIGUSR2 + 1)      /* For QNX */
+#endif /* !__DARWIN_NSIG */
+#endif /* !_NSIG */
+#endif /* !NSIG */
+
 #ifndef sys_nsig
-#define sys_nsig (_SIGMAX + 1)      /* For BSD 4.1 thru 7 */
-#endif
-#endif
+#define sys_nsig NSIG      /* For BSD 4.1 thru 7 */
+#endif /* !sys_nsig */
+
+#endif /* !sys_nsig */
+
+#else
+
+#ifndef sys_nsig
+#warning "guessing sys_nsig value"
+#define sys_nsig NSIG      /* For BSD 4.1 thru 7 */
+#endif /* !sys_nsig */
+
+#endif /* !NSIG */
 
 #include <unistd.h>
 #include <stdlib.h>
