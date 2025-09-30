@@ -27,6 +27,7 @@ LEX="${LEX:-flex}"           # or lex
 # ================================
 
 mkdir -p "${OUTDIR}"
+mkdir -p "${OUTDIR}/bltin"
 cd "${SRCDIR}"
 
 # 1) Build generator tools from their .c if present
@@ -41,10 +42,8 @@ for tool in mknodes mksyntax mktokens mkbuiltins; do
     fi
   fi
   # Optional: reproducible improvements
-  if [ -x ${CHMOD} ] ; then
     ${CHMOD} ${BIN_MODE} "${OUTDIR}/${tool}" || true
     ${TOUCH} -r "${OUTDIR}" -h "${OUTDIR}/${tool}" || true
-  fi
 done
 
 # PATCHED Build shims from their .c if present
@@ -62,11 +61,8 @@ for tool in eaccess; do
     ${AR} rcs "${OUTDIR}/${tool}.a" "${OUTDIR}/${tool}"
     LIBS="${LIBS} -l${tool}"
   fi
-  # Optional: reproducible improvements
-  if [ -x ${CHMOD} ] ; then
     ${CHMOD} ${BIN_MODE} "${OUTDIR}/${tool}" || true
     ${TOUCH} -r "${OUTDIR}" -h "${OUTDIR}/${tool}" || true
-  fi
 done
 
 # Use local tools from OUTDIR when invoking
@@ -101,7 +97,7 @@ fi
 
 # 4) Compile sources
 SRCS="
-alias.c arith_yacc.c arith_yylex.c cd.c echo.c error.c eval.c \
+alias.c arith_yacc.c arith_yylex.c cd.c bltin/echo.c error.c eval.c \
 exec.c expand.c histedit.c input.c jobs.c kill.c mail.c main.c memalloc.c \
 miscbltin.c mystring.c options.c output.c parser.c printf.c redir.c show.c \
 test.c trap.c var.c builtins.c nodes.c syntax.c
@@ -111,8 +107,11 @@ for s in $SRCS; do
   [ -f "${SRCDIR}/${s}" ] || { echo "skipping missing ${s}"; continue; }
   obj="${OUTDIR}/${s%.c}.o"
   EXTRA_CFLAGS=""
+  if [ ${s} == *echo.c* ] ; then
+    EXTRA_CFLAGS="-I${SRCDIR}/bltin"
+  fi
   if [ ${s} == *eval.c* ] ; then
-    EXTRA_CFLAGS="-Wno-implicit-function-declaration"
+    EXTRA_CFLAGS="${EXTRA_CFLAGS} -Wno-implicit-function-declaration"
   fi
   echo "compiling ${s}"
   ${CC} ${CFLAGS} ${EXTRA_CFLAGS} -c "${SRCDIR}/${s}" -o "${obj}"
