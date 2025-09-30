@@ -11,6 +11,7 @@ OUTDIR="${PWD}/obj/ash"      # where .o and final binary go
 CHMOD="${CHMOD:-chmod}"
 BIN_MODE="${BIN_MODE:-751}"
 TOUCH="${TOUCH:-touch}"      # needs -r and -h options
+AR="${AR:-ar}"
 CC="${CC:-cc}"
 CFLAGS="-DSHELL -I${SRCDIR} -I."
 LDFLAGS=""
@@ -47,16 +48,19 @@ for tool in mknodes mksyntax mktokens mkbuiltins; do
 done
 
 # PATCHED Build shims from their .c if present
-for tool in eaccess_shim; do
-  src="${tool}.c"
-  hdr="${tool}.h"
+LIBS="${LIBS} -L${OUTDIR}"
+for tool in eaccess; do
+  src="${tool}_shim.c"
+  hdr="${tool}_shim.h"
   if [ -f "${src}" ]; then
     echo "building shim: ${src}"
     if [ -f "${hdr}" ]; then
-      ${CC} -I${SRCDIR} -I. -o "${OUTDIR}/${tool}" "${SRCDIR}/${src}"
+      ${CC} -I${SRCDIR} -I. -c "${SRCDIR}/${src}" -o "${OUTDIR}/${tool}"
     else
-      ${CC} -o "${OUTDIR}/${tool}" "${SRCDIR}/${src}"
+      ${CC} -c "${SRCDIR}/${src}" -o "${OUTDIR}/${tool}"
     fi
+    ${AR} rcs "${OUTDIR}/${tool}.a" "${OUTDIR}/${tool}"
+    LIBS="${LIBS} -l${tool}"
   fi
   # Optional: reproducible improvements
   if [ -x ${CHMOD} ] ; then
