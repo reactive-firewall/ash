@@ -30,20 +30,17 @@
 // note faccessat is declared in <sys/unistd.h> on some systems like macOS and iOS
 // and may be guarded by _SYS_UNISTD_H_
 
-#if defined(__APPLE__) || defined(__linux__) // macOS or Linux
+#if defined(__clang__) && __clang__
+#if __has_include(<sys/unistd.h>)
 #include <sys/unistd.h> // Include for faccessat
-#if defined(_POSIX_C_SOURCE) && _POSIX_C_SOURCE >= 200809L // POSIX.1-2008 or later
-#define HAVE_FACCESSAT 1
-#else
-#define HAVE_FACCESSAT 0 // Assume faccessat is not available
-#endif
-#else
+#endif /* !__has_include(<sys/unistd.h>) */
+#endif /* !defined(__clang__) && __clang__ */
+
 #ifndef faccessat
 #define HAVE_FACCESSAT 0 // Assume faccessat is not available
 #else
 #define HAVE_FACCESSAT 1
 #endif /* !faccessat */
-#endif /* !defined(__APPLE__) && !defined(__linux__) */
 
 #include <fcntl.h>
 #include <errno.h>
