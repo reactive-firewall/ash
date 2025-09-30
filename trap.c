@@ -41,6 +41,23 @@ static char sccsid[] = "@(#)trap.c	8.5 (Berkeley) 6/5/95";
 __FBSDID("$FreeBSD$");
 
 #include <signal.h>
+
+/* PATCH for sys_nsig */
+#ifndef NSIG
+#include <signal.h>
+#ifdef sys_nsig
+#ifndef NSIG
+#define NSIG (sys_nsig - 1)      /* Hopefully */
+#endif
+#else
+#ifndef NSIG
+#define NSIG (_SIGMAX + 1)      /* For QNX */
+#endif
+#ifndef sys_nsig
+#define sys_nsig (_SIGMAX + 1)      /* For BSD 4.1 thru 7 */
+#endif
+#endif
+
 #include <unistd.h>
 #include <stdlib.h>
 
