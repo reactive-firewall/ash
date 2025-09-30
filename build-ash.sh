@@ -13,9 +13,9 @@ BIN_MODE="${BIN_MODE:-751}"
 TOUCH="${TOUCH:-touch}"      # needs -r and -h options
 AR="${AR:-ar}"
 CC="${CC:-cc}"
-CFLAGS="-DSHELL -I${SRCDIR} -I."
-LDFLAGS=""
-LIBS="-ledit"                # set to "" if libedit not available
+CFLAGS="-DSHELL -I${SRCDIR} -I. -fPIE"
+LDFLAGS="-Os -fPIE -why_load"
+LIBS="-ledit -lreadline"                # set to "" if libedit not available
 if [[ ( -x "${YACC:-yacc}" ) ]] ; then
 	YACC="${YACC:-yacc}"         # or bison -y
 else
@@ -47,8 +47,8 @@ for tool in mknodes mksyntax mktokens mkbuiltins; do
 done
 
 # PATCHED Build shims from their .c if present
-LIBS="${LIBS} -L${OUTDIR}"
-for tool in eaccess; do
+SHIM_LIBS="${SHIM_LIBS} -L${OUTDIR}"
+for tool in eaccess libedit; do
   src="${tool}_shim.c"
   hdr="${tool}_shim.h"
   if [ -f "${src}" ]; then
@@ -59,11 +59,15 @@ for tool in eaccess; do
       ${CC} -c "${SRCDIR}/${src}" -o "${OUTDIR}/${tool}"
     fi
     ${AR} rcs "${OUTDIR}/${tool}.a" "${OUTDIR}/${tool}"
-    LIBS="${LIBS} -l${tool}"
-  fi
+    SHIM_LIBS="${tool}.a ${SHIM_LIBS}"
     ${CHMOD} ${BIN_MODE} "${OUTDIR}/${tool}" || true
     ${TOUCH} -r "${OUTDIR}" -h "${OUTDIR}/${tool}" || true
+  fi
 done
+
+# set LIBS with shims
+
+LIBS="${SHIM_LIBS} ${LIBS}"
 
 # Use local tools from OUTDIR when invoking
 PATH="${OUTDIR}:$PATH"
@@ -124,7 +128,7 @@ cd "${OUTDIR}"
 if ${CC} -o sh ${OBJLIST} ${LDFLAGS} ${LIBS} 2>/dev/null; then
   echo "linked with ${LIBS}"
 else
-  ${CC} -o sh ${OBJLIST} ${LDFLAGS}
+  ${CC} -o sh ${OBJLIST} ${LDFLAGS} ${SHIM_LIBS}
 fi
 
 # 6) Test binary quickly
