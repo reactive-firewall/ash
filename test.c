@@ -31,6 +31,23 @@ __FBSDID("$FreeBSD$");
 #include <string.h>
 #include <unistd.h>
 
+/* PATCH FOR no 'eaccess' implementation */
+#ifndef EACCESS_H
+#include "eaccess_shim.h"
+#endif /* !EACCESS_H */
+
+/* PATCH FOR different stat field names across implementations */
+#ifndef STAT_MTIME_FIELD
+#if defined(__APPLE__) || defined(_DARWIN_C_SOURCE)
+/* see https://github.com/apple/darwin-xnu/blob/main/bsd/sys/stat.h#L204 */
+#define STAT_MTIME_FIELD st_mtimespec
+#else
+/* see https://svnweb.freebsd.org/base/head/sys/sys/stat.h?view=markup#l177 */
+/* see https://git.musl-libc.org/cgit/musl/tree/arch/generic/bits/stat.h#n15 */
+#define STAT_MTIME_FIELD st_mtim
+#endif /* !defined(__APPLE__) */
+#endif /* !STAT_MTIME_FIELD */
+
 #ifdef SHELL
 #define main testcmd
 #include "bltin/bltin.h"
@@ -603,12 +620,12 @@ newerf (const char *f1, const char *f2)
 	if (stat(f1, &b1) != 0 || stat(f2, &b2) != 0)
 		return 0;
 
-	if (b1.st_mtim.tv_sec > b2.st_mtim.tv_sec)
+	if (b1.STAT_MTIME_FIELD.tv_sec > b2.STAT_MTIME_FIELD.tv_sec)
 		return 1;
-	if (b1.st_mtim.tv_sec < b2.st_mtim.tv_sec)
+	if (b1.STAT_MTIME_FIELD.tv_sec < b2.STAT_MTIME_FIELD.tv_sec)
 		return 0;
 
-       return (b1.st_mtim.tv_nsec > b2.st_mtim.tv_nsec);
+	return (b1.STAT_MTIME_FIELD.tv_nsec > b2.STAT_MTIME_FIELD.tv_nsec);
 }
 
 static int
