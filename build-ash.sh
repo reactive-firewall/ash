@@ -13,14 +13,14 @@ BIN_MODE="${BIN_MODE:-751}"
 TOUCH="${TOUCH:-touch}"      # needs -r and -h options
 AR="${AR:-ar}"
 CC="${CC:-cc}"
-CFLAGS="-DSHELL -I${SRCDIR} -I. -fPIE"
-LDFLAGS="-Os -fPIE -why_load"
-LIBS="-ledit -lreadline"                # set to "" if libedit not available
+CFLAGS="-O2 -DSHELL -I${SRCDIR} -I. -fPIE -ffunction-sections -fdata-sections -fPIC"
+LDFLAGS="-Os -pie -fPIE"
+LIBS="-ledit -lreadline"     # set to "" if libedit not available
 if [[ ( -x "${YACC:-yacc}" ) ]] ; then
-	YACC="${YACC:-yacc}"         # or bison -y
+	YACC="${YACC:-yacc}"     # or bison -y
 else
   if [[ ( -x $(which "bison") ) ]] ; then
-    YACC="bison -y"         # or bison -y
+    YACC="bison -y"          # or bison -y
   fi
 fi
 LEX="${LEX:-flex}"           # or lex
@@ -42,8 +42,8 @@ for tool in mknodes mksyntax mktokens mkbuiltins; do
     fi
   fi
   # Optional: reproducible improvements
-    ${CHMOD} ${BIN_MODE} "${OUTDIR}/${tool}" || true
-    ${TOUCH} -r "${OUTDIR}" -h "${OUTDIR}/${tool}" || true
+  ${CHMOD} ${BIN_MODE} "${OUTDIR}/${tool}" || true
+  ${TOUCH} -r "${OUTDIR}" -h "${OUTDIR}/${tool}" || true
 done
 
 # PATCHED Build shims from their .c if present
@@ -51,17 +51,18 @@ SHIM_LIBS="${SHIM_LIBS} -L${OUTDIR}"
 for tool in eaccess libedit; do
   src="${tool}_shim.c"
   hdr="${tool}_shim.h"
+  lib="${tool}.a"
   if [ -f "${src}" ]; then
     echo "building shim: ${src}"
     if [ -f "${hdr}" ]; then
-      ${CC} -I${SRCDIR} -I. -c "${SRCDIR}/${src}" -o "${OUTDIR}/${tool}"
+      ${CC} --std=c11 -fcommon -I${SRCDIR} -I. -fPIE -c "${SRCDIR}/${src}" -o "${OUTDIR}/${tool}"
     else
-      ${CC} -c "${SRCDIR}/${src}" -o "${OUTDIR}/${tool}"
+      ${CC} --std=c11 -fcommon -I${SRCDIR} -fPIE -c "${SRCDIR}/${src}" -o "${OUTDIR}/${tool}"
     fi
-    ${AR} rcs "${OUTDIR}/${tool}.a" "${OUTDIR}/${tool}"
-    SHIM_LIBS="${tool}.a ${SHIM_LIBS}"
-    ${CHMOD} ${BIN_MODE} "${OUTDIR}/${tool}" || true
-    ${TOUCH} -r "${OUTDIR}" -h "${OUTDIR}/${tool}" || true
+    ${AR} rcs "${OUTDIR}/${lib}" "${OUTDIR}/${tool}"
+    SHIM_LIBS="${lib} ${SHIM_LIBS}"
+    ${CHMOD} ${BIN_MODE} "${OUTDIR}/${lib}" || true
+    ${TOUCH} -r "${OUTDIR}" -h "${OUTDIR}/${lib}" || true
   fi
 done
 
@@ -83,7 +84,7 @@ if [ -x "${OUTDIR}/mksyntax" ]; then
   "${OUTDIR}/mksyntax"
 fi
 if [ -x "${OUTDIR}/mktokens" ]; then
-  echo "running ${OUTDIR}/mktokens"
+  echo "running mktokens..."
   "${OUTDIR}/mktokens"
 fi
 if [ -x "${OUTDIR}/mkbuiltins" ]; then
@@ -110,7 +111,7 @@ OBJLIST=""
 for s in $SRCS; do
   [ -f "${SRCDIR}/${s}" ] || { echo "skipping missing ${s}"; continue; }
   obj="${OUTDIR}/${s%.c}.o"
-  EXTRA_CFLAGS=""
+  EXTRA_CFLAGS="-Wall"
   if [ ${s} == *echo.c* ] ; then
     EXTRA_CFLAGS="-I${SRCDIR}/bltin"
   fi
@@ -120,6 +121,8 @@ for s in $SRCS; do
   echo "compiling ${s}"
   ${CC} ${CFLAGS} ${EXTRA_CFLAGS} -c "${SRCDIR}/${s}" -o "${obj}"
   OBJLIST="${OBJLIST} ${obj}"
+  ${CHMOD} ${BIN_MODE} "${obj}" || true
+  ${TOUCH} -r "${OUTDIR}" -h "${obj}" || true
 done
 
 # 5) Link
@@ -134,7 +137,7 @@ fi
 # 6) Test binary quickly
 if [ -x ./sh ]; then
   echo "build succeeded: ${OUTDIR}/sh"
-  ./sh -c 'echo sh_ok' 2>/dev/null || echo "built sh did not run 'echo sh_ok' successfully"
+  ./sh -c 'echo sh_ok' 2>/dev/null || echo "built sh did not run 'echo sh_ok' successfully" >&2
 else
   echo "sh binary not found after link"
   exit 1
