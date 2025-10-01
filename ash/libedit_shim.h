@@ -29,23 +29,32 @@
 #include <stdlib.h>
 #include <string.h>
 
+#if defined(__clang__) && __clang__
+#if __has_include(<histedit.h>)
+#include <histedit.h> // Include for EditLine
+#endif /* !__has_include(<histedit.h>) */
+#endif /* !defined(__clang__) && __clang__ */
+
 #ifndef _READLINE_H_
 #include <readline/readline.h>
 #include <readline/history.h>
 #endif
 
+#ifndef _HISTEDIT_H_
 typedef struct {
 	// You can add any necessary fields here if needed
 } EditLine;
 
 EditLine* el_init(const char* name, FILE* input, FILE* output);
 void el_end(EditLine* el);
-int el_get(EditLine* el, int op);
+int el_get(EditLine *, int op, ...);
 int el_set(EditLine* el, int op, ...);
 int el_parse(EditLine* el, const char* str);
 int el_source(EditLine* el, const char* filename);
 char* el_gets(EditLine* el, int* len);
 int el_resize(EditLine* el, int size);
 int el_fn_complete(EditLine* el);
+#endif
+
 
 #endif /* !LIBEDIT_SHIM */

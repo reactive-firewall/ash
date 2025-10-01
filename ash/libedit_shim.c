@@ -25,6 +25,7 @@
 #ifndef _READLINE_H_
 #include "libedit_shim.h"
 
+#ifndef _HISTEDIT_H_
 EditLine* el_init(const char* name, FILE* input, FILE* output) {
 	// Allocate memory for the EditLine structure
 	EditLine* el = malloc(sizeof(EditLine));
@@ -53,7 +54,7 @@ void el_end(EditLine* el) {
 	}
 }
 
-int el_get(EditLine* el, int op) {
+int el_get(EditLine* el, int op, ...) {
 	// Return the requested operation; for now, we can ignore it
 	return 0; // Placeholder
 }
@@ -95,5 +96,5 @@ int el_fn_complete(EditLine* el) {
 	return 0; // Placeholder
 }
 
-
+#endif /* !_HISTEDIT_H_ */
 #endif /* !_READLINE_H_ */
