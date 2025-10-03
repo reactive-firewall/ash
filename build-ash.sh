@@ -16,10 +16,10 @@ CC="${CC:-cc}"
 CFLAGS="-O2 -DSHELL -I${SRCDIR} -I. -fPIE -ffunction-sections -fdata-sections -fPIC"
 LDFLAGS="-Os -pie -fPIE"
 LIBS="-ledit -lreadline"     # set to "" if libedit not available
-if [[ ( -x "${YACC:-yacc}" ) ]] ; then
+if [ -x $(which "${YACC:-yacc}") ]; then
 	YACC="${YACC:-yacc}"     # or bison -y
 else
-  if [[ ( -x $(which "bison") ) ]] ; then
+  if [ -x $(which "bison") ]; then
     YACC="bison -y"          # or bison -y
   fi
 fi

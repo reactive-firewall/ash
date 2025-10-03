@@ -1,5 +1,5 @@
 # Use the official Alpine Linux image as the base image
-FROM --platform="linux/${TARGETARCH}" alpine:latest AS BSDLike-Ash
+FROM --platform="linux/${TARGETARCH}" alpine:latest AS bsdlike-ash
 
 RUN mkdir -p /build/ash
 
@@ -25,7 +25,7 @@ WORKDIR /build
 
 # Build the project using the provided build script
 RUN chmod +x build-ash.sh && \
-    sh ./build-ash.sh
+    ./build-ash.sh
 
 WORKDIR /
 
@@ -38,4 +38,3 @@ LABEL org.opencontainers.image.title="BSDLike Ash"
 LABEL org.opencontainers.image.description="BSDLike Ash on alpine linux"
 LABEL org.opencontainers.image.vendor="individual"
 LABEL org.opencontainers.image.licenses="0BSD"
-
