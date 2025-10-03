@@ -24,7 +24,7 @@ COPY ash/* /build/ash/
 WORKDIR /build
 
 # Build the project using the provided build script
-RUN chmod +x build-CinderBool.sh && \
+RUN chmod +x build-ash.sh && \
     sh ./build-ash.sh
 
 WORKDIR /
