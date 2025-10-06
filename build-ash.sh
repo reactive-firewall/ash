@@ -15,7 +15,7 @@ AR="${AR:-ar}"
 CC="${CC:-cc}"
 CFLAGS="-O2 -DSHELL -I${SRCDIR} -I. -fPIE -ffunction-sections -fdata-sections -fPIC"
 LDFLAGS="-Os -pie -fPIE"
-LIBS="-ledit -lreadline"     # set to "" if libedit not available
+LIBS="-weak-ledit -weak-lreadline"     # set to "" if libedit not available
 if [ -x $(which "${YACC:-yacc}") ]; then
 	YACC="${YACC:-yacc}"     # or bison -y
 else
