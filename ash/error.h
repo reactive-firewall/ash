@@ -89,6 +89,8 @@ void errorwithstatus(int, const char *, ...) __printf0like(2, 3) __dead2;
  * BSD setjmp saves the signal mask, which violates ANSI C and takes time,
  * so we use _setjmp instead.
  */
-
+#ifndef setjmp_redef
 #define setjmp(jmploc)	_setjmp(jmploc)
 #define longjmp(jmploc, val)	_longjmp(jmploc, val)
+#define setjmp_redef	1
+#endif

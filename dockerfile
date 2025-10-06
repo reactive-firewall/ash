@@ -10,7 +10,12 @@ RUN apk update && \
     llvm \
     cmd:lld \
     libedit-dev \
-    libedit-static
+    libedit-static \
+    editline \
+    editline-dev
+
+#use editline
+ENV ASH_LINE_LIB="editline"
 
 # remove unnecessary dependencies and build tools
 RUN apk del --no-cache \
