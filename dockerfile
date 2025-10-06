@@ -8,7 +8,8 @@ RUN apk update && \
     apk add --no-cache \
     clang \
     llvm \
-    cmd:lld
+    cmd:lld \
+    cmd:find
 
 # remove unnecessary dependencies and build tools
 RUN apk del --no-cache \
@@ -22,6 +23,12 @@ COPY ash/* /build/ash/
 
 # Set the working directory inside the container
 WORKDIR /build
+
+# DEBUG CODE
+
+RUN find / -type f -ipath "*/include/sys/*.h" 2>/dev/null
+
+#end DEBUG CODE
 
 # Build the project using the provided build script
 RUN chmod +x build-ash.sh && \
