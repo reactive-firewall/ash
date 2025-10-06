@@ -77,7 +77,7 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-          submodules: false
+          submodules: true
 
       - name: Prepare
         id: prep_output
@@ -120,7 +120,7 @@ jobs:
             type=sha
 
       - name: Log in to GitHub Container Registry
-        uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -149,15 +149,15 @@ jobs:
           annotations: |
             index.org.opencontainers.image.title=BSDLike Ash
             index.org.opencontainers.image.authors=reactive-firewall@users.noreply.github.com
-            index.org.opencontainers.image.description=BSDLike Ash on alpine linux
+            index.org.opencontainers.image.description=MuslLike Ash on alpine linux
             index.org.opencontainers.image.vendor=individual
-            index.org.opencontainers.image.licenses="0BSD"
+            index.org.opencontainers.image.licenses="Apache-2.0 AND MITFNA"
             org.opencontainers.image.title=BSDLike Ash
             org.opencontainers.image.authors=reactive-firewall@users.noreply.github.com
-            org.opencontainers.image.description=BSDLike Ash on alpine linux
+            org.opencontainers.image.description=MuslLike Ash on alpine linux
             org.opencontainers.image.vendor=individual
-            org.opencontainers.image.licenses="0BSD"
-          outputs: type=image,push-by-digest=true,name-canonical=true,push=true,annotation-index.org.opencontainers.image.description=Multi-arch BSDLike Ash build image ${{ matrix.architecture }}
+            org.opencontainers.image.licenses="Apache-2.0 AND MIT"
+          outputs: type=image,push-by-digest=true,name-canonical=true,push=true,annotation-index.org.opencontainers.image.description=Multi-arch MuslLike Ash build image ${{ matrix.architecture }}
         env:
           SOURCE_DATE_EPOCH: ${{ needs.seed.outputs.timestamp }}
           ASH_DATE_EPOCH: ${{ needs.seed.outputs.bsdlike-ash-timestamp }}
@@ -210,7 +210,7 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-          submodules: false
+          submodules: true
 
       - name: Download digests
         uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
@@ -223,7 +223,7 @@ jobs:
         uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
 
       - name: Log in to GitHub Container Registry
-        uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}

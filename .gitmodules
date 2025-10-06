@@ -1,0 +1,6 @@
+[submodule "libbaremusl"]
+	path = musl/baremusl
+	url = https://github.com/reactive-firewall/libbaremusl.git
+	branch = master
+	ignore = dirty
+	update = checkout
