@@ -38,6 +38,7 @@ static char sccsid[] = "@(#)parser.c	8.7 (Berkeley) 5/16/95";
 #endif
 #endif /* not lint */
 #include <sys/cdefs.h>
+#include "musl_shim.h"
 __FBSDID("$FreeBSD$");
 
 #include <sys/param.h>
@@ -2024,7 +2025,7 @@ getusername(char *name, size_t namelen)
  *    should be added here.
  */
 char *
-getprompt(void *unused __unused)
+getprompt(void *unused _UNUSED_ATTR)
 {
 	static char ps[PROMPTLEN];
 	const char *fmt;

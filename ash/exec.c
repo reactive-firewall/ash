@@ -36,6 +36,7 @@ static char sccsid[] = "@(#)exec.c	8.4 (Berkeley) 6/8/95";
 #endif
 #endif /* not lint */
 #include <sys/cdefs.h>
+#include "musl_shim.h"
 __FBSDID("$FreeBSD$");
 
 #include <sys/types.h>
@@ -260,7 +261,7 @@ padvance(const char **path, const char **popt, const char *name)
 
 
 int
-hashcmd(int argc __unused, char **argv __unused)
+hashcmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 	struct tblentry **pp;
 	struct tblentry *cmdp;
@@ -518,7 +519,7 @@ hashcd(void)
  */
 
 void
-changepath(const char *newval __unused)
+changepath(const char *newval _UNUSED_ATTR)
 {
 	clearcmdentry();
 }

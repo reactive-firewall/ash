@@ -44,6 +44,7 @@ static char sccsid[] = "@(#)mksyntax.c	8.2 (Berkeley) 5/4/95";
 #endif /* not lint */
 #endif
 #include <sys/cdefs.h>
+#include "musl_shim.h"
 __FBSDID("$FreeBSD$");
 
 /*
@@ -114,7 +115,7 @@ static void add(const char *, const char *);
 static void output_type_macros(void);
 
 int
-main(int argc __unused, char **argv __unused)
+main(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 	int i;
 	char buf[80];

@@ -38,6 +38,7 @@ static char sccsid[] = "@(#)miscbltin.c	8.4 (Berkeley) 5/4/95";
 #endif
 #endif /* not lint */
 #include <sys/cdefs.h>
+#include "musl_shim.h"
 __FBSDID("$FreeBSD$");
 
 /*
@@ -155,7 +156,7 @@ fdctx_destroy(struct fdctx *fdc)
  */
 
 int
-readcmd(int argc __unused, char **argv __unused)
+readcmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 	char **ap;
 	int backslash;
@@ -351,7 +352,7 @@ readcmd(int argc __unused, char **argv __unused)
 
 
 int
-umaskcmd(int argc __unused, char **argv __unused)
+umaskcmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 	char *ap;
 	int mask;
@@ -515,7 +516,7 @@ printlimit(enum limithow how, const struct rlimit *limit,
 }
 
 int
-ulimitcmd(int argc __unused, char **argv __unused)
+ulimitcmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 	rlim_t val = 0;
 	enum limithow how = SOFT | HARD;
