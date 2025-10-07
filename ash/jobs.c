@@ -36,6 +36,7 @@ static char sccsid[] = "@(#)jobs.c	8.5 (Berkeley) 5/4/95";
 #endif
 #endif /* not lint */
 #include <sys/cdefs.h>
+#include "musl_shim.h"
 __FBSDID("$FreeBSD$");
 
 #include <sys/ioctl.h>
@@ -246,7 +247,7 @@ setjobctl(int on)
 
 #if JOBS
 int
-fgcmd(int argc __unused, char **argv __unused)
+fgcmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 	struct job *jp;
 	pid_t pgrp;
@@ -271,7 +272,7 @@ fgcmd(int argc __unused, char **argv __unused)
 
 
 int
-bgcmd(int argc __unused, char **argv __unused)
+bgcmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 	struct job *jp;
 
@@ -314,7 +315,7 @@ restartjob(struct job *jp)
 
 
 int
-jobscmd(int argc __unused, char *argv[] __unused)
+jobscmd(int argc _UNUSED_ATTR, char *argv[] _UNUSED_ATTR)
 {
 	char *id;
 	int ch, mode;
@@ -537,7 +538,7 @@ freejob(struct job *jp)
 
 
 int
-waitcmd(int argc __unused, char **argv __unused)
+waitcmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 	struct job *job;
 	int retval;
@@ -615,7 +616,7 @@ waitcmdloop(struct job *job)
 
 
 int
-jobidcmd(int argc __unused, char **argv __unused)
+jobidcmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 	struct job *jp;
 	int i;
@@ -747,7 +748,7 @@ killjob(const char *name, int sig)
  */
 
 struct job *
-makejob(union node *node __unused, int nprocs)
+makejob(union node *node _UNUSED_ATTR, int nprocs)
 {
 	int i;
 	struct job *jp;
@@ -1124,7 +1125,7 @@ waitforjob(struct job *jp, int *signaled)
 
 
 static void
-dummy_handler(int sig __unused)
+dummy_handler(int sig _UNUSED_ATTR)
 {
 }
 

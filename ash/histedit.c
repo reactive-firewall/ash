@@ -36,6 +36,7 @@ static char sccsid[] = "@(#)histedit.c	8.2 (Berkeley) 5/4/95";
 #endif
 #endif /* not lint */
 #include <sys/cdefs.h>
+#include "musl_shim.h"
 __FBSDID("$FreeBSD$");
 
 #include <sys/param.h>
@@ -181,7 +182,7 @@ setterm(const char *term)
 }
 
 int
-histcmd(int argc, char **argv __unused)
+histcmd(int argc, char **argv _UNUSED_ATTR)
 {
 	int ch;
 	const char *editor = NULL;
@@ -503,7 +504,7 @@ bindcmd(int argc, char **argv)
 #include "error.h"
 
 int
-histcmd(int argc __unused, char **argv __unused)
+histcmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 
 	error("not compiled with history support");
@@ -512,7 +513,7 @@ histcmd(int argc __unused, char **argv __unused)
 }
 
 int
-bindcmd(int argc __unused, char **argv __unused)
+bindcmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 
 	error("not compiled with line editing support");

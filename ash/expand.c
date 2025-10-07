@@ -40,6 +40,7 @@ static char sccsid[] = "@(#)expand.c	8.5 (Berkeley) 5/15/95";
 #endif
 #endif /* not lint */
 #include <sys/cdefs.h>
+#include "musl_shim.h"
 __FBSDID("$FreeBSD$");
 
 #include <sys/types.h>
@@ -1504,7 +1505,7 @@ wordexpcmd(int argc, char **argv)
  */
 
 int
-freebsd_wordexpcmd(int argc __unused, char **argv __unused)
+freebsd_wordexpcmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 	struct arglist arglist;
 	union node *args, *n;
