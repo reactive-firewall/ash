@@ -38,6 +38,7 @@ static char sccsid[] = "@(#)var.c	8.3 (Berkeley) 5/4/95";
 #endif
 #endif /* not lint */
 #include <sys/cdefs.h>
+#include "musl_shim.h"
 __FBSDID("$FreeBSD$");
 
 #include <unistd.h>
@@ -594,7 +595,7 @@ var_compare(const void *a, const void *b)
  */
 
 int
-showvarscmd(int argc __unused, char **argv __unused)
+showvarscmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 	struct var **vpp;
 	struct var *vp;
@@ -650,7 +651,7 @@ showvarscmd(int argc __unused, char **argv __unused)
  */
 
 int
-exportcmd(int argc __unused, char **argv)
+exportcmd(int argc _UNUSED_ATTR, char **argv)
 {
 	struct var **vpp;
 	struct var *vp;
@@ -728,7 +729,7 @@ exportcmd(int argc __unused, char **argv)
  */
 
 int
-localcmd(int argc __unused, char **argv __unused)
+localcmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 	char *name;
 
@@ -849,7 +850,7 @@ setvarcmd(int argc, char **argv)
  */
 
 int
-unsetcmd(int argc __unused, char **argv __unused)
+unsetcmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 	char **ap;
 	int i;

@@ -36,6 +36,7 @@ static char sccsid[] = "@(#)alias.c	8.3 (Berkeley) 5/4/95";
 #endif
 #endif /* not lint */
 #include <sys/cdefs.h>
+#include "musl_shim.h"
 __FBSDID("$FreeBSD$");
 
 #include <stdlib.h>
@@ -199,7 +200,7 @@ printaliases(void)
 }
 
 int
-aliascmd(int argc __unused, char **argv __unused)
+aliascmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 	char *n, *v;
 	int ret = 0;
@@ -228,7 +229,7 @@ aliascmd(int argc __unused, char **argv __unused)
 }
 
 int
-unaliascmd(int argc __unused, char **argv __unused)
+unaliascmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 	int i;
 
