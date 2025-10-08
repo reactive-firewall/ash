@@ -17,17 +17,23 @@ RUN apk update && \
 #use editline
 ENV ASH_LINE_LIB="editline"
 
+#use clang
+ENV CC="clang"
+
 # remove unnecessary dependencies and build tools
-RUN apk del --no-cache \
-    gcc
+RUN apk del --no-cache gcc 2>/dev/null ;
 
 # Copy the project files into the container
 COPY build-ash.sh /build/build-ash.sh
 COPY ash/* /build/ash/
+COPY ash/bltin/* /build/ash/bltin/
+COPY ash/funcs/* /build/ash/funcs/
 # TODO
 #COPY LICENSE /build/LICENSE
 # copy libbaremusl header(s) into the container
 COPY musl/baremusl/baremusl/include/sys/cdefs.h /usr/include/sys/cdefs.h
+# copy SignalWright header(s) into the container
+COPY musl/SignalWright/SignalWright/include/SignalWright.h /usr/include/SignalWright.h
 
 # Set the working directory inside the container
 WORKDIR /build
@@ -42,7 +48,7 @@ WORKDIR /
 ENTRYPOINT ["/build/obj/ash/sh"]
 
 # set inherited values
-LABEL version="1.1"
+LABEL version="1.3"
 LABEL org.opencontainers.image.title="BSDLike Ash"
 LABEL org.opencontainers.image.description="MuslLike Ash on alpine linux"
 LABEL org.opencontainers.image.vendor="individual"
