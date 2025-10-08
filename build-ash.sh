@@ -119,8 +119,11 @@ for s in $SRCS; do
   if [ ${s} == *echo.c* ] ; then
     EXTRA_CFLAGS="-I${SRCDIR}/bltin"
   fi
-  if [ ${s} == *eval.c* ] ; then
+  if [ ${s} == *eval.c* ] || [ ${s} == *input.c* ] ; then
     EXTRA_CFLAGS="${EXTRA_CFLAGS} -Wno-implicit-function-declaration"
+  fi
+  if [ ${s} == *input.c* ] ; then
+    EXTRA_CFLAGS="${EXTRA_CFLAGS} -Wno-int-conversion"
   fi
   echo "compiling ${s}"
   ${CC} ${CFLAGS} ${EXTRA_CFLAGS} -c "${SRCDIR}/${s}" -o "${obj}"
