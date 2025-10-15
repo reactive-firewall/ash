@@ -41,9 +41,6 @@
 #include <stddef.h>
 #include <stdio.h>
 
-/* PATCH for fwopen shim */
-#include "fwopen_shim.h"
-
 struct output {
 	char *nextc;
 	char *bufend;

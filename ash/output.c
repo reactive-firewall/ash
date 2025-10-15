@@ -62,6 +62,10 @@ __FBSDID("$FreeBSD$");
 #include "shell.h"
 #include "syntax.h"
 #include "output.h"
+
+/* PATCH for fwopen shim */
+#include "fwopen_shim.h"
+
 #include "memalloc.h"
 #include "error.h"
 #include "var.h"
