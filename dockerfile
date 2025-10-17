@@ -44,14 +44,14 @@ RUN chmod +x build-ash.sh && \
 
 WORKDIR /
 
-# Set the entry point to run the compiled binary
-SHELL [ "/build/obj/ash/sh", "-c" ]
-ENTRYPOINT ["/build/obj/ash/sh"]
-CMD [ "/bin/sh", "-l", "-c", "'exec -a sh /build/obj/ash/sh'" ]
+# Set the entry point to run the compiled binary (INTERACTIVE MODE NOT WORKING ATM)
+#SHELL [ "/build/obj/ash/sh", "-c" ]
+#ENTRYPOINT ["/build/obj/ash/sh"]
+#CMD [ "/bin/sh", "-l", "-c", "'exec -a sh /build/obj/ash/sh'" ]
 
 # set inherited values
-LABEL version="1.4"
+LABEL version="1.5"
 LABEL org.opencontainers.image.title="BSDLike Ash"
 LABEL org.opencontainers.image.description="MuslLike Ash on alpine linux"
 LABEL org.opencontainers.image.vendor="individual"
-LABEL org.opencontainers.image.licenses="Apache-2.0 AND MIT"
+LABEL org.opencontainers.image.licenses="Apache-2.0 AND MITNFA"
