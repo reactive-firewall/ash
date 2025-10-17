@@ -36,6 +36,7 @@ static char sccsid[] = "@(#)cd.c	8.2 (Berkeley) 5/4/95";
 #endif
 #endif /* not lint */
 #include <sys/cdefs.h>
+#include "musl_shim.h"
 __FBSDID("$FreeBSD$");
 
 #include <sys/types.h>
@@ -77,7 +78,7 @@ static char *getpwd2(void);
 static char *curdir = NULL;	/* current working directory */
 
 int
-cdcmd(int argc __unused, char **argv __unused)
+cdcmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 	const char *dest;
 	const char *path;
@@ -331,7 +332,7 @@ updatepwd(char *dir)
 }
 
 int
-pwdcmd(int argc __unused, char **argv __unused)
+pwdcmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 	char *p;
 	int ch, phys;

@@ -76,6 +76,50 @@
 extern int whichprompt;		/* 1 == PS1, 2 == PS2 */
 extern const char *const parsekwd[];
 
+/* from maxlogname_shim.h
+ *
+ * Lightweight shim to ensure MAXLOGNAME is defined.
+ * C89-compatible, portable across BSD, glibc, musl, etc.
+ *
+ * Public domain / MIT-style: you may use this code freely.
+ */
+
+/* If already defined by the implementation, keep it. */
+#ifdef MAXLOGNAME
+/* nothing */
+#else
+
+/* Try common BSD name */
+#ifdef MAXLOGNAME
+/* handled above; redundant guard kept for clarity */
+#endif
+
+/* Try POSIX-defined LOGIN_NAME_MAX from <limits.h> or sysconf */
+#include <limits.h>
+
+/* If LOGIN_NAME_MAX is available as a macro, use it */
+#ifdef LOGIN_NAME_MAX
+#define MAXLOGNAME LOGIN_NAME_MAX
+#else
+
+/* Fall back to including <unistd.h> and use sysconf at runtime if available.
+ But we must provide a macro constant at compile time. Use common conservative
+ fallback value if nothing else provides a compile-time constant. */
+
+/* Attempt to detect _POSIX_LOGIN_NAME_MAX if provided */
+#ifdef _POSIX_LOGIN_NAME_MAX
+#define MAXLOGNAME _POSIX_LOGIN_NAME_MAX
+#else
+
+/* Conservative default: historically LOGIN_NAME_MAX often 9 or 256.
+ Use 256 to be safe for modern systems while being conservative. */
+#define MAXLOGNAME 256
+
+#endif /* _POSIX_LOGIN_NAME_MAX */
+#endif /* LOGIN_NAME_MAX */
+
+#endif /* MAXLOGNAME */
+
 
 union node *parsecmd(int);
 union node *parsewordexp(void);

@@ -15,7 +15,25 @@ AR="${AR:-ar}"
 CC="${CC:-cc}"
 CFLAGS="-O2 -DSHELL -I${SRCDIR} -I. -fPIE -ffunction-sections -fdata-sections -fPIC"
 LDFLAGS="-Os -pie -fPIE"
-LIBS="-weak-ledit -weak-lreadline"     # set to "" if libedit not available
+ASH_LINE_LIB="${ASH_LINE_LIB:-readline}"
+LIBS="-ledit"     # set to "" if libedit not available
+if [ -n $ASH_LINE_LIB ]; then
+	# Function to check for weak linking support
+	check_weak_link() {
+		local TEMP_SRC=".linker_dummy.c"
+		echo "int main() { return 0; }" > ${TEMP_SRC} ;
+		if ${CC} -Wl,-weak-l${ASH_LINE_LIB} ${TEMP_SRC} -o /dev/null 2>/dev/null; then
+			echo "-Wl,-weak-l"
+		else
+			echo "-l"
+		fi
+		rm -f ${TEMP_SRC} 2>/dev/null ;
+		unset TEMP_SRC ;
+	}
+	# Get the appropriate linker flag
+	LINKER_FLAG=$(check_weak_link)
+	LIBS="${LIBS} ${LINKER_FLAG}${ASH_LINE_LIB}"
+fi
 if [ -x $(which "${YACC:-yacc}") ]; then
 	YACC="${YACC:-yacc}"     # or bison -y
 else
@@ -48,7 +66,7 @@ done
 
 # PATCHED Build shims from their .c if present
 SHIM_LIBS="${SHIM_LIBS} -L${OUTDIR}"
-for tool in eaccess libedit; do
+for tool in eaccess setmode; do
   src="${tool}_shim.c"
   hdr="${tool}_shim.h"
   lib="${tool}.a"
@@ -115,8 +133,16 @@ for s in $SRCS; do
   if [ ${s} == *echo.c* ] ; then
     EXTRA_CFLAGS="-I${SRCDIR}/bltin"
   fi
-  if [ ${s} == *eval.c* ] ; then
+  if [ ${s} == *kill.c* ] || [ ${s} == *trap.c* ]; then
+    if [ -d "${SRCDIR}/../musl/SignalWright/SignalWright/include" ]; then
+      EXTRA_CFLAGS="-I${SRCDIR}/../musl/SignalWright/SignalWright/include"
+    fi
+  fi
+  if [ ${s} == *eval.c* ] || [ ${s} == *input.c* ] || [ ${s} == *output.c* ] || [ ${s} == *mail.c* ] ; then
     EXTRA_CFLAGS="${EXTRA_CFLAGS} -Wno-implicit-function-declaration"
+  fi
+  if [ ${s} == *input.c* ] || [ ${s} == *output.c* ] || [ ${s} == *mail.c* ] ; then
+    EXTRA_CFLAGS="${EXTRA_CFLAGS} -Wno-int-conversion"
   fi
   echo "compiling ${s}"
   ${CC} ${CFLAGS} ${EXTRA_CFLAGS} -c "${SRCDIR}/${s}" -o "${obj}"
@@ -128,10 +154,13 @@ done
 # 5) Link
 echo "linking sh..."
 cd "${OUTDIR}"
+#-weak-leditline
 if ${CC} -o sh ${OBJLIST} ${LDFLAGS} ${LIBS} 2>/dev/null; then
-  echo "linked with ${LIBS}"
+  echo "linked successfully with ${LIBS}"
 else
-  ${CC} -o sh ${OBJLIST} ${LDFLAGS} ${SHIM_LIBS}
+  echo "linking failed, showing verbose output:"
+  ${CC} -o sh ${OBJLIST} ${LDFLAGS} ${LIBS} || true
+  exit 2;
 fi
 
 # 6) Test binary quickly

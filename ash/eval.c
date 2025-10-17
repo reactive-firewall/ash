@@ -36,6 +36,7 @@ static char sccsid[] = "@(#)eval.c	8.9 (Berkeley) 6/8/95";
 #endif
 #endif /* not lint */
 #include <sys/cdefs.h>
+#include "musl_shim.h"
 __FBSDID("$FreeBSD$");
 
 #include <paths.h>
@@ -1259,7 +1260,7 @@ breakcmd(int argc, char **argv)
  * The `command' command.
  */
 int
-commandcmd(int argc __unused, char **argv __unused)
+commandcmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 	const char *path;
 	int ch;
@@ -1313,14 +1314,14 @@ returncmd(int argc, char **argv)
 
 
 int
-falsecmd(int argc __unused, char **argv __unused)
+falsecmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 	return 1;
 }
 
 
 int
-truecmd(int argc __unused, char **argv __unused)
+truecmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 	return 0;
 }
@@ -1351,7 +1352,7 @@ execcmd(int argc, char **argv)
 
 
 int
-timescmd(int argc __unused, char **argv __unused)
+timescmd(int argc _UNUSED_ATTR, char **argv _UNUSED_ATTR)
 {
 	struct rusage ru;
 	long shumins, shsmins, chumins, chsmins;

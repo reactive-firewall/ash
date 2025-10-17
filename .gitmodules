@@ -4,3 +4,10 @@
 	branch = master
 	ignore = dirty
 	update = checkout
+
+[submodule "SignalWright"]
+	path = musl/SignalWright
+	url = https://github.com/reactive-firewall/SignalWright.git
+	branch = master
+	ignore = dirty
+	update = checkout

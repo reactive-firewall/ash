@@ -38,12 +38,13 @@ __weak EditLine* el_init(const char* name, FILE* input, FILE* output) {
 	rl_outstream = output;
 
 	// Set the prompt (optional)
-	rl_prompt = "prompt> ";
+	rl_set_prompt("prompt> ");
 
 	// Initialize readline and enable history support
 	rl_initialize();
+#ifdef _READLINE_H_
 	using_history();
-
+#endif
 	return el;
 }
 

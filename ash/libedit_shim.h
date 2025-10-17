@@ -30,6 +30,12 @@
 #include <string.h>
 
 #if defined(__clang__) && __clang__
+#if __has_include(<editline/editline.h>)
+#include <editline/editline.h> // Include for EditLine
+#endif /* !__has_include(<editline/editline.h>) */
+#endif /* !defined(__clang__) && __clang__ */
+
+#if defined(__clang__) && __clang__
 #if __has_include(<histedit.h>)
 #include <histedit.h> // Include for EditLine
 #endif /* !__has_include(<histedit.h>) */
