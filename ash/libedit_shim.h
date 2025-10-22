@@ -30,30 +30,63 @@
 #include <string.h>
 
 #if defined(__clang__) && __clang__
+#if __has_include(<editline/editline.h>)
+#include <editline/editline.h> // Include for EditLine
+#endif /* !__has_include(<editline/editline.h>) */
+#endif /* !defined(__clang__) && __clang__ */
+
+#if defined(__clang__) && __clang__
 #if __has_include(<histedit.h>)
 #include <histedit.h> // Include for EditLine
 #endif /* !__has_include(<histedit.h>) */
 #endif /* !defined(__clang__) && __clang__ */
 
+#if defined(__clang__) && __clang__
+#if __has_include(<readline/readline.h>)
 #ifndef _READLINE_H_
 #include <readline/readline.h>
+#if __has_include(<readline/history.h>)
 #include <readline/history.h>
 #endif
+#endif /* !_READLINE_H_ */
+#endif /* !__has_include(<readline/readline.h>) */
+
+#ifndef __weak
+#if __has_attribute(weak)
+#define __weak	__attribute__((weak))
+#elif __has_attribute(__weak__)
+#define __weak	__attribute__((__weak__))
+#else
+#define __weak
+#endif /* !__has_attribute_weak */
+#endif /* !__weak */
+#else
+#ifndef __weak
+#warning "compiling libedit_shim without __weak support. This may break things."
+#define __weak
+#endif
+#endif /* !defined(__clang__) && __clang__ */
 
 #ifndef _HISTEDIT_H_
+#ifdef __cplusplus
+extern "C" {
+#endif
 typedef struct {
 	// You can add any necessary fields here if needed
 } EditLine;
 
-EditLine* el_init(const char* name, FILE* input, FILE* output);
-void el_end(EditLine* el);
-int el_get(EditLine *, int op, ...);
-int el_set(EditLine* el, int op, ...);
-int el_parse(EditLine* el, const char* str);
-int el_source(EditLine* el, const char* filename);
-char* el_gets(EditLine* el, int* len);
-int el_resize(EditLine* el, int size);
-int el_fn_complete(EditLine* el);
+__weak EditLine* el_init(const char* name, FILE* input, FILE* output);
+__weak void el_end(EditLine* el);
+__weak int el_get(EditLine *, int op, ...);
+__weak int el_set(EditLine* el, int op, ...);
+__weak int el_parse(EditLine* el, const char* str);
+__weak int el_source(EditLine* el, const char* filename);
+__weak char* el_gets(EditLine* el, int* len);
+__weak int el_resize(EditLine* el, int size);
+__weak int el_fn_complete(EditLine* el);
+#ifdef __cplusplus
+}
+#endif
 #endif
 
 
