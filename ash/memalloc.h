@@ -37,6 +37,34 @@
 
 #include <string.h>
 
+/* PATCH for ALIGN macro portability */
+#ifndef ALIGN_H
+#define ALIGN_H
+/* If system-defined ALIGN is available, use it */
+#ifdef ALIGN
+#define __ALIGN(x)  ALIGN(x)
+#else
+/* Default to a common alignment size if not defined */
+#ifndef ALIGN_DEFAULT
+#define ALIGN_DEFAULT 8         /* Default alignment size (8 bytes) */
+#endif
+/* ALIGN macro taking one argument */
+#define ALIGN(x)  (((x) + (ALIGN_DEFAULT - 1)) & ~(ALIGN_DEFAULT - 1))
+/* Conditional macro for two arguments: `ALIGN(value, align)` */
+#define ALIGN_WITH_CUSTOM(value, align)  \
+(((value) + ((align) - 1)) & ~((align) - 1))
+/* Resolved ALIGN function that can handle either one or two arguments */
+#define __ALIGN(...) \
+MY_ALIGN_IMPL(__VA_ARGS__, ALIGN_WITH_CUSTOM, ALIGN)(__VA_ARGS__)
+
+/* Helper to pick the correct ALIGN function based on number of arguments */
+#define MY_ALIGN_IMPL(x, y, FUNC, ...) \
+FUNC(x, y)
+
+#endif /* ALIGN */
+#endif /* ALIGN_H */
+
+
 struct stackmark {
 	struct stack_block *stackp;
 	char *stacknxt;
