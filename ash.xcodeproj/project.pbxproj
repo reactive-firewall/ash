@@ -91,6 +91,7 @@
 		84212C532E8F5D340006FD06 /* mksyntax in Copy mksyntax */ = {isa = PBXBuildFile; fileRef = 84113F462E8D23410050C6E0 /* mksyntax */; };
 		842671082E8F942400358EB8 /* libedit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 84113EEB2E8CFB100050C6E0 /* libedit.tbd */; settings = {ATTRIBUTES = (Required, ); }; };
 		842671092E8F946300358EB8 /* libreadline.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 84113EED2E8CFB270050C6E0 /* libreadline.tbd */; };
+		84401BA12EA9B71E00267B29 /* libc.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 84113F002E8D03F10050C6E0 /* libc.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,13 +123,6 @@
 			remoteGlobalIDString = 842129172E8F3A180006FD06;
 			remoteInfo = eaccess.a;
 		};
-		8421295A2E8F4BBB0006FD06 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 843C493A2E8CF80500FB21F6 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 842129372E8F456E0006FD06;
-			remoteInfo = "Dynamic Sources";
-		};
 		84212C442E8F58210006FD06 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 843C493A2E8CF80500FB21F6 /* Project object */;
@@ -156,6 +150,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 84212C4A2E8F5D200006FD06;
 			remoteInfo = "syntax Sources";
+		};
+		84401BA92EA9B8B900267B29 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843C493A2E8CF80500FB21F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84401B9D2EA9B71E00267B29;
+			remoteInfo = setmode.a;
+		};
+		84401BAB2EA9B8C500267B29 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843C493A2E8CF80500FB21F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 842129372E8F456E0006FD06;
+			remoteInfo = "Dynamic Sources";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -196,16 +204,17 @@
 /* Begin PBXFileReference section */
 		84113EEB2E8CFB100050C6E0 /* libedit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libedit.tbd; path = usr/lib/libedit.tbd; sourceTree = SDKROOT; };
 		84113EED2E8CFB270050C6E0 /* libreadline.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libreadline.tbd; path = usr/lib/libreadline.tbd; sourceTree = SDKROOT; };
-		84113EF82E8CFB370050C6E0 /* libedit.a */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.staticlib"; includeInIndex = 0; path = libedit.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		84113EF82E8CFB370050C6E0 /* libedit.a */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.staticlib"; path = libedit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		84113EFE2E8CFCA20050C6E0 /* build-ash.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "build-ash.sh"; sourceTree = "<group>"; };
 		84113EFF2E8CFCB60050C6E0 /* upstream.webloc */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = upstream.webloc; sourceTree = "<group>"; };
 		84113F002E8D03F10050C6E0 /* libc.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libc.tbd; path = usr/lib/libc.tbd; sourceTree = SDKROOT; };
 		84113F282E8D10300050C6E0 /* mknodes */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mknodes; sourceTree = BUILT_PRODUCTS_DIR; };
 		84113F462E8D23410050C6E0 /* mksyntax */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mksyntax; sourceTree = BUILT_PRODUCTS_DIR; };
 		842129142E8F397E0006FD06 /* eaccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = eaccess.a; path = "../../../../../../Xcode/DerivedData/ash-fltlcqampvmtcgbgqscfrtalutim/Build/Products/Debug/eaccess.a"; sourceTree = "<group>"; };
-		842129252E8F3A180006FD06 /* eaccess.a */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.staticlib"; includeInIndex = 0; path = eaccess.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		842129252E8F3A180006FD06 /* eaccess.a */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.staticlib"; path = eaccess.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		842129282E8F3A6F0006FD06 /* libSystem.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libSystem.tbd; path = usr/lib/libSystem.tbd; sourceTree = SDKROOT; };
 		843C49422E8CF80500FB21F6 /* ash */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ash; sourceTree = BUILT_PRODUCTS_DIR; };
+		84401BA52EA9B71E00267B29 /* setmode.a */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.staticlib"; includeInIndex = 0; path = setmode.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -233,6 +242,7 @@
 			membershipExceptions = (
 				eaccess_shim.c,
 				libedit_shim.c,
+				setmode_shim.c,
 				Makefile,
 				mknodes.c,
 				mksyntax.c,
@@ -523,6 +533,78 @@
 			);
 			target = 842129172E8F3A180006FD06 /* eaccess.a */;
 		};
+		84401BA62EA9B71E00267B29 /* Exceptions for "ash" folder in "setmode.a" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				alias.c,
+				alias.h,
+				arith_yacc.c,
+				arith_yacc.h,
+				arith_yylex.c,
+				arith.h,
+				bltin/bltin.h,
+				bltin/echo.c,
+				builtins.c,
+				builtins.h,
+				cd.c,
+				cd.h,
+				eaccess_shim.c,
+				eaccess_shim.h,
+				error.c,
+				error.h,
+				eval.c,
+				eval.h,
+				exec.c,
+				exec.h,
+				expand.c,
+				expand.h,
+				histedit.c,
+				input.c,
+				input.h,
+				jobs.c,
+				jobs.h,
+				kill.c,
+				libedit_shim.c,
+				libedit_shim.h,
+				mail.c,
+				mail.h,
+				main.c,
+				main.h,
+				Makefile,
+				memalloc.c,
+				memalloc.h,
+				miscbltin.c,
+				mknodes.c,
+				mksyntax.c,
+				myhistedit.h,
+				mystring.c,
+				mystring.h,
+				nodes.c,
+				nodes.c.pat,
+				nodes.h,
+				options.c,
+				options.h,
+				output.c,
+				output.h,
+				parser.c,
+				parser.h,
+				printf.c,
+				redir.c,
+				redir.h,
+				shell.h,
+				show.c,
+				show.h,
+				syntax.c,
+				syntax.h,
+				test.c,
+				token.h,
+				trap.c,
+				trap.h,
+				var.c,
+				var.h,
+			);
+			target = 84401B9D2EA9B71E00267B29 /* setmode.a */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
@@ -543,6 +625,7 @@
 				84113F472E8D23410050C6E0 /* Exceptions for "ash" folder in "mksyntax" target */,
 				842129262E8F3A190006FD06 /* Exceptions for "ash" folder in "eaccess.a" target */,
 				84113EF92E8CFB370050C6E0 /* Exceptions for "ash" folder in "libedit.a" target */,
+				84401BA62EA9B71E00267B29 /* Exceptions for "ash" folder in "setmode.a" target */,
 				84113EE92E8CF8AA0050C6E0 /* Exceptions for "ash" folder in "ash" target */,
 				84113F572E8D257A0050C6E0 /* Exceptions for "ash" folder in "Copy Files" phase from "ash" target */,
 			);
@@ -596,6 +679,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		84401BA02EA9B71E00267B29 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84401BA12EA9B71E00267B29 /* libc.tbd in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -630,6 +721,7 @@
 				84113F282E8D10300050C6E0 /* mknodes */,
 				84113F462E8D23410050C6E0 /* mksyntax */,
 				842129252E8F3A180006FD06 /* eaccess.a */,
+				84401BA52EA9B71E00267B29 /* setmode.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -659,6 +751,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8421292D2E8F3D5F0006FD06 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84401B9E2EA9B71E00267B29 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -755,6 +854,28 @@
 			productReference = 842129252E8F3A180006FD06 /* eaccess.a */;
 			productType = "com.apple.product-type.tool";
 		};
+		84401B9D2EA9B71E00267B29 /* setmode.a */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84401BA22EA9B71E00267B29 /* Build configuration list for PBXNativeTarget "setmode.a" */;
+			buildPhases = (
+				84401B9E2EA9B71E00267B29 /* Headers */,
+				84401B9F2EA9B71E00267B29 /* Sources */,
+				84401BA02EA9B71E00267B29 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				843C49442E8CF80500FB21F6 /* ash */,
+			);
+			name = setmode.a;
+			packageProductDependencies = (
+			);
+			productName = ash;
+			productReference = 84401BA52EA9B71E00267B29 /* setmode.a */;
+			productType = "com.apple.product-type.tool";
+		};
 		843C49412E8CF80500FB21F6 /* ash */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 843C49492E8CF80500FB21F6 /* Build configuration list for PBXNativeTarget "ash" */;
@@ -767,7 +888,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				8421295B2E8F4BBB0006FD06 /* PBXTargetDependency */,
+				84401BAC2EA9B8C500267B29 /* PBXTargetDependency */,
+				84401BAA2EA9B8B900267B29 /* PBXTargetDependency */,
 				842129592E8F4BB60006FD06 /* PBXTargetDependency */,
 				84113F372E8D23010050C6E0 /* PBXTargetDependency */,
 			);
@@ -824,6 +946,7 @@
 				842129372E8F456E0006FD06 /* Dynamic Sources */,
 				842129172E8F3A180006FD06 /* eaccess.a */,
 				84113EEF2E8CFB370050C6E0 /* libedit.a */,
+				84401B9D2EA9B71E00267B29 /* setmode.a */,
 				843C49412E8CF80500FB21F6 /* ash */,
 			);
 		};
@@ -991,6 +1114,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		84401B9F2EA9B71E00267B29 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1014,11 +1144,6 @@
 			target = 842129172E8F3A180006FD06 /* eaccess.a */;
 			targetProxy = 842129582E8F4BB60006FD06 /* PBXContainerItemProxy */;
 		};
-		8421295B2E8F4BBB0006FD06 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 842129372E8F456E0006FD06 /* Dynamic Sources */;
-			targetProxy = 8421295A2E8F4BBB0006FD06 /* PBXContainerItemProxy */;
-		};
 		84212C452E8F58210006FD06 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 84113F1D2E8D10300050C6E0 /* mknodes */;
@@ -1038,6 +1163,16 @@
 			isa = PBXTargetDependency;
 			target = 84212C4A2E8F5D200006FD06 /* syntax Sources */;
 			targetProxy = 84212C582E8F5F8F0006FD06 /* PBXContainerItemProxy */;
+		};
+		84401BAA2EA9B8B900267B29 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84401B9D2EA9B71E00267B29 /* setmode.a */;
+			targetProxy = 84401BA92EA9B8B900267B29 /* PBXContainerItemProxy */;
+		};
+		84401BAC2EA9B8C500267B29 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 842129372E8F456E0006FD06 /* Dynamic Sources */;
+			targetProxy = 84401BAB2EA9B8C500267B29 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1076,8 +1211,8 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_LIBTOOLFLAGS = "-c -s";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "org.adhoc.pak.dt.shim.$(PRODUCT_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				TREAT_MISSING_SCRIPT_PHASE_OUTPUTS_AS_ERRORS = YES;
 			};
 			name = Debug;
@@ -1114,8 +1249,8 @@
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_LIBTOOLFLAGS = "-c -s";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "org.pak.dt.shim.$(PRODUCT_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
 				TREAT_MISSING_SCRIPT_PHASE_OUTPUTS_AS_ERRORS = YES;
 			};
@@ -1147,8 +1282,8 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_UNUSED_FUNCTION = NO;
 				LD_NO_PIE = NO;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "org.adhoc.pak.dt.util.$(PRODUCT_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TAPI_LANGUAGE = c;
 				TREAT_MISSING_SCRIPT_PHASE_OUTPUTS_AS_ERRORS = YES;
@@ -1181,8 +1316,8 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				LD_EXPORT_SYMBOLS = NO;
 				LD_NO_PIE = NO;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "org.adhoc.pak.dt.util.$(PRODUCT_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TAPI_LANGUAGE = c;
 				TREAT_MISSING_SCRIPT_PHASE_OUTPUTS_AS_ERRORS = YES;
@@ -1281,8 +1416,8 @@
 					"-fcommon",
 					"$(inherited)",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "org.adhoc.pak.dt.shim.$(PRODUCT_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				TREAT_MISSING_SCRIPT_PHASE_OUTPUTS_AS_ERRORS = YES;
 			};
 			name = Debug;
@@ -1315,9 +1450,9 @@
 					"-fcommon",
 					"$(inherited)",
 				);
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "org.pak.dt.shim.$(PRODUCT_NAME)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "org.pak.dt.shim.$(PRODUCT_NAME)";
 				TREAT_MISSING_SCRIPT_PHASE_OUTPUTS_AS_ERRORS = YES;
 			};
 			name = Release;
@@ -1554,11 +1689,12 @@
 				OTHER_LDFLAGS = (
 					"-L$(BUILT_PRODUCTS_DIR:standardizepath)",
 					"$(BUILT_PRODUCTS_DIR:standardizepath)/eaccess.a",
+					"$(BUILT_PRODUCTS_DIR:standardizepath)/setmode.a",
 					"$(BUILT_PRODUCTS_DIR:standardizepath)/libedit.a",
 					"$(inherited)",
 				);
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = org.adhoc.pak.dt.ash;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "org.adhoc.pak.dt.ash";
 			};
 			name = Debug;
 		};
@@ -1570,11 +1706,83 @@
 				OTHER_LDFLAGS = (
 					"-L$(BUILT_PRODUCTS_DIR:standardizepath)",
 					"$(BUILT_PRODUCTS_DIR:standardizepath)/eaccess.a",
+					"$(BUILT_PRODUCTS_DIR:standardizepath)/setmode.a",
 					"$(BUILT_PRODUCTS_DIR:standardizepath)/libedit.a",
 					"$(inherited)",
 				);
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = org.pak.dt.ash;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "org.pak.dt.ash";
+			};
+			name = Release;
+		};
+		84401BA32EA9B71E00267B29 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_STATIC_ANALYZER_MODE = deep;
+				CLANG_UNDEFINED_BEHAVIOR_SANITIZER_INTEGER = NO;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = NO;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DONT_GENERATE_INFOPLIST_FILE = YES;
+				ENABLE_CODE_COVERAGE = NO;
+				ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_MOVIES_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_MUSIC_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_PICTURE_FOLDER = readonly;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_USER_SELECTED_FILES = readwrite;
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_INPUT_FILETYPE = sourcecode.c.c;
+				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_UNUSED_FUNCTION = NO;
+				LD_NO_PIE = NO;
+				MACH_O_TYPE = staticlib;
+				OTHER_CFLAGS = (
+					"-fcommon",
+					"$(inherited)",
+				);
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "org.adhoc.pak.dt.shim.$(PRODUCT_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TREAT_MISSING_SCRIPT_PHASE_OUTPUTS_AS_ERRORS = YES;
+			};
+			name = Debug;
+		};
+		84401BA42EA9B71E00267B29 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_UNDEFINED_BEHAVIOR_SANITIZER_INTEGER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_CODE_COVERAGE = NO;
+				ENABLE_C_BOUNDS_SAFETY = YES;
+				ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_MOVIES_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_MUSIC_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_PICTURE_FOLDER = readonly;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_USER_SELECTED_FILES = readwrite;
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_INPUT_FILETYPE = sourcecode.c.c;
+				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				LD_NO_PIE = NO;
+				LD_WARN_DUPLICATE_LIBRARIES = YES;
+				MACH_O_TYPE = staticlib;
+				OTHER_CFLAGS = (
+					"-fcommon",
+					"$(inherited)",
+				);
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "org.pak.dt.shim.$(PRODUCT_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				TREAT_MISSING_SCRIPT_PHASE_OUTPUTS_AS_ERRORS = YES;
 			};
 			name = Release;
 		};
@@ -1676,6 +1884,15 @@
 			buildConfigurations = (
 				843C494A2E8CF80500FB21F6 /* Debug */,
 				843C494B2E8CF80500FB21F6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84401BA22EA9B71E00267B29 /* Build configuration list for PBXNativeTarget "setmode.a" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84401BA32EA9B71E00267B29 /* Debug */,
+				84401BA42EA9B71E00267B29 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
