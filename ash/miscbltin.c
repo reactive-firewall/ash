@@ -64,6 +64,9 @@ __FBSDID("$FreeBSD$");
 #include "syntax.h"
 #include "trap.h"
 
+/* PATCH for getmode/setmode */
+#include "setmode_shim.h"
+
 #undef eflag
 
 #define	READ_BUFLEN	1024
