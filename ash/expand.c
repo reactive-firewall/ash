@@ -57,6 +57,31 @@ __FBSDID("$FreeBSD$");
 #include <wchar.h>
 #include <wctype.h>
 
+/* PATCH Compatibility shim for dirent field name length */
+#ifdef _SYS_DIRENT_H
+/* Use the d_namlen field if available */
+#define _D_NAME_LEN(entry) ((entry)->d_namlen)
+#else
+// Fallback to a default size (256) if namlen is not defined
+#warning "No support for dirent->d_name_len - Guessing default d_name length of 256."
+#ifdef size_t
+#define d_size_t	size_t
+#else
+#define d_size_t	int
+#endif
+// Function to count non-null characters in d_name
+static inline d_size_t count_d_name_length(const struct dirent *entry) {
+	d_size_t len = ((d_size_t)(255));
+	d_size_t count = 0;
+	// Count non-null characters up to len or until a null terminator
+	for (d_size_t i = 0; i < len && entry->d_name[i] != '\0'; i++) {
+		count++;
+	}
+	return count; // Return the count of non-null characters
+}
+#define _D_NAME_LEN(entry)	(count_d_name_length(entry))
+#endif /* END of patch change */
+
 /*
  * Routines to expand arguments to commands.  We have to deal with
  * backquotes, shell variables, and file metacharacters.
@@ -1171,7 +1196,7 @@ expmeta(char *enddir, char *name, struct arglist *arglist)
 		if (dp->d_name[0] == '.' && ! matchdot)
 			continue;
 		if (patmatch(start, dp->d_name)) {
-			namlen = dp->d_namlen;
+			namlen = _D_NAME_LEN(dp);
 			if (enddir + namlen + 1 > expdir_end)
 				continue;
 			memcpy(enddir, dp->d_name, namlen + 1);
