@@ -42,6 +42,28 @@ __FBSDID("$FreeBSD$");
 
 #include <signal.h>
 
+/* PATCH for sys_signame */
+#if defined(__has_include)
+#if __has_include(<SignalWright.h>)
+#include <SignalWright.h>  /* size_t, NULL */
+#define _HAVE_SIGNAL_WRIGHT_H (1)
+#elif __has_include("SignalWright.h")
+#include "SignalWright.h"
+#define _HAVE_SIGNAL_WRIGHT_H (1)
+#else
+#ifndef _HAVE_SIGNAL_WRIGHT_H
+#include <SignalWright.h>  /* size_t, NULL */
+#define _HAVE_SIGNAL_WRIGHT_H (1)
+#endif /* !_HAVE_SIGNAL_WRIGHT_H */
+#endif /* END __has_include_SignalWright */
+#endif /* END defined(__has_include) */
+
+#if defined(sys_signame)
+/* nothing more to do for sys_signame */
+#elif !_HAVE_SIGNAL_WRIGHT_H
+#error "Missing SignalWright header"
+#endif
+
 /* PATCH for sys_nsig */
 /*
  assumptions:

@@ -52,6 +52,12 @@ __FBSDID("$FreeBSD$");
 #include <sys/stat.h>
 #include <stdlib.h>
 
+/* PATCH for musl like implementation of strings.h */
+#include <string.h>
+
+#if (!defined(strchrnul) && defined(__strchrnul))
+#define strchrnul	__strchrnul
+#endif
 
 #define MAXMBOXES 10
 

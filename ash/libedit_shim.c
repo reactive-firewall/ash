@@ -22,11 +22,11 @@
 * SOFTWARE.
 */
 
-#ifndef _READLINE_H_
+#ifndef LIBEDIT_SHIM_H
 #include "libedit_shim.h"
 
 #ifndef _HISTEDIT_H_
-EditLine* el_init(const char* name, FILE* input, FILE* output) {
+__weak EditLine* el_init(const char* name, FILE* input, FILE* output) {
 	// Allocate memory for the EditLine structure
 	EditLine* el = malloc(sizeof(EditLine));
 	if (!el) {
@@ -38,43 +38,44 @@ EditLine* el_init(const char* name, FILE* input, FILE* output) {
 	rl_outstream = output;
 
 	// Set the prompt (optional)
-	rl_prompt = "prompt> ";
+	rl_set_prompt("prompt> ");
 
 	// Initialize readline and enable history support
 	rl_initialize();
+#ifdef _READLINE_H_
 	using_history();
-
+#endif
 	return el;
 }
 
-void el_end(EditLine* el) {
+__weak void el_end(EditLine* el) {
 	// Clean up resources
 	if (el) {
 		free(el);
 	}
 }
 
-int el_get(EditLine* el, int op, ...) {
+__weak int el_get(EditLine* el, int op, ...) {
 	// Return the requested operation; for now, we can ignore it
 	return 0; // Placeholder
 }
 
-int el_set(EditLine* el, int op, ...) {
+__weak int el_set(EditLine* el, int op, ...) {
 	// Handle setting options; for now, we can ignore it
 	return 0; // Placeholder
 }
 
-int el_parse(EditLine* el, const char* str) {
+__weak int el_parse(EditLine* el, const char* str) {
 	// Parse a command string; for now, we can ignore it
 	return 0; // Placeholder
 }
 
-int el_source(EditLine* el, const char* filename) {
+__weak int el_source(EditLine* el, const char* filename) {
 	// Source a file; for now, we can ignore it
 	return 0; // Placeholder
 }
 
-char* el_gets(EditLine* el, int* len) {
+__weak char* el_gets(EditLine* el, int* len) {
 	// Use readline to get a line
 	char* line = readline(rl_prompt);
 	if (line) {
@@ -86,15 +87,15 @@ char* el_gets(EditLine* el, int* len) {
 	return line; // Return the line read
 }
 
-int el_resize(EditLine* el, int size) {
+__weak int el_resize(EditLine* el, int size) {
 	// Resize functionality; for now, we can ignore it
 	return 0; // Placeholder
 }
 
-int el_fn_complete(EditLine* el) {
+__weak int el_fn_complete(EditLine* el) {
 	// Implement completion logic; for now, we can ignore it
 	return 0; // Placeholder
 }
 
 #endif /* !_HISTEDIT_H_ */
-#endif /* !_READLINE_H_ */
+#endif /* !LIBEDIT_SHIM_H */
