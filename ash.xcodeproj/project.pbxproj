@@ -223,21 +223,22 @@
 			additionalCompilerFlagsByRelativePath = {
 				bltin/echo.c = "-I$(SRCROOT)/bltin";
 				error.c = "--std=c89";
-				input.c = "--std=c89";
-				kill.c = "--std=c11";
-				mail.c = "--std=c89";
+				eval.c = "-Wno-implicit-function-declaration";
+				input.c = "--std=c89 -Wno-implicit-function-declaration -Wno-int-conversion";
+				kill.c = "--std=c11 -I$(SRCROOT)/../musl/SignalWright/SignalWright/include";
+				mail.c = "--std=c89 -Wno-implicit-function-declaration -Wno-int-conversion";
 				memalloc.c = "--std=c89";
 				miscbltin.c = "--std=c89";
 				mystring.c = "--std=c89";
 				nodes.c = "--std=c89";
-				output.c = "--std=c89";
+				output.c = "--std=c89 -Wno-implicit-function-declaration -Wno-int-conversion";
 				parser.c = "--std=c89";
 				printf.c = "--std=c11";
 				redir.c = "--std=c89";
 				show.c = "--std=c89";
 				syntax.c = "--std=c89";
 				test.c = "--std=c11";
-				trap.c = "--std=c11";
+				trap.c = "--std=c11 -I$(SRCROOT)/../musl/SignalWright/SignalWright/include";
 			};
 			membershipExceptions = (
 				eaccess_shim.c,
@@ -300,6 +301,7 @@
 				exec.h,
 				expand.c,
 				expand.h,
+				fwopen_shim.h,
 				histedit.c,
 				input.c,
 				input.h,
@@ -414,6 +416,7 @@
 				exec.h,
 				expand.c,
 				expand.h,
+				fwopen_shim.h,
 				histedit.c,
 				input.c,
 				input.h,
@@ -484,6 +487,7 @@
 				exec.h,
 				expand.c,
 				expand.h,
+				fwopen_shim.h,
 				histedit.c,
 				input.c,
 				input.h,
@@ -558,6 +562,7 @@
 				exec.h,
 				expand.c,
 				expand.h,
+				fwopen_shim.h,
 				histedit.c,
 				input.c,
 				input.h,
