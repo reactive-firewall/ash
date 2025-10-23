@@ -38,7 +38,6 @@ static char sccsid[] = "@(#)trap.c	8.5 (Berkeley) 6/5/95";
 #endif
 #endif /* not lint */
 #include <sys/cdefs.h>
-#include "musl_shim.h"
 __FBSDID("$FreeBSD$");
 
 #include <signal.h>
@@ -226,7 +225,7 @@ printsignals(void)
  * The trap builtin.
  */
 int
-trapcmd(int argc _UNUSED_ATTR, char **argv)
+trapcmd(int argc __unused, char **argv)
 {
 	char *action;
 	int signo;
