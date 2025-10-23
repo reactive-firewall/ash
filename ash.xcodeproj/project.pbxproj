@@ -1,0 +1,1679 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		842129312E8F3E400006FD06 /* mktokens */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 842129322E8F3E400006FD06 /* Build configuration list for PBXAggregateTarget "mktokens" */;
+			buildPhases = (
+				842129352E8F3F530006FD06 /* Run mktokens */,
+			);
+			dependencies = (
+			);
+			name = mktokens;
+			packageProductDependencies = (
+			);
+			productName = mktokens;
+		};
+		842129372E8F456E0006FD06 /* Dynamic Sources */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 842129382E8F456E0006FD06 /* Build configuration list for PBXAggregateTarget "Dynamic Sources" */;
+			buildPhases = (
+				842129412E8F45A80006FD06 /* Copy Derived Sources to Project Source Dir */,
+			);
+			dependencies = (
+				84212C572E8F5F8F0006FD06 /* PBXTargetDependency */,
+				84212C592E8F5F8F0006FD06 /* PBXTargetDependency */,
+				842129572E8F4B940006FD06 /* PBXTargetDependency */,
+				8421294D2E8F4B7A0006FD06 /* PBXTargetDependency */,
+			);
+			name = "Dynamic Sources";
+			packageProductDependencies = (
+			);
+			productName = "Dynamic Sources";
+		};
+		842129472E8F4A280006FD06 /* mkbuiltins */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 842129492E8F4A280006FD06 /* Build configuration list for PBXAggregateTarget "mkbuiltins" */;
+			buildPhases = (
+				842129482E8F4A280006FD06 /* Run mkbuiltins */,
+			);
+			dependencies = (
+			);
+			name = mkbuiltins;
+			packageProductDependencies = (
+			);
+			productName = mktokens;
+		};
+		84212C3F2E8F568D0006FD06 /* nodes Sources */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 84212C412E8F568D0006FD06 /* Build configuration list for PBXAggregateTarget "nodes Sources" */;
+			buildPhases = (
+				84212C462E8F58C20006FD06 /* Copy mknodes */,
+				84212C402E8F568D0006FD06 /* Run mknodes */,
+			);
+			dependencies = (
+				84212C452E8F58210006FD06 /* PBXTargetDependency */,
+			);
+			name = "nodes Sources";
+			packageProductDependencies = (
+			);
+			productName = mktokens;
+		};
+		84212C4A2E8F5D200006FD06 /* syntax Sources */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 84212C502E8F5D200006FD06 /* Build configuration list for PBXAggregateTarget "syntax Sources" */;
+			buildPhases = (
+				84212C4D2E8F5D200006FD06 /* Copy mksyntax */,
+				84212C4F2E8F5D200006FD06 /* Run mksyntax */,
+			);
+			dependencies = (
+				84212C552E8F5D3F0006FD06 /* PBXTargetDependency */,
+			);
+			name = "syntax Sources";
+			packageProductDependencies = (
+			);
+			productName = mktokens;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		84113F012E8D03F10050C6E0 /* libc.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 84113F002E8D03F10050C6E0 /* libc.tbd */; };
+		84113F3F2E8D23410050C6E0 /* libc.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 84113F002E8D03F10050C6E0 /* libc.tbd */; };
+		842128072E8F2E390006FD06 /* libc.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 84113F002E8D03F10050C6E0 /* libc.tbd */; };
+		8421291F2E8F3A180006FD06 /* libc.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 84113F002E8D03F10050C6E0 /* libc.tbd */; };
+		84212C472E8F58CB0006FD06 /* mknodes in Copy mknodes */ = {isa = PBXBuildFile; fileRef = 84113F282E8D10300050C6E0 /* mknodes */; };
+		84212C532E8F5D340006FD06 /* mksyntax in Copy mksyntax */ = {isa = PBXBuildFile; fileRef = 84113F462E8D23410050C6E0 /* mksyntax */; };
+		842671082E8F942400358EB8 /* libedit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 84113EEB2E8CFB100050C6E0 /* libedit.tbd */; settings = {ATTRIBUTES = (Required, ); }; };
+		842671092E8F946300358EB8 /* libreadline.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 84113EED2E8CFB270050C6E0 /* libreadline.tbd */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		84113F362E8D23010050C6E0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843C493A2E8CF80500FB21F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84113EEF2E8CFB370050C6E0;
+			remoteInfo = libedit.a;
+		};
+		8421294C2E8F4B7A0006FD06 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843C493A2E8CF80500FB21F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 842129472E8F4A280006FD06;
+			remoteInfo = mkbuiltins;
+		};
+		842129562E8F4B940006FD06 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843C493A2E8CF80500FB21F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 842129312E8F3E400006FD06;
+			remoteInfo = mktokens;
+		};
+		842129582E8F4BB60006FD06 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843C493A2E8CF80500FB21F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 842129172E8F3A180006FD06;
+			remoteInfo = eaccess.a;
+		};
+		8421295A2E8F4BBB0006FD06 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843C493A2E8CF80500FB21F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 842129372E8F456E0006FD06;
+			remoteInfo = "Dynamic Sources";
+		};
+		84212C442E8F58210006FD06 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843C493A2E8CF80500FB21F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84113F1D2E8D10300050C6E0;
+			remoteInfo = mknodes;
+		};
+		84212C542E8F5D3F0006FD06 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843C493A2E8CF80500FB21F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84113F3C2E8D23410050C6E0;
+			remoteInfo = mksyntax;
+		};
+		84212C562E8F5F8F0006FD06 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843C493A2E8CF80500FB21F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84212C3F2E8F568D0006FD06;
+			remoteInfo = "nodes Sources";
+		};
+		84212C582E8F5F8F0006FD06 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 843C493A2E8CF80500FB21F6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84212C4A2E8F5D200006FD06;
+			remoteInfo = "syntax Sources";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		84212C462E8F58C20006FD06 /* Copy mknodes */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(PROJECT_DERIVED_FILE_DIR:standardizepath)";
+			dstSubfolderSpec = 0;
+			files = (
+				84212C472E8F58CB0006FD06 /* mknodes in Copy mknodes */,
+			);
+			name = "Copy mknodes";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84212C4D2E8F5D200006FD06 /* Copy mksyntax */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(PROJECT_DERIVED_FILE_DIR:standardizepath)";
+			dstSubfolderSpec = 0;
+			files = (
+				84212C532E8F5D340006FD06 /* mksyntax in Copy mksyntax */,
+			);
+			name = "Copy mksyntax";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		843C49402E8CF80500FB21F6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		84113EEB2E8CFB100050C6E0 /* libedit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libedit.tbd; path = usr/lib/libedit.tbd; sourceTree = SDKROOT; };
+		84113EED2E8CFB270050C6E0 /* libreadline.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libreadline.tbd; path = usr/lib/libreadline.tbd; sourceTree = SDKROOT; };
+		84113EF82E8CFB370050C6E0 /* libedit.a */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.staticlib"; includeInIndex = 0; path = libedit.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		84113EFE2E8CFCA20050C6E0 /* build-ash.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "build-ash.sh"; sourceTree = "<group>"; };
+		84113EFF2E8CFCB60050C6E0 /* upstream.webloc */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = upstream.webloc; sourceTree = "<group>"; };
+		84113F002E8D03F10050C6E0 /* libc.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libc.tbd; path = usr/lib/libc.tbd; sourceTree = SDKROOT; };
+		84113F282E8D10300050C6E0 /* mknodes */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mknodes; sourceTree = BUILT_PRODUCTS_DIR; };
+		84113F462E8D23410050C6E0 /* mksyntax */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mksyntax; sourceTree = BUILT_PRODUCTS_DIR; };
+		842129142E8F397E0006FD06 /* eaccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = eaccess.a; path = "../../../../../../Xcode/DerivedData/ash-fltlcqampvmtcgbgqscfrtalutim/Build/Products/Debug/eaccess.a"; sourceTree = "<group>"; };
+		842129252E8F3A180006FD06 /* eaccess.a */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.staticlib"; includeInIndex = 0; path = eaccess.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		842129282E8F3A6F0006FD06 /* libSystem.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libSystem.tbd; path = usr/lib/libSystem.tbd; sourceTree = SDKROOT; };
+		843C49422E8CF80500FB21F6 /* ash */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ash; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		84113EE92E8CF8AA0050C6E0 /* Exceptions for "ash" folder in "ash" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			additionalCompilerFlagsByRelativePath = {
+				bltin/echo.c = "-I$(SRCROOT)/bltin";
+				error.c = "--std=c89";
+				input.c = "--std=c89";
+				kill.c = "--std=c11";
+				mail.c = "--std=c89";
+				memalloc.c = "--std=c89";
+				miscbltin.c = "--std=c89";
+				mystring.c = "--std=c89";
+				nodes.c = "--std=c89";
+				output.c = "--std=c89";
+				parser.c = "--std=c89";
+				printf.c = "--std=c11";
+				redir.c = "--std=c89";
+				show.c = "--std=c89";
+				syntax.c = "--std=c89";
+				test.c = "--std=c11";
+				trap.c = "--std=c11";
+			};
+			membershipExceptions = (
+				eaccess_shim.c,
+				libedit_shim.c,
+				Makefile,
+				mknodes.c,
+				mksyntax.c,
+				nodes.c.pat,
+			);
+			privateHeaders = (
+				alias.h,
+				arith_yacc.h,
+				arith.h,
+				cd.h,
+				error.h,
+				eval.h,
+				exec.h,
+				expand.h,
+				input.h,
+				mail.h,
+				main.h,
+				myhistedit.h,
+				mystring.h,
+				options.h,
+				output.h,
+				parser.h,
+				redir.h,
+				show.h,
+				trap.h,
+				var.h,
+			);
+			publicHeaders = (
+				memalloc.h,
+			);
+			target = 843C49412E8CF80500FB21F6 /* ash */;
+		};
+		84113EF92E8CFB370050C6E0 /* Exceptions for "ash" folder in "libedit.a" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				alias.c,
+				alias.h,
+				arith_yacc.c,
+				arith_yacc.h,
+				arith_yylex.c,
+				arith.h,
+				bltin/bltin.h,
+				bltin/echo.c,
+				builtins.c,
+				builtins.h,
+				cd.c,
+				cd.h,
+				eaccess_shim.c,
+				eaccess_shim.h,
+				error.c,
+				error.h,
+				eval.c,
+				eval.h,
+				exec.c,
+				exec.h,
+				expand.c,
+				expand.h,
+				histedit.c,
+				input.c,
+				input.h,
+				jobs.c,
+				jobs.h,
+				kill.c,
+				mail.c,
+				mail.h,
+				main.c,
+				main.h,
+				Makefile,
+				memalloc.c,
+				memalloc.h,
+				miscbltin.c,
+				mknodes.c,
+				mksyntax.c,
+				myhistedit.h,
+				mystring.c,
+				mystring.h,
+				nodes.c,
+				nodes.c.pat,
+				nodes.h,
+				options.c,
+				options.h,
+				output.c,
+				output.h,
+				parser.c,
+				parser.h,
+				printf.c,
+				redir.c,
+				redir.h,
+				shell.h,
+				show.c,
+				show.h,
+				syntax.c,
+				syntax.h,
+				test.c,
+				token.h,
+				trap.c,
+				trap.h,
+				var.c,
+				var.h,
+			);
+			target = 84113EEF2E8CFB370050C6E0 /* libedit.a */;
+		};
+		84113F292E8D10300050C6E0 /* Exceptions for "ash" folder in "mknodes" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				alias.c,
+				arith_yacc.c,
+				arith_yylex.c,
+				bltin/echo.c,
+				builtins.c,
+				cd.c,
+				eaccess_shim.c,
+				error.c,
+				eval.c,
+				exec.c,
+				expand.c,
+				histedit.c,
+				input.c,
+				jobs.c,
+				kill.c,
+				libedit_shim.c,
+				mail.c,
+				main.c,
+				Makefile,
+				memalloc.c,
+				miscbltin.c,
+				mksyntax.c,
+				mystring.c,
+				nodes.c,
+				nodes.c.pat,
+				options.c,
+				output.c,
+				parser.c,
+				printf.c,
+				redir.c,
+				show.c,
+				syntax.c,
+				test.c,
+				trap.c,
+				var.c,
+			);
+			target = 84113F1D2E8D10300050C6E0 /* mknodes */;
+		};
+		84113F472E8D23410050C6E0 /* Exceptions for "ash" folder in "mksyntax" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				alias.c,
+				alias.h,
+				arith_yacc.c,
+				arith_yacc.h,
+				arith_yylex.c,
+				arith.h,
+				bltin/bltin.h,
+				bltin/echo.c,
+				builtins.c,
+				builtins.h,
+				cd.c,
+				cd.h,
+				eaccess_shim.c,
+				eaccess_shim.h,
+				error.c,
+				error.h,
+				eval.c,
+				eval.h,
+				exec.c,
+				exec.h,
+				expand.c,
+				expand.h,
+				histedit.c,
+				input.c,
+				input.h,
+				jobs.c,
+				jobs.h,
+				kill.c,
+				libedit_shim.c,
+				libedit_shim.h,
+				mail.c,
+				mail.h,
+				main.c,
+				main.h,
+				Makefile,
+				memalloc.c,
+				memalloc.h,
+				miscbltin.c,
+				mknodes.c,
+				myhistedit.h,
+				mystring.c,
+				mystring.h,
+				nodes.c,
+				nodes.c.pat,
+				nodes.h,
+				options.c,
+				options.h,
+				output.c,
+				output.h,
+				parser.c,
+				printf.c,
+				redir.c,
+				redir.h,
+				shell.h,
+				show.c,
+				show.h,
+				syntax.c,
+				syntax.h,
+				test.c,
+				token.h,
+				trap.c,
+				trap.h,
+				var.c,
+				var.h,
+			);
+			target = 84113F3C2E8D23410050C6E0 /* mksyntax */;
+		};
+		842129262E8F3A190006FD06 /* Exceptions for "ash" folder in "eaccess.a" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				alias.c,
+				alias.h,
+				arith_yacc.c,
+				arith_yacc.h,
+				arith_yylex.c,
+				arith.h,
+				bltin/bltin.h,
+				bltin/echo.c,
+				builtins.c,
+				builtins.h,
+				cd.c,
+				cd.h,
+				error.c,
+				error.h,
+				eval.c,
+				eval.h,
+				exec.c,
+				exec.h,
+				expand.c,
+				expand.h,
+				histedit.c,
+				input.c,
+				input.h,
+				jobs.c,
+				jobs.h,
+				kill.c,
+				libedit_shim.c,
+				libedit_shim.h,
+				mail.c,
+				mail.h,
+				main.c,
+				main.h,
+				Makefile,
+				memalloc.c,
+				memalloc.h,
+				miscbltin.c,
+				mknodes.c,
+				mksyntax.c,
+				myhistedit.h,
+				mystring.c,
+				mystring.h,
+				nodes.c,
+				nodes.c.pat,
+				nodes.h,
+				options.c,
+				options.h,
+				output.c,
+				output.h,
+				parser.c,
+				parser.h,
+				printf.c,
+				redir.c,
+				redir.h,
+				shell.h,
+				show.c,
+				show.h,
+				syntax.c,
+				syntax.h,
+				test.c,
+				token.h,
+				trap.c,
+				trap.h,
+				var.c,
+				var.h,
+			);
+			target = 842129172E8F3A180006FD06 /* eaccess.a */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		84113F572E8D257A0050C6E0 /* Exceptions for "ash" folder in "Copy Files" phase from "ash" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 843C49402E8CF80500FB21F6 /* CopyFiles */;
+			membershipExceptions = (
+				sh.1,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		843C49442E8CF80500FB21F6 /* ash */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				84113F292E8D10300050C6E0 /* Exceptions for "ash" folder in "mknodes" target */,
+				84113F472E8D23410050C6E0 /* Exceptions for "ash" folder in "mksyntax" target */,
+				842129262E8F3A190006FD06 /* Exceptions for "ash" folder in "eaccess.a" target */,
+				84113EF92E8CFB370050C6E0 /* Exceptions for "ash" folder in "libedit.a" target */,
+				84113EE92E8CF8AA0050C6E0 /* Exceptions for "ash" folder in "ash" target */,
+				84113F572E8D257A0050C6E0 /* Exceptions for "ash" folder in "Copy Files" phase from "ash" target */,
+			);
+			explicitFileTypes = {
+				nodes.c.pat = sourcecode.c.c.preprocessed;
+			};
+			path = ash;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		84113EF12E8CFB370050C6E0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84113F202E8D10300050C6E0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84113F012E8D03F10050C6E0 /* libc.tbd in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84113F3E2E8D23410050C6E0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84113F3F2E8D23410050C6E0 /* libc.tbd in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8421291E2E8F3A180006FD06 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8421291F2E8F3A180006FD06 /* libc.tbd in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		843C493F2E8CF80500FB21F6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				842128072E8F2E390006FD06 /* libc.tbd in Frameworks */,
+				842671092E8F946300358EB8 /* libreadline.tbd in Frameworks */,
+				842671082E8F942400358EB8 /* libedit.tbd in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		84113EEA2E8CFB100050C6E0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				842129282E8F3A6F0006FD06 /* libSystem.tbd */,
+				842129142E8F397E0006FD06 /* eaccess.a */,
+				84113F002E8D03F10050C6E0 /* libc.tbd */,
+				84113EED2E8CFB270050C6E0 /* libreadline.tbd */,
+				84113EEB2E8CFB100050C6E0 /* libedit.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		843C49392E8CF80500FB21F6 = {
+			isa = PBXGroup;
+			children = (
+				843C49442E8CF80500FB21F6 /* ash */,
+				84113EFE2E8CFCA20050C6E0 /* build-ash.sh */,
+				84113EFF2E8CFCB60050C6E0 /* upstream.webloc */,
+				84113EEA2E8CFB100050C6E0 /* Frameworks */,
+				843C49432E8CF80500FB21F6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		843C49432E8CF80500FB21F6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				843C49422E8CF80500FB21F6 /* ash */,
+				84113EF82E8CFB370050C6E0 /* libedit.a */,
+				84113F282E8D10300050C6E0 /* mknodes */,
+				84113F462E8D23410050C6E0 /* mksyntax */,
+				842129252E8F3A180006FD06 /* eaccess.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		84113EFC2E8CFC480050C6E0 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84113F052E8D04CB0050C6E0 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8421291C2E8F3A180006FD06 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8421292D2E8F3D5F0006FD06 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		84113EEF2E8CFB370050C6E0 /* libedit.a */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84113EF52E8CFB370050C6E0 /* Build configuration list for PBXNativeTarget "libedit.a" */;
+			buildPhases = (
+				84113EFC2E8CFC480050C6E0 /* Headers */,
+				84113EF02E8CFB370050C6E0 /* Sources */,
+				84113EF12E8CFB370050C6E0 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				843C49442E8CF80500FB21F6 /* ash */,
+			);
+			name = libedit.a;
+			packageProductDependencies = (
+			);
+			productName = ash;
+			productReference = 84113EF82E8CFB370050C6E0 /* libedit.a */;
+			productType = "com.apple.product-type.tool";
+		};
+		84113F1D2E8D10300050C6E0 /* mknodes */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84113F252E8D10300050C6E0 /* Build configuration list for PBXNativeTarget "mknodes" */;
+			buildPhases = (
+				84113F1F2E8D10300050C6E0 /* Sources */,
+				84113F202E8D10300050C6E0 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				843C49442E8CF80500FB21F6 /* ash */,
+			);
+			name = mknodes;
+			packageProductDependencies = (
+			);
+			productName = ash;
+			productReference = 84113F282E8D10300050C6E0 /* mknodes */;
+			productType = "com.apple.product-type.tool";
+		};
+		84113F3C2E8D23410050C6E0 /* mksyntax */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84113F432E8D23410050C6E0 /* Build configuration list for PBXNativeTarget "mksyntax" */;
+			buildPhases = (
+				8421292D2E8F3D5F0006FD06 /* Headers */,
+				84113F3D2E8D23410050C6E0 /* Sources */,
+				84113F3E2E8D23410050C6E0 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				843C49442E8CF80500FB21F6 /* ash */,
+			);
+			name = mksyntax;
+			packageProductDependencies = (
+			);
+			productName = ash;
+			productReference = 84113F462E8D23410050C6E0 /* mksyntax */;
+			productType = "com.apple.product-type.tool";
+		};
+		842129172E8F3A180006FD06 /* eaccess.a */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 842129222E8F3A180006FD06 /* Build configuration list for PBXNativeTarget "eaccess.a" */;
+			buildPhases = (
+				8421291C2E8F3A180006FD06 /* Headers */,
+				8421291D2E8F3A180006FD06 /* Sources */,
+				8421291E2E8F3A180006FD06 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				843C49442E8CF80500FB21F6 /* ash */,
+			);
+			name = eaccess.a;
+			packageProductDependencies = (
+			);
+			productName = ash;
+			productReference = 842129252E8F3A180006FD06 /* eaccess.a */;
+			productType = "com.apple.product-type.tool";
+		};
+		843C49412E8CF80500FB21F6 /* ash */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 843C49492E8CF80500FB21F6 /* Build configuration list for PBXNativeTarget "ash" */;
+			buildPhases = (
+				84113F052E8D04CB0050C6E0 /* Headers */,
+				843C493E2E8CF80500FB21F6 /* Sources */,
+				843C493F2E8CF80500FB21F6 /* Frameworks */,
+				843C49402E8CF80500FB21F6 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8421295B2E8F4BBB0006FD06 /* PBXTargetDependency */,
+				842129592E8F4BB60006FD06 /* PBXTargetDependency */,
+				84113F372E8D23010050C6E0 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				843C49442E8CF80500FB21F6 /* ash */,
+			);
+			name = ash;
+			packageProductDependencies = (
+			);
+			productName = ash;
+			productReference = 843C49422E8CF80500FB21F6 /* ash */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		843C493A2E8CF80500FB21F6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					842129312E8F3E400006FD06 = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
+					842129372E8F456E0006FD06 = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
+					843C49412E8CF80500FB21F6 = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
+				};
+			};
+			buildConfigurationList = 843C493D2E8CF80500FB21F6 /* Build configuration list for PBXProject "ash" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 843C49392E8CF80500FB21F6;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 843C49432E8CF80500FB21F6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				84113F1D2E8D10300050C6E0 /* mknodes */,
+				84212C3F2E8F568D0006FD06 /* nodes Sources */,
+				84113F3C2E8D23410050C6E0 /* mksyntax */,
+				84212C4A2E8F5D200006FD06 /* syntax Sources */,
+				842129312E8F3E400006FD06 /* mktokens */,
+				842129472E8F4A280006FD06 /* mkbuiltins */,
+				842129372E8F456E0006FD06 /* Dynamic Sources */,
+				842129172E8F3A180006FD06 /* eaccess.a */,
+				84113EEF2E8CFB370050C6E0 /* libedit.a */,
+				843C49412E8CF80500FB21F6 /* ash */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		842129352E8F3F530006FD06 /* Run mktokens */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCDIR:standardizepath)",
+				"$(SRCDIR:standardizepath)/mktokens",
+			);
+			name = "Run mktokens";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(PROJECT_DERIVED_FILE_DIR:standardizepath)/token.h",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "test -x \"$(command -v touch)\" || exit 3 ;\ntest -x \"$(command -v dirname)\" || exit 3 ;\ntest -x \"$(command -v mkdir)\" || exit 3 ;\ntest -x \"$(command -v cp)\" || exit 3 ;\ntest -x \"$(command -v unlink)\" || exit 3 ;\ntest -x \"$(command -v xattr)\" || exit 3 ;\ntest -n $CURRENT_ARCH || exit 4;\n\nif [ -z \"$SHELL\" ] ; then \n\texport SHELL=\"sh\" ;\n\tsh -c '\"${0}\" ; exit $?' ; wait ; exit $? ;\nfi ;\n\n#find target path\nif [ -d \"${PROJECT_DERIVED_FILE_DIR}\" ] ; then\n\ttouch -a \"${PROJECT_DERIVED_FILE_DIR}\" || true ;\nelif [ -n \"${PROJECT_DERIVED_FILE_DIR}\" ] ; then\n\tmkdir -p \"${PROJECT_DERIVED_FILE_DIR}\" || echo \"Failure: $0:: error: unreadable generate path for: ${PROJECT_DERIVED_FILE_DIR}\" >&2 ; exit 126 ;\n\txattr -rsw com.apple.xcode.CreatedByBuildSystem true \"${PROJECT_DERIVED_FILE_DIR}\" >&2 || true ;\nelse\n\techo \"$0:: Warning: Required folder ${PROJECT_DERIVED_FILE_DIR} (empty or missing)\" >&2 || true ;\n\texit 1;\nfi ;\n\nEXIT_CODE=1;\n# copy orderfile into place\nif [ -d ${SCRIPT_INPUT_FILE_0} ] && [ -x ${SCRIPT_INPUT_FILE_1} ]; then\n\tcd ${PROJECT_DERIVED_FILE_DIR} && \\\n\t\"${SCRIPT_INPUT_FILE_1}\" ;\n\tif [ -f \"${SCRIPT_OUTPUT_FILE_0}\" ] ; then\n\t\txattr -sw com.apple.xcode.CreatedByBuildSystem true \"${SCRIPT_OUTPUT_FILE_0}\" ; wait ;\n\t\tEXIT_CODE=0 ;\n\tfi ;\nelif [[ ${ACTION:-\"Build\"} == *Clean* ]] ; then\n\tunlink -f \"${SCRIPT_OUTPUT_FILE_0}\" 2>/dev/null || true ;\n\tEXIT_CODE=0 ;\nelse\n\tif [ -d ${SCRIPT_INPUT_FILE_0} ]; then\n\t\techo \"Failure $0:: error: bad mktokens script: ${SCRIPT_INPUT_FILE_1}\" >&2 ; EXIT_CODE=5 ;\n\telse\n\t\techo \"$0:: Warning: Required folder ${SCRIPT_INPUT_FILE_0} (empty or missing)\" >&2 ; EXIT_CODE=2 ;\n\tfi ;\nfi ;\nsync ;\nif [[ ( ${EXIT_CODE:-1} -eq 0 ) ]] ; then\n\techo \"Success: $0:: note: ${ACTION:-Build} Completed!\" || true ;\n\twait ;\nfi ;\nexit ${EXIT_CODE:-255} ;\n";
+		};
+		842129412E8F45A80006FD06 /* Copy Derived Sources to Project Source Dir */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(PROJECT_DERIVED_FILE_DIR:standardizepath)/builtins.h",
+				"$(PROJECT_DERIVED_FILE_DIR:standardizepath)/nodes.h",
+				"$(PROJECT_DERIVED_FILE_DIR:standardizepath)/syntax.h",
+				"$(PROJECT_DERIVED_FILE_DIR:standardizepath)/token.h",
+				"$(PROJECT_DERIVED_FILE_DIR:standardizepath)/builtins.c",
+				"$(PROJECT_DERIVED_FILE_DIR:standardizepath)/nodes.c",
+				"$(PROJECT_DERIVED_FILE_DIR:standardizepath)/syntax.c",
+			);
+			name = "Copy Derived Sources to Project Source Dir";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCDIR:standardizepath)/builtins.h",
+				"$(SRCDIR:standardizepath)/nodes.h",
+				"$(SRCDIR:standardizepath)/syntax.h",
+				"$(SRCDIR:standardizepath)/token.h",
+				"$(SRCDIR:standardizepath)/builtins.c",
+				"$(SRCDIR:standardizepath)/nodes.c",
+				"$(SRCDIR:standardizepath)/syntax.c",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "test -x \"$(command -v touch)\" || exit 3 ;\ntest -x \"$(command -v dirname)\" || exit 3 ;\ntest -x \"$(command -v mkdir)\" || exit 3 ;\ntest -x \"$(command -v cp)\" || exit 3 ;\ntest -x \"$(command -v unlink)\" || exit 3 ;\ntest -x \"$(command -v xattr)\" || exit 3 ;\ntest -n $CURRENT_ARCH || exit 4;\n\nif [ -z \"$SHELL\" ] ; then \n\texport SHELL=\"sh\" ;\n\tsh -c '\"${0}\" ; exit $?' ; wait ; exit $? ;\nfi ;\n\n#find target path\nif [ -d \"${SRCDIR}\" ] ; then\n\ttouch -a \"${SRCDIR}\" || true ;\nelse\n\techo \"$0:: Warning: Required folder ${SRCDIR} (empty or missing)\" >&2 || true ;\n\texit 1;\nfi ;\n\nEXIT_CODE=1;\n\nEXIT_CODE_0=1;\nEXIT_CODE_1=1;\nEXIT_CODE_2=1;\nEXIT_CODE_3=1;\n\nEXIT_CODE_4=1;\nEXIT_CODE_5=1;\nEXIT_CODE_6=1;\n# copy headers into place\necho \"Checking \\\"${SCRIPT_INPUT_FILE_0}\\\":: info: ...\"\nif [ -f \"${SCRIPT_INPUT_FILE_0}\" ]; then\n\t#TODO: add locking and tools etc.\n\techo \"Found \\\"${SCRIPT_INPUT_FILE_0}\\\":: info: File exists.\"\n\t${CP:-cp} -vfp \"${SCRIPT_INPUT_FILE_0}\" \"${SCRIPT_OUTPUT_FILE_0}\" ;\n\tif [ -f \"${SCRIPT_OUTPUT_FILE_0}\" ] ; then\n\t\txattr -sw com.apple.xcode.CreatedByBuildSystem true \"${SCRIPT_OUTPUT_FILE_0}\" ; wait ;\n\t\techo \"Success: ${SCRIPT_OUTPUT_FILE_0}:: note: File ready!\" || true ;\n\t\tEXIT_CODE_0=0 ;\n\tfi ;\nelif [ ${ACTION:-\"Build\"} == *Clean* ] ; then\n\t#TODO: add locking and tools etc.\n\techo \"Found \\\"${SCRIPT_INPUT_FILE_0}\\\":: info: File exists.\"\n\tunlink -f \"${SCRIPT_OUTPUT_FILE_0}\" 2>/dev/null || true ;\n\techo \"Success: ${SCRIPT_OUTPUT_FILE_0}:: note: File Removed!\" || true ;\n\tEXIT_CODE_0=0 ;\nelse\n\techo \"$0:: Warning: Required header ${SCRIPT_INPUT_FILE_0} (empty or missing)\" >&2 ; EXIT_CODE_0=2 ;\nfi ;\necho \"Checking \\\"${SCRIPT_INPUT_FILE_1}\\\":: info: ...\"\nif [ -f \"${SCRIPT_INPUT_FILE_1}\" ]; then\n\t#TODO: add locking and tools etc.\n\techo \"Found \\\"${SCRIPT_INPUT_FILE_1}\\\":: info: File exists.\"\n\t${CP:-cp} -vfp \"${SCRIPT_INPUT_FILE_1}\" \"${SCRIPT_OUTPUT_FILE_1}\" ;\n\tif [ -f \"${SCRIPT_OUTPUT_FILE_1}\" ] ; then\n\t\txattr -sw com.apple.xcode.CreatedByBuildSystem true \"${SCRIPT_OUTPUT_FILE_1}\" ; wait ;\n\t\techo \"Success: ${SCRIPT_OUTPUT_FILE_1}:: note: File ready!\" || true ;\n\t\tEXIT_CODE_1=0 ;\n\tfi ;\nelif [ ${ACTION:-\"Build\"} == *Clean* ] ; then\n\t#TODO: add locking and tools etc.\n\techo \"Found \\\"${SCRIPT_INPUT_FILE_1}\\\":: info: File exists.\"\n\tunlink -f \"${SCRIPT_OUTPUT_FILE_1}\" 2>/dev/null || true ;\n\techo \"Success: ${SCRIPT_OUTPUT_FILE_1}:: note: File Removed!\" || true ;\n\tEXIT_CODE_1=0 ;\nelse\n\techo \"$0:: Warning: Required header ${SCRIPT_INPUT_FILE_1} (empty or missing)\" >&2 ; EXIT_CODE_1=2 ;\nfi ;\necho \"Checking \\\"${SCRIPT_INPUT_FILE_2}\\\":: info: ...\"\nif [ -f \"${SCRIPT_INPUT_FILE_2}\" ]; then\n\t#TODO: add locking and tools etc.\n\techo \"Found \\\"${SCRIPT_INPUT_FILE_2}\\\":: info: File exists.\"\n\t${CP:-cp} -vfp \"${SCRIPT_INPUT_FILE_2}\" \"${SCRIPT_OUTPUT_FILE_2}\" ;\n\tif [ -f \"${SCRIPT_OUTPUT_FILE_2}\" ] ; then\n\t\txattr -sw com.apple.xcode.CreatedByBuildSystem true \"${SCRIPT_OUTPUT_FILE_2}\" ; wait ;\n\t\techo \"Success: ${SCRIPT_OUTPUT_FILE_2}:: note: File ready!\" || true ;\n\t\tEXIT_CODE_2=0 ;\n\tfi ;\nelif [ ${ACTION:-\"Build\"} == *Clean* ] ; then\n\t#TODO: add locking and tools etc.\n\techo \"Found \\\"${SCRIPT_INPUT_FILE_2}\\\":: info: File exists.\"\n\tunlink -f \"${SCRIPT_OUTPUT_FILE_2}\" 2>/dev/null || true ;\n\techo \"Success: ${SCRIPT_OUTPUT_FILE_2}:: note: File Removed!\" || true ;\n\tEXIT_CODE_2=0 ;\nelse\n\techo \"$0:: Warning: Required header ${SCRIPT_INPUT_FILE_2} (empty or missing)\" >&2 ; EXIT_CODE_2=2 ;\nfi ;\n# copy source into place\necho \"Checking \\\"${SCRIPT_INPUT_FILE_3}\\\":: info: ...\"\nif [ -f \"${SCRIPT_INPUT_FILE_3}\" ]; then\n\t#TODO: add locking and tools etc.\n\techo \"Found \\\"${SCRIPT_INPUT_FILE_3}\\\":: info: File exists.\"\n\t${CP:-cp} -vfp \"${SCRIPT_INPUT_FILE_3}\" \"${SCRIPT_OUTPUT_FILE_3}\" ;\n\tif [ -f \"${SCRIPT_OUTPUT_FILE_3}\" ] ; then\n\t\txattr -sw com.apple.xcode.CreatedByBuildSystem true \"${SCRIPT_OUTPUT_FILE_3}\" ; wait ;\n\t\techo \"Success: ${SCRIPT_OUTPUT_FILE_3}:: note: File ready!\" || true ;\n\t\tEXIT_CODE_3=0 ;\n\tfi ;\nelif [ ${ACTION:-\"Build\"} == *Clean* ] ; then\n\t#TODO: add locking and tools etc.\n\techo \"Found \\\"${SCRIPT_INPUT_FILE_3}\\\":: info: File exists.\"\n\tunlink -f \"${SCRIPT_OUTPUT_FILE_3}\" 2>/dev/null || true ;\n\techo \"Success: ${SCRIPT_OUTPUT_FILE_3}:: note: File Removed!\" || true ;\n\tEXIT_CODE_3=0 ;\nelse\n\techo \"$0:: Warning: Required header ${SCRIPT_INPUT_FILE_3} (empty or missing)\" >&2 ; EXIT_CODE_3=2 ;\nfi ;\n# copy source into place\necho \"Checking \\\"${SCRIPT_INPUT_FILE_4}\\\":: info: ...\"\nif [ -f \"${SCRIPT_INPUT_FILE_4}\" ]; then\n\t#TODO: add locking and tools etc.\n\techo \"Found \\\"${SCRIPT_INPUT_FILE_4}\\\":: info: File exists.\"\n\t${CP:-cp} -vfp \"${SCRIPT_INPUT_FILE_4}\" \"${SCRIPT_OUTPUT_FILE_4}\" ;\n\tif [ -f \"${SCRIPT_OUTPUT_FILE_4}\" ] ; then\n\t\txattr -sw com.apple.xcode.CreatedByBuildSystem true \"${SCRIPT_OUTPUT_FILE_4}\" ; wait ;\n\t\techo \"Success: ${SCRIPT_OUTPUT_FILE_4}:: note: File ready!\" || true ;\n\t\tEXIT_CODE_4=0 ;\n\tfi ;\nelif [ ${ACTION:-\"Build\"} == *Clean* ] ; then\n\t#TODO: add locking and tools etc.\n\techo \"Found \\\"${SCRIPT_INPUT_FILE_4}\\\":: info: File exists.\"\n\tunlink -f \"${SCRIPT_OUTPUT_FILE_4}\" 2>/dev/null || true ;\n\techo \"Success: ${SCRIPT_OUTPUT_FILE_4}:: note: File Removed!\" || true ;\n\tEXIT_CODE_4=0 ;\nelse\n\techo \"$0:: Warning: Required source ${SCRIPT_INPUT_FILE_4} (empty or missing)\" >&2 ; EXIT_CODE_4=2 ;\nfi ;\necho \"Checking \\\"${SCRIPT_INPUT_FILE_5}\\\":: info: ...\"\nif [ -f \"${SCRIPT_INPUT_FILE_5}\" ]; then\n\t#TODO: add locking and tools etc.\n\techo \"Found \\\"${SCRIPT_INPUT_FILE_5}\\\":: info: File exists.\"\n\t${CP:-cp} -vfp \"${SCRIPT_INPUT_FILE_5}\" \"${SCRIPT_OUTPUT_FILE_5}\" ;\n\tif [ -f \"${SCRIPT_OUTPUT_FILE_5}\" ] ; then\n\t\txattr -sw com.apple.xcode.CreatedByBuildSystem true \"${SCRIPT_OUTPUT_FILE_5}\" ; wait ;\n\t\techo \"Success: ${SCRIPT_OUTPUT_FILE_5}:: note: File ready!\" || true ;\n\t\tEXIT_CODE_5=0 ;\n\tfi ;\nelif [ ${ACTION:-\"Build\"} == *Clean* ] ; then\n\t#TODO: add locking and tools etc.\n\techo \"Found \\\"${SCRIPT_INPUT_FILE_5}\\\":: info: File exists.\"\n\tunlink -f \"${SCRIPT_OUTPUT_FILE_5}\" 2>/dev/null || true ;\n\techo \"Success: ${SCRIPT_OUTPUT_FILE_5}:: note: File Removed!\" || true ;\n\tEXIT_CODE_5=0 ;\nelse\n\techo \"$0:: Warning: Required source ${SCRIPT_INPUT_FILE_5} (empty or missing)\" >&2 ; EXIT_CODE_5=2 ;\nfi ;\necho \"Checking \\\"${SCRIPT_INPUT_FILE_6}\\\":: info: ...\"\nif [ -f \"${SCRIPT_INPUT_FILE_6}\" ]; then\n\t#TODO: add locking and tools etc.\n\techo \"Found \\\"${SCRIPT_INPUT_FILE_6}\\\":: info: File exists.\"\n\t${CP:-cp} -vfp \"${SCRIPT_INPUT_FILE_6}\" \"${SCRIPT_OUTPUT_FILE_6}\" ;\n\tif [ -f \"${SCRIPT_OUTPUT_FILE_6}\" ] ; then\n\t\txattr -sw com.apple.xcode.CreatedByBuildSystem true \"${SCRIPT_OUTPUT_FILE_6}\" ; wait ;\n\t\techo \"Success: ${SCRIPT_OUTPUT_FILE_6}:: note: File ready!\" || true ;\n\t\tEXIT_CODE_6=0 ;\n\tfi ;\nelif [ ${ACTION:-\"Build\"} == *Clean* ] ; then\n\t#TODO: add locking and tools etc.\n\techo \"Found \\\"${SCRIPT_INPUT_FILE_6}\\\":: info: File exists.\"\n\tunlink -f \"${SCRIPT_OUTPUT_FILE_6}\" 2>/dev/null || true ;\n\techo \"Success: ${SCRIPT_OUTPUT_FILE_6}:: note: File Removed!\" || true ;\n\tEXIT_CODE_6=0 ;\nelse\n\techo \"$0:: Warning: Required source ${SCRIPT_INPUT_FILE_6} (empty or missing)\" >&2 ; EXIT_CODE_6=2 ;\nfi ;\nsync ;\nif [ ${EXIT_CODE_0:-1} -eq 0 ] ; then\n\tif [ ${EXIT_CODE_1:-1} -eq 0 ] ; then\n\t\tif [ ${EXIT_CODE_2:-1} -eq 0 ] ; then\n\t\t\tif [ ${EXIT_CODE_3:-1} -eq 0 ] ; then\n\t\t\t\tif [ ${EXIT_CODE_4:-1} -eq 0 ] ; then\n\t\t\t\t\tif [ ${EXIT_CODE_5:-1} -eq 0 ] ; then\n\t\t\t\t\t\tif [ ${EXIT_CODE_6:-1} -eq 0 ] ; then\n\t\t\t\t\t\t\tEXIT_CODE=0;\n\t\t\t\t\t\tfi ;\n\t\t\t\t\tfi ;\n\t\t\t\tfi ;\n\t\t\tfi ;\n\t\tfi ;\n\tfi ;\nfi ;\nif [ ${EXIT_CODE:-1} -eq 0 ] ; then\n\techo \"Success: $0:: note: ${ACTION:-Build} Completed!\" || true ;\n\twait ;\nfi ;\nexit ${EXIT_CODE:-255} ;\n";
+		};
+		842129482E8F4A280006FD06 /* Run mkbuiltins */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCDIR:standardizepath)",
+				"$(SRCDIR:standardizepath)/mkbuiltins",
+				"$(SRCDIR:standardizepath)/shell.h",
+				"$(SRCDIR:standardizepath)/builtins.def",
+			);
+			name = "Run mkbuiltins";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(PROJECT_DERIVED_FILE_DIR:standardizepath)/builtins.h",
+				"$(PROJECT_DERIVED_FILE_DIR:standardizepath)/builtins.c",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "test -x \"$(command -v touch)\" || exit 3 ;\ntest -x \"$(command -v dirname)\" || exit 3 ;\ntest -x \"$(command -v mkdir)\" || exit 3 ;\ntest -x \"$(command -v cp)\" || exit 3 ;\ntest -x \"$(command -v unlink)\" || exit 3 ;\ntest -x \"$(command -v xattr)\" || exit 3 ;\ntest -n $CURRENT_ARCH || exit 4;\n\nif [ -z \"$SHELL\" ] ; then \n\texport SHELL=\"sh\" ;\n\tsh -c '\"${0}\" ; exit $?' ; wait ; exit $? ;\nfi ;\n\n#find target path\nif [ -d \"${PROJECT_DERIVED_FILE_DIR}\" ] ; then\n\ttouch -a \"${PROJECT_DERIVED_FILE_DIR}\" || true ;\nelif [ -n \"${PROJECT_DERIVED_FILE_DIR}\" ] ; then\n\tmkdir -p \"${PROJECT_DERIVED_FILE_DIR}\" || echo \"Failure: $0:: error: unreadable generate path for: ${PROJECT_DERIVED_FILE_DIR}\" >&2 ; exit 126 ;\n\txattr -rsw com.apple.xcode.CreatedByBuildSystem true \"${PROJECT_DERIVED_FILE_DIR}\" >&2 || true ;\nelse\n\techo \"$0:: Warning: Required folder ${PROJECT_DERIVED_FILE_DIR} (empty or missing)\" >&2 || true ;\n\texit 1;\nfi ;\n\nEXIT_CODE=1;\n# copy orderfile into place\nif [ -d ${SCRIPT_INPUT_FILE_0} ] && [ -x ${SCRIPT_INPUT_FILE_1} ]; then\n\tcd ${PROJECT_DERIVED_FILE_DIR} && \\\n\t\"${SCRIPT_INPUT_FILE_1}\" \"${SCRIPT_INPUT_FILE_0}\" ;\n\tif [ -f \"${SCRIPT_OUTPUT_FILE_0}\" ] && [ -f \"${SCRIPT_OUTPUT_FILE_1}\" ] ; then\n\t\txattr -sw com.apple.xcode.CreatedByBuildSystem true \"${SCRIPT_OUTPUT_FILE_0}\" && \\\n\t\txattr -sw com.apple.xcode.CreatedByBuildSystem true \"${SCRIPT_OUTPUT_FILE_1}\" ; wait ;\n\t\tEXIT_CODE=0 ;\n\tfi ;\nelif [[ ${ACTION:-\"Build\"} == *Clean* ]] ; then\n\tunlink -f \"${SCRIPT_OUTPUT_FILE_0}\" 2>/dev/null || true ;\n\tunlink -f \"${SCRIPT_OUTPUT_FILE_1}\" 2>/dev/null || true ;\n\tEXIT_CODE=0 ;\nelse\n\tif [ -d ${SCRIPT_INPUT_FILE_0} ]; then\n\t\techo \"Failure $0:: error: bad mkbuiltins script: ${SCRIPT_INPUT_FILE_1}\" >&2 ; EXIT_CODE=5 ;\n\telse\n\t\techo \"$0:: Warning: Required folder ${SCRIPT_INPUT_FILE_0} (empty or missing)\" >&2 ; EXIT_CODE=2 ;\n\tfi ;\nfi ;\nsync ;\nif [[ ( ${EXIT_CODE:-1} -eq 0 ) ]] ; then\n\techo \"Success: $0:: note: ${ACTION:-Build} Completed!\" || true ;\n\twait ;\nfi ;\nexit ${EXIT_CODE:-255} ;\n";
+		};
+		84212C402E8F568D0006FD06 /* Run mknodes */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCDIR:standardizepath)",
+				"$(PROJECT_DERIVED_FILE_DIR:standardizepath)/mknodes",
+				"$(SRCDIR:standardizepath)/nodetypes",
+				"$(SRCDIR:standardizepath)/nodes.c.pat",
+			);
+			name = "Run mknodes";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(PROJECT_DERIVED_FILE_DIR:standardizepath)/nodes.h",
+				"$(PROJECT_DERIVED_FILE_DIR:standardizepath)/nodes.c",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "test -x \"$(command -v touch)\" || exit 3 ;\ntest -x \"$(command -v dirname)\" || exit 3 ;\ntest -x \"$(command -v mkdir)\" || exit 3 ;\ntest -x \"$(command -v cp)\" || exit 3 ;\ntest -x \"$(command -v unlink)\" || exit 3 ;\ntest -x \"$(command -v xattr)\" || exit 3 ;\ntest -n $CURRENT_ARCH || exit 4;\n\nif [ -z \"$SHELL\" ] ; then \n\texport SHELL=\"sh\" ;\n\tsh -c '\"${0}\" ; exit $?' ; wait ; exit $? ;\nfi ;\n\n#find target path\nif [ -d \"${PROJECT_DERIVED_FILE_DIR}\" ] ; then\n\ttouch -a \"${PROJECT_DERIVED_FILE_DIR}\" || true ;\nelif [ -n \"${PROJECT_DERIVED_FILE_DIR}\" ] ; then\n\tmkdir -p \"${PROJECT_DERIVED_FILE_DIR}\" || echo \"Failure: $0:: error: unreadable generate path for: ${PROJECT_DERIVED_FILE_DIR}\" >&2 ; exit 126 ;\n\txattr -rsw com.apple.xcode.CreatedByBuildSystem true \"${PROJECT_DERIVED_FILE_DIR}\" >&2 || true ;\nelse\n\techo \"$0:: Warning: Required folder ${PROJECT_DERIVED_FILE_DIR} (empty or missing)\" >&2 || true ;\n\texit 1;\nfi ;\n\nEXIT_CODE=1;\n#TODO: check script inputs 2 & 3 here\n\n# generate nodes.{h,c} in sandbox\nif [ -d ${SCRIPT_INPUT_FILE_0} ] && [ -x ${SCRIPT_INPUT_FILE_1} ]; then\n\tcd ${PROJECT_DERIVED_FILE_DIR} && \\\n\t\"${SCRIPT_INPUT_FILE_1}\" \"${SCRIPT_INPUT_FILE_2}\" \"${SCRIPT_INPUT_FILE_3}\" ;\n\tif [ -f \"${SCRIPT_OUTPUT_FILE_0}\" ] && [ -f \"${SCRIPT_OUTPUT_FILE_1}\" ] ; then\n\t\txattr -sw com.apple.xcode.CreatedByBuildSystem true \"${SCRIPT_OUTPUT_FILE_0}\" && \\\n\t\txattr -sw com.apple.xcode.CreatedByBuildSystem true \"${SCRIPT_OUTPUT_FILE_1}\" ; wait ;\n\t\tEXIT_CODE=0 ;\n\tfi ;\nelif [[ ${ACTION:-\"Build\"} == *Clean* ]] ; then\n\tunlink -f \"${SCRIPT_INPUT_FILE_1}\" 2>/dev/null || true ;\n\tunlink -f \"${SCRIPT_OUTPUT_FILE_0}\" 2>/dev/null || true ;\n\tunlink -f \"${SCRIPT_OUTPUT_FILE_1}\" 2>/dev/null || true ;\n\tEXIT_CODE=0 ;\nelse\n\tif [ -d ${SCRIPT_INPUT_FILE_0} ]; then\n\t\techo \"Failure $0:: error: bad mkbuiltins script: ${SCRIPT_INPUT_FILE_1}\" >&2 ; EXIT_CODE=5 ;\n\telse\n\t\techo \"$0:: Warning: Required folder ${SCRIPT_INPUT_FILE_0} (empty or missing)\" >&2 ; EXIT_CODE=2 ;\n\tfi ;\nfi ;\nsync ;\nif [[ ( ${EXIT_CODE:-1} -eq 0 ) ]] ; then\n\techo \"Success: $0:: note: ${ACTION:-Build} Completed!\" || true ;\n\twait ;\nfi ;\nexit ${EXIT_CODE:-255} ;\n";
+		};
+		84212C4F2E8F5D200006FD06 /* Run mksyntax */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCDIR:standardizepath)",
+				"$(PROJECT_DERIVED_FILE_DIR:standardizepath)/mksyntax",
+			);
+			name = "Run mksyntax";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(PROJECT_DERIVED_FILE_DIR:standardizepath)/syntax.h",
+				"$(PROJECT_DERIVED_FILE_DIR:standardizepath)/syntax.c",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "test -x \"$(command -v touch)\" || exit 3 ;\ntest -x \"$(command -v dirname)\" || exit 3 ;\ntest -x \"$(command -v mkdir)\" || exit 3 ;\ntest -x \"$(command -v cp)\" || exit 3 ;\ntest -x \"$(command -v unlink)\" || exit 3 ;\ntest -x \"$(command -v xattr)\" || exit 3 ;\ntest -n $CURRENT_ARCH || exit 4;\n\nif [ -z \"$SHELL\" ] ; then \n\texport SHELL=\"sh\" ;\n\tsh -c '\"${0}\" ; exit $?' ; wait ; exit $? ;\nfi ;\n\n#find target path\nif [ -d \"${PROJECT_DERIVED_FILE_DIR}\" ] ; then\n\ttouch -a \"${PROJECT_DERIVED_FILE_DIR}\" || true ;\nelif [ -n \"${PROJECT_DERIVED_FILE_DIR}\" ] ; then\n\tmkdir -p \"${PROJECT_DERIVED_FILE_DIR}\" || echo \"Failure: $0:: error: unreadable generate path for: ${PROJECT_DERIVED_FILE_DIR}\" >&2 ; exit 126 ;\n\txattr -rsw com.apple.xcode.CreatedByBuildSystem true \"${PROJECT_DERIVED_FILE_DIR}\" >&2 || true ;\nelse\n\techo \"$0:: Warning: Required folder ${PROJECT_DERIVED_FILE_DIR} (empty or missing)\" >&2 || true ;\n\texit 1;\nfi ;\n\nEXIT_CODE=1;\n# generate syntax.{h,c} in sandbox\nif [ -d ${SCRIPT_INPUT_FILE_0} ] && [ -x ${SCRIPT_INPUT_FILE_1} ]; then\n\tcd ${PROJECT_DERIVED_FILE_DIR} && \\\n\t\"${SCRIPT_INPUT_FILE_1}\" ;\n\tif [ -f \"${SCRIPT_OUTPUT_FILE_0}\" ] && [ -f \"${SCRIPT_OUTPUT_FILE_1}\" ] ; then\n\t\txattr -sw com.apple.xcode.CreatedByBuildSystem true \"${SCRIPT_OUTPUT_FILE_0}\" && \\\n\t\txattr -sw com.apple.xcode.CreatedByBuildSystem true \"${SCRIPT_OUTPUT_FILE_1}\" ; wait ;\n\t\tEXIT_CODE=0 ;\n\tfi ;\nelif [[ ${ACTION:-\"Build\"} == *Clean* ]] ; then\n\tunlink -f \"${SCRIPT_INPUT_FILE_1}\" 2>/dev/null || true ;\n\tunlink -f \"${SCRIPT_OUTPUT_FILE_0}\" 2>/dev/null || true ;\n\tunlink -f \"${SCRIPT_OUTPUT_FILE_1}\" 2>/dev/null || true ;\n\tEXIT_CODE=0 ;\nelse\n\tif [ -d ${SCRIPT_INPUT_FILE_0} ]; then\n\t\techo \"Failure $0:: error: bad mkbuiltins script: ${SCRIPT_INPUT_FILE_1}\" >&2 ; EXIT_CODE=5 ;\n\telse\n\t\techo \"$0:: Warning: Required folder ${SCRIPT_INPUT_FILE_0} (empty or missing)\" >&2 ; EXIT_CODE=2 ;\n\tfi ;\nfi ;\nsync ;\nif [[ ( ${EXIT_CODE:-1} -eq 0 ) ]] ; then\n\techo \"Success: $0:: note: ${ACTION:-Build} Completed!\" || true ;\n\twait ;\nfi ;\nexit ${EXIT_CODE:-255} ;\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		84113EF02E8CFB370050C6E0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84113F1F2E8D10300050C6E0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84113F3D2E8D23410050C6E0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8421291D2E8F3A180006FD06 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		843C493E2E8CF80500FB21F6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		84113F372E8D23010050C6E0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84113EEF2E8CFB370050C6E0 /* libedit.a */;
+			targetProxy = 84113F362E8D23010050C6E0 /* PBXContainerItemProxy */;
+		};
+		8421294D2E8F4B7A0006FD06 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 842129472E8F4A280006FD06 /* mkbuiltins */;
+			targetProxy = 8421294C2E8F4B7A0006FD06 /* PBXContainerItemProxy */;
+		};
+		842129572E8F4B940006FD06 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 842129312E8F3E400006FD06 /* mktokens */;
+			targetProxy = 842129562E8F4B940006FD06 /* PBXContainerItemProxy */;
+		};
+		842129592E8F4BB60006FD06 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 842129172E8F3A180006FD06 /* eaccess.a */;
+			targetProxy = 842129582E8F4BB60006FD06 /* PBXContainerItemProxy */;
+		};
+		8421295B2E8F4BBB0006FD06 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 842129372E8F456E0006FD06 /* Dynamic Sources */;
+			targetProxy = 8421295A2E8F4BBB0006FD06 /* PBXContainerItemProxy */;
+		};
+		84212C452E8F58210006FD06 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84113F1D2E8D10300050C6E0 /* mknodes */;
+			targetProxy = 84212C442E8F58210006FD06 /* PBXContainerItemProxy */;
+		};
+		84212C552E8F5D3F0006FD06 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84113F3C2E8D23410050C6E0 /* mksyntax */;
+			targetProxy = 84212C542E8F5D3F0006FD06 /* PBXContainerItemProxy */;
+		};
+		84212C572E8F5F8F0006FD06 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84212C3F2E8F568D0006FD06 /* nodes Sources */;
+			targetProxy = 84212C562E8F5F8F0006FD06 /* PBXContainerItemProxy */;
+		};
+		84212C592E8F5F8F0006FD06 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84212C4A2E8F5D200006FD06 /* syntax Sources */;
+			targetProxy = 84212C582E8F5F8F0006FD06 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		84113EF62E8CFB370050C6E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_STATIC_ANALYZER_MODE = deep;
+				CLANG_UNDEFINED_BEHAVIOR_SANITIZER_INTEGER = NO;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = NO;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DONT_GENERATE_INFOPLIST_FILE = YES;
+				ENABLE_CODE_COVERAGE = NO;
+				ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_MOVIES_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_MUSIC_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_PICTURE_FOLDER = readonly;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_USER_SELECTED_FILES = readwrite;
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_INPUT_FILETYPE = sourcecode.c.c;
+				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_UNUSED_FUNCTION = NO;
+				GENERATE_TEXT_BASED_STUBS = YES;
+				LD_NO_PIE = NO;
+				LINK_WITH_STANDARD_LIBRARIES = NO;
+				MACH_O_TYPE = staticlib;
+				OTHER_CFLAGS = (
+					"-fcommon",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_LIBTOOLFLAGS = "-c -s";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "org.adhoc.pak.dt.shim.$(PRODUCT_NAME)";
+				TREAT_MISSING_SCRIPT_PHASE_OUTPUTS_AS_ERRORS = YES;
+			};
+			name = Debug;
+		};
+		84113EF72E8CFB370050C6E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_UNDEFINED_BEHAVIOR_SANITIZER_INTEGER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_CODE_COVERAGE = NO;
+				ENABLE_C_BOUNDS_SAFETY = YES;
+				ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_MOVIES_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_MUSIC_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_PICTURE_FOLDER = readonly;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_USER_SELECTED_FILES = readwrite;
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_INPUT_FILETYPE = sourcecode.c.c;
+				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GENERATE_TEXT_BASED_STUBS = YES;
+				LD_NO_PIE = NO;
+				LD_WARN_DUPLICATE_LIBRARIES = YES;
+				LINK_WITH_STANDARD_LIBRARIES = NO;
+				MACH_O_TYPE = staticlib;
+				OTHER_CFLAGS = (
+					"-fcommon",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_LIBTOOLFLAGS = "-c -s";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "org.pak.dt.shim.$(PRODUCT_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				TREAT_MISSING_SCRIPT_PHASE_OUTPUTS_AS_ERRORS = YES;
+			};
+			name = Release;
+		};
+		84113F262E8D10300050C6E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASH_MKNODES_ARG_1 = "$(SRCDIR)/nodetypes";
+				ASH_MKNODES_ARG_2 = "$(SRCDIR)/nodes.c.pat";
+				CLANG_STATIC_ANALYZER_MODE = deep;
+				CLANG_UNDEFINED_BEHAVIOR_SANITIZER_INTEGER = NO;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = NO;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				DONT_GENERATE_INFOPLIST_FILE = YES;
+				ENABLE_CODE_COVERAGE = NO;
+				ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_MOVIES_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_MUSIC_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_PICTURE_FOLDER = readonly;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_USER_SELECTED_FILES = readwrite;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_PASCAL_STRINGS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_INPUT_FILETYPE = sourcecode.c.c;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_UNUSED_FUNCTION = NO;
+				LD_NO_PIE = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "org.adhoc.pak.dt.util.$(PRODUCT_NAME)";
+				SKIP_INSTALL = YES;
+				TAPI_LANGUAGE = c;
+				TREAT_MISSING_SCRIPT_PHASE_OUTPUTS_AS_ERRORS = YES;
+			};
+			name = Debug;
+		};
+		84113F272E8D10300050C6E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASH_MKNODES_ARG_1 = "$(SRCDIR)/nodetypes";
+				ASH_MKNODES_ARG_2 = "$(SRCDIR)/nodes.c.pat";
+				CLANG_UNDEFINED_BEHAVIOR_SANITIZER_INTEGER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_CODE_COVERAGE = NO;
+				ENABLE_C_BOUNDS_SAFETY = YES;
+				ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_MOVIES_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_MUSIC_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_PICTURE_FOLDER = readonly;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_USER_SELECTED_FILES = readwrite;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_PASCAL_STRINGS = NO;
+				GCC_INPUT_FILETYPE = sourcecode.c.c;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				LD_EXPORT_SYMBOLS = NO;
+				LD_NO_PIE = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "org.adhoc.pak.dt.util.$(PRODUCT_NAME)";
+				SKIP_INSTALL = YES;
+				TAPI_LANGUAGE = c;
+				TREAT_MISSING_SCRIPT_PHASE_OUTPUTS_AS_ERRORS = YES;
+			};
+			name = Release;
+		};
+		84113F442E8D23410050C6E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_STATIC_ANALYZER_MODE = deep;
+				CLANG_UNDEFINED_BEHAVIOR_SANITIZER_INTEGER = NO;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = NO;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				DONT_GENERATE_INFOPLIST_FILE = YES;
+				ENABLE_CODE_COVERAGE = NO;
+				ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_MOVIES_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_MUSIC_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_PICTURE_FOLDER = readonly;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_USER_SELECTED_FILES = readwrite;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_PASCAL_STRINGS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_INPUT_FILETYPE = sourcecode.c.c;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_UNUSED_FUNCTION = NO;
+				LD_NO_PIE = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TAPI_LANGUAGE = c;
+				TREAT_MISSING_SCRIPT_PHASE_OUTPUTS_AS_ERRORS = YES;
+			};
+			name = Debug;
+		};
+		84113F452E8D23410050C6E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_UNDEFINED_BEHAVIOR_SANITIZER_INTEGER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_CODE_COVERAGE = NO;
+				ENABLE_C_BOUNDS_SAFETY = YES;
+				ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_MOVIES_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_MUSIC_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_PICTURE_FOLDER = readonly;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_USER_SELECTED_FILES = readwrite;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_PASCAL_STRINGS = NO;
+				GCC_INPUT_FILETYPE = sourcecode.c.c;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				LD_EXPORT_SYMBOLS = NO;
+				LD_NO_PIE = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TAPI_LANGUAGE = c;
+				TREAT_MISSING_SCRIPT_PHASE_OUTPUTS_AS_ERRORS = YES;
+			};
+			name = Release;
+		};
+		842129232E8F3A180006FD06 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_STATIC_ANALYZER_MODE = deep;
+				CLANG_UNDEFINED_BEHAVIOR_SANITIZER_INTEGER = NO;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = NO;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DONT_GENERATE_INFOPLIST_FILE = YES;
+				ENABLE_CODE_COVERAGE = NO;
+				ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_MOVIES_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_MUSIC_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_PICTURE_FOLDER = readonly;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_USER_SELECTED_FILES = readwrite;
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_INPUT_FILETYPE = sourcecode.c.c;
+				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_UNUSED_FUNCTION = NO;
+				LD_NO_PIE = NO;
+				MACH_O_TYPE = staticlib;
+				OTHER_CFLAGS = (
+					"-fcommon",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "org.adhoc.pak.dt.shim.$(PRODUCT_NAME)";
+				TREAT_MISSING_SCRIPT_PHASE_OUTPUTS_AS_ERRORS = YES;
+			};
+			name = Debug;
+		};
+		842129242E8F3A180006FD06 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_UNDEFINED_BEHAVIOR_SANITIZER_INTEGER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_CODE_COVERAGE = NO;
+				ENABLE_C_BOUNDS_SAFETY = YES;
+				ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_MOVIES_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_MUSIC_FOLDER = readonly;
+				ENABLE_FILE_ACCESS_PICTURE_FOLDER = readonly;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_USER_SELECTED_FILES = readwrite;
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_INPUT_FILETYPE = sourcecode.c.c;
+				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				LD_NO_PIE = NO;
+				LD_WARN_DUPLICATE_LIBRARIES = YES;
+				MACH_O_TYPE = staticlib;
+				OTHER_CFLAGS = (
+					"-fcommon",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "org.pak.dt.shim.$(PRODUCT_NAME)";
+				TREAT_MISSING_SCRIPT_PHASE_OUTPUTS_AS_ERRORS = YES;
+			};
+			name = Release;
+		};
+		842129332E8F3E400006FD06 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		842129342E8F3E400006FD06 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		842129392E8F456E0006FD06 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8421293A2E8F456E0006FD06 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		8421294A2E8F4A280006FD06 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8421294B2E8F4A280006FD06 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		84212C422E8F568D0006FD06 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		84212C432E8F568D0006FD06 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		84212C512E8F5D200006FD06 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		84212C522E8F5D200006FD06 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		843C49472E8CF80500FB21F6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALTERNATE_MODE = "u+wX,go-w,a+r";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = FAF5N99QTH;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_CW_ASM_SYNTAX = NO;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_PASCAL_STRINGS = NO;
+				GCC_INPUT_FILETYPE = sourcecode.c.c;
+				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "$(TAPI_LANGUAGE)";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"-DSHELL",
+					"-fPIE",
+					"-ffunction-sections",
+					"-fdata-sections",
+					"-fPIC",
+				);
+				OTHER_LDFLAGS = (
+					"-v",
+					"-pie",
+					"-fPIE",
+					"-why_load",
+				);
+				SDKROOT = macosx;
+				SRCDIR = "$(SRCROOT)/ash";
+				STRIP_INSTALLED_PRODUCT = NO;
+				TAPI_LANGUAGE = c;
+				TAPI_LANGUAGE_STANDARD = "$(GCC_C_LANGUAGE_STANDARD)";
+			};
+			name = Debug;
+		};
+		843C49482E8CF80500FB21F6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALTERNATE_MODE = "u+wX,go-w,a+r";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = FAF5N99QTH;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_CW_ASM_SYNTAX = NO;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_PASCAL_STRINGS = NO;
+				GCC_INPUT_FILETYPE = sourcecode.c.c;
+				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "$(TAPI_LANGUAGE)";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				OTHER_CFLAGS = (
+					"-DSHELL",
+					"-fPIE",
+					"-ffunction-sections",
+					"-fdata-sections",
+					"-fPIC",
+				);
+				OTHER_LDFLAGS = (
+					"-pie",
+					"-fPIE",
+				);
+				SDKROOT = macosx;
+				SRCDIR = "$(SRCROOT)/ash";
+				STRIP_STYLE = debugging;
+				TAPI_LANGUAGE = c;
+				TAPI_LANGUAGE_STANDARD = "$(GCC_C_LANGUAGE_STANDARD)";
+			};
+			name = Release;
+		};
+		843C494A2E8CF80500FB21F6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_HARDENED_RUNTIME = YES;
+				OTHER_LDFLAGS = (
+					"-L$(BUILT_PRODUCTS_DIR:standardizepath)",
+					"$(BUILT_PRODUCTS_DIR:standardizepath)/eaccess.a",
+					"$(BUILT_PRODUCTS_DIR:standardizepath)/libedit.a",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "org.adhoc.pak.dt.ash";
+			};
+			name = Debug;
+		};
+		843C494B2E8CF80500FB21F6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_HARDENED_RUNTIME = YES;
+				OTHER_LDFLAGS = (
+					"-L$(BUILT_PRODUCTS_DIR:standardizepath)",
+					"$(BUILT_PRODUCTS_DIR:standardizepath)/eaccess.a",
+					"$(BUILT_PRODUCTS_DIR:standardizepath)/libedit.a",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "org.pak.dt.ash";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		84113EF52E8CFB370050C6E0 /* Build configuration list for PBXNativeTarget "libedit.a" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84113EF62E8CFB370050C6E0 /* Debug */,
+				84113EF72E8CFB370050C6E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84113F252E8D10300050C6E0 /* Build configuration list for PBXNativeTarget "mknodes" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84113F262E8D10300050C6E0 /* Debug */,
+				84113F272E8D10300050C6E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84113F432E8D23410050C6E0 /* Build configuration list for PBXNativeTarget "mksyntax" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84113F442E8D23410050C6E0 /* Debug */,
+				84113F452E8D23410050C6E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		842129222E8F3A180006FD06 /* Build configuration list for PBXNativeTarget "eaccess.a" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				842129232E8F3A180006FD06 /* Debug */,
+				842129242E8F3A180006FD06 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		842129322E8F3E400006FD06 /* Build configuration list for PBXAggregateTarget "mktokens" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				842129332E8F3E400006FD06 /* Debug */,
+				842129342E8F3E400006FD06 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		842129382E8F456E0006FD06 /* Build configuration list for PBXAggregateTarget "Dynamic Sources" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				842129392E8F456E0006FD06 /* Debug */,
+				8421293A2E8F456E0006FD06 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		842129492E8F4A280006FD06 /* Build configuration list for PBXAggregateTarget "mkbuiltins" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8421294A2E8F4A280006FD06 /* Debug */,
+				8421294B2E8F4A280006FD06 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84212C412E8F568D0006FD06 /* Build configuration list for PBXAggregateTarget "nodes Sources" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84212C422E8F568D0006FD06 /* Debug */,
+				84212C432E8F568D0006FD06 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84212C502E8F5D200006FD06 /* Build configuration list for PBXAggregateTarget "syntax Sources" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84212C512E8F5D200006FD06 /* Debug */,
+				84212C522E8F5D200006FD06 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		843C493D2E8CF80500FB21F6 /* Build configuration list for PBXProject "ash" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				843C49472E8CF80500FB21F6 /* Debug */,
+				843C49482E8CF80500FB21F6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		843C49492E8CF80500FB21F6 /* Build configuration list for PBXNativeTarget "ash" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				843C494A2E8CF80500FB21F6 /* Debug */,
+				843C494B2E8CF80500FB21F6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 843C493A2E8CF80500FB21F6 /* Project object */;
+}
