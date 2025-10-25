@@ -57,9 +57,37 @@ __FBSDID("$FreeBSD$");
 #include <errno.h>
 #include <stdarg.h>
 
+/* PATCH for safer snprintf */
+#ifndef HAVE_SNPRINTF
+#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+#define HAVE_SNPRINTF 1
+#else
+#define HAVE_SNPRINTF 0
+#endif
+#endif /* !HAVE_SNPRINTF */
+
 #define MAXTYPES 50		/* max number of node types */
 #define MAXFIELDS 20		/* max fields in a structure */
+#ifndef BUFLEN
 #define BUFLEN 100		/* size of character buffers */
+#endif
+
+#if defined(HAVE_SNPRINTF) && HAVE_SNPRINTF
+#if __has_feature(bounds_safety)
+#warning "Bounded use of sprintf via safer_sprintf. This could break some things."
+#endif
+#if !defined(safer_sprintf)
+#define safer_sprintf(B, F, __VA_ARGS__) snprintf(B, BUFLEN, (const char *)(F), __VA_ARGS__)
+#endif
+#else
+#if __has_feature(bounds_safety)
+#warning "Unsafe use of sprintf via safer_sprintf. This compiler or environment is unsupported."
+#else
+#if !defined(safer_sprintf)
+#define safer_sprintf(B, F, __VA_ARGS__) sprintf(B, (const char *)(F), __VA_ARGS__)
+#endif
+#endif
+#endif
 
 /* field types */
 #define T_NODE 1		/* union node *field */
@@ -178,16 +206,16 @@ parsefield(void)
 	fp->name = savestr(name);
 	if (strcmp(type, "nodeptr") == 0) {
 		fp->type = T_NODE;
-		sprintf(decl, "union node *%s", name);
+		safer_sprintf(decl, "union node *%s", name);
 	} else if (strcmp(type, "nodelist") == 0) {
 		fp->type = T_NODELIST;
-		sprintf(decl, "struct nodelist *%s", name);
+		safer_sprintf(decl, "struct nodelist *%s", name);
 	} else if (strcmp(type, "string") == 0) {
 		fp->type = T_STRING;
-		sprintf(decl, "char *%s", name);
+		safer_sprintf(decl, "char *%s", name);
 	} else if (strcmp(type, "int") == 0) {
 		fp->type = T_INT;
-		sprintf(decl, "int %s", name);
+		safer_sprintf(decl, "int %s", name);
 	} else if (strcmp(type, "other") == 0) {
 		fp->type = T_OTHER;
 	} else if (strcmp(type, "temp") == 0) {
