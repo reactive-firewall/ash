@@ -340,6 +340,7 @@
 				shell.h,
 				show.c,
 				show.h,
+				sprintf_shim.h,
 				syntax.c,
 				syntax.h,
 				test.c,
@@ -455,6 +456,7 @@
 				shell.h,
 				show.c,
 				show.h,
+				sprintf_shim.h,
 				syntax.c,
 				syntax.h,
 				test.c,
@@ -528,6 +530,7 @@
 				shell.h,
 				show.c,
 				show.h,
+				sprintf_shim.h,
 				syntax.c,
 				syntax.h,
 				test.c,
@@ -601,6 +604,7 @@
 				shell.h,
 				show.c,
 				show.h,
+				sprintf_shim.h,
 				syntax.c,
 				syntax.h,
 				test.c,
@@ -640,6 +644,11 @@
 				nodes.c.pat = sourcecode.c.c.preprocessed;
 			};
 			path = ash;
+			sourceTree = "<group>";
+		};
+		84F257C62EAABC2100F69D95 /* .github */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = .github;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -720,6 +729,7 @@
 		843C49392E8CF80500FB21F6 = {
 			isa = PBXGroup;
 			children = (
+				84F257C62EAABC2100F69D95 /* .github */,
 				843C49442E8CF80500FB21F6 /* ash */,
 				84113EFE2E8CFCA20050C6E0 /* build-ash.sh */,
 				84113EFF2E8CFCB60050C6E0 /* upstream.webloc */,
