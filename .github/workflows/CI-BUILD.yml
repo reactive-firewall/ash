@@ -10,6 +10,7 @@ run-name: Build ${{ github.ref_name }}
 # BUILD_CERTIFICATE_BASE64
 # P12_PASSWORD
 # KEYCHAIN_PASSWORD
+# GHA_CODE_SIGN_ID
 
 on:  # yamllint disable-line rule:truthy
   push:
@@ -24,6 +25,7 @@ env:
   ENVIRONMENT: ${{ (github.ref == 'refs/heads/BSDLike-Ash' || github.ref == 'refs/heads/XNULike-Ash' || startsWith(github.ref, 'refs/tags/v')) && 'Deployment' || (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/patch-') ) && 'Testing' || 'Experimenting' }}
   # Define C standard edition (e.g., --std=cXY) at the top level -- Expected format: cXY
   C_LANGUAGE_STANDARD: "${{ vars.C_LANGUAGE_STANDARD || 'c99' }}"
+  BUILD_MATCH_PATTERN: ${{ vars.BUILD_MATCH_PATTERN || '*/Debug/ash' }}
 
 jobs:
   BUILD:
@@ -42,8 +44,8 @@ jobs:
         shell: bash
     env:
       LANG: "en_US.UTF-8"
-      BUILD_MATCH_PATTERN: "${{ vars.BUILD_MATCH_PATTERN }}"
       CONFIGURATION: ${{ vars.CONFIGURATION || 'Debug' }}
+      BUILD_MATCH_PATTERN: ${{ vars.BUILD_MATCH_PATTERN || '*/Debug/ash' }}
     outputs:
       build_environment: ${{ env.ENVIRONMENT }}
       build_status: ${{ steps.build.outcome }}
@@ -51,12 +53,13 @@ jobs:
       artifact-url: ${{ steps.upload.outputs.artifact-url }}
       artifact-digest: ${{ steps.upload.outputs.artifact-digest }}
       artifact-files: ${{ steps.buildfiles.outputs.files }}
+      artifact-path: ${{ steps.buildfiles.outputs.archive_path }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           persist-credentials: false
-          depth: 0
+          fetch-depth: 0
           submodules: true
           # TODO ...
       - id: output_c_language
@@ -68,11 +71,14 @@ jobs:
           printf "CLANG_C_LANGUAGE_STANDARD=%s\n" "${C_LANGUAGE_STANDARD}" >> "$GITHUB_ENV"
           printf "GCC_C_LANGUAGE_STANDARD=%s\n" "${C_LANGUAGE_STANDARD}" >> "$GITHUB_ENV"
           printf "TAPI_LANGUAGE_STANDARD=%s\n" "${C_LANGUAGE_STANDARD}" >> "$GITHUB_ENV"
+          printf "This Build will use C STD %s\n" "${C_LANGUAGE_STANDARD}"
           printf "%s\n" "::endgroup::"
       - name: Pre-Clean
         id: clean
         shell: bash
-        run: xcodebuild -project ash.xcodeproj -alltargets -configuration ${CONFIGURATION:-'Debug'} clean 2>/dev/null || true
+        run: |
+          xcodebuild -project ash.xcodeproj -alltargets -configuration ${CONFIGURATION:-'Debug'} clean 2>/dev/null || true
+          xcodebuild -project ash.xcodeproj -target "Dynamic Sources" -configuration ${CONFIGURATION:-'Debug'} -hideShellScriptEnvironment -jobs=1 build "CODE_SIGN_IDENTITY"="-"
       - name: "License"
         id: show-build-license
         shell: bash
@@ -110,7 +116,9 @@ jobs:
           # import certificate to keychain
           security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
           security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          printf "%s\n" "::group::keychain-details"
           security list-keychain -d user -s $KEYCHAIN_PATH
+          printf "%s\n" "::endgroup::"
 
           # apply provisioning profile
           #mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
@@ -120,13 +128,15 @@ jobs:
         shell: bash
         env:
           GHA_CODE_SIGN_ID: ${{ secrets.GHA_CODE_SIGN_ID || '-' }}
-        run: xcodebuild -project ash.xcodeproj -scheme "ash" -configuration ${CONFIGURATION:-'Debug'} build "CODE_SIGN_IDENTITY"="${GHA_CODE_SIGN_ID}" CODE_SIGN_STYLE=Manual
+        run: xcodebuild -project ash.xcodeproj -scheme "ash" -configuration ${CONFIGURATION:-'Debug'} -hideShellScriptEnvironment build "CODE_SIGN_IDENTITY"="${GHA_CODE_SIGN_ID}" CODE_SIGN_STYLE=Manual
       - name: Get BUILD Files
         id: buildfiles
-        if: ${{ !(github.ref == 'refs/heads/XNULike-Ash' || startsWith(github.ref, 'refs/tags/v')) && success() && (github.repository == 'reactive-firewall/ash') }}
+        if: ${{ (github.ref == 'refs/heads/XNULike-Ash' || startsWith(github.ref, 'refs/tags/v')) && success() && (github.repository == 'reactive-firewall/ash') }}
         shell: bash
         run: |
-          FILES=$(git ls-files -oi --exclude-standard -- ${{ env.BUILD_MATCH_PATTERN }} )
+          FILES=$(find "${HOME:-'/Users/runner'}/Library/Developer/Xcode/DerivedData" -type f -ipath "*/ash-*/Build/Products/*" -iname "ash")
+          #FILES=$(git ls-files -oi --exclude-standard -- ${{ env.BUILD_MATCH_PATTERN }} )
+          BUILT_PRODUCT_DIR=$(find "${HOME:-'/Users/runner'}/Library/Developer/Xcode/DerivedData" -type d -ipath "*/ash-*/Build/Products/?e*" -iname ${CONFIGURATION:-'Debug'} | grep -vF ".noindex")
           if [ -z "$FILES" ]; then
             printf "%s\n" "::warning file=.github/workflows/CI-BUILD.yml:: No Built files found."
             printf "%s\n" "files=" >> "$GITHUB_OUTPUT"
@@ -137,10 +147,54 @@ jobs:
             FILES="${FILES//$'\n'/ }"
             printf "%s\n" "files=$FILES" >> "$GITHUB_OUTPUT"
           fi
+          if [ -z "$BUILT_PRODUCT_DIR" ]; then
+            printf "%s\n" "::warning file=.github/workflows/CI-BUILD.yml:: No archive root found."
+            printf "%s\n" "archive_path=" >> "$GITHUB_OUTPUT"
+          else
+            printf "%s\n" "Build directory found:"
+            printf "%s\n" "${BUILT_PRODUCT_DIR}"
+            # Replace line breaks with commas for GitHub Action Output
+            BUILT_PRODUCT_DIR="${BUILT_PRODUCT_DIR//$'\n'/ }"
+            printf "%s\n" "archive_path=$BUILT_PRODUCT_DIR" >> "$GITHUB_OUTPUT"
+            if [ -d "${BUILT_PRODUCT_DIR}"/include ] ; then
+            printf "::debug:: Found %s\n" "${BUILT_PRODUCT_DIR}"/include
+            else
+            mkdir -p -m 755 "${BUILT_PRODUCT_DIR}"/include
+            fi
+            mv -f "${BUILT_PRODUCT_DIR}"/*.h "${BUILT_PRODUCT_DIR}"/include/
+            if [ -x "${BUILT_PRODUCT_DIR}/mknodes" ]; then
+              if [ -d "${BUILT_PRODUCT_DIR}"/tools ] ; then
+                printf "::debug:: Found %s\n" "${BUILT_PRODUCT_DIR}"/tools
+              else
+                mkdir -p -m 755 "${BUILT_PRODUCT_DIR}"/tools
+              fi
+              mv -f "${BUILT_PRODUCT_DIR}"/mk{nodes,syntax} "${BUILT_PRODUCT_DIR}"/tools/
+            fi
+            if [ -x "${BUILT_PRODUCT_DIR}/mksyntax" ]; then
+              if [ -d "${BUILT_PRODUCT_DIR}"/tools ] ; then
+                printf "::debug:: Found %s\n" "${BUILT_PRODUCT_DIR}"/tools
+              else
+                mkdir -p -m 755 "${BUILT_PRODUCT_DIR}"/tools
+              fi
+              mv -f "${BUILT_PRODUCT_DIR}"/mk{nodes,syntax} "${BUILT_PRODUCT_DIR}"/tools/
+            fi
+            if [ -d "${BUILT_PRODUCT_DIR}"/lib ] ; then
+              printf "::debug:: Found %s\n" "${BUILT_PRODUCT_DIR}"/lib
+            else
+              mkdir -p -m 755 "${BUILT_PRODUCT_DIR}"/lib
+            fi
+            mv -f "${BUILT_PRODUCT_DIR}"/*.a "${BUILT_PRODUCT_DIR}"/lib/ 2>dev/null || true ;
+            if [ -d "${BUILT_PRODUCT_DIR}"/symbols ] ; then
+              printf "::debug:: Found %s\n" "${BUILT_PRODUCT_DIR}"/symbols
+            else
+              mkdir -p -m 755 "${BUILT_PRODUCT_DIR}"/symbols
+            fi
+            mv -f "${BUILT_PRODUCT_DIR}"/*.dSYM "${BUILT_PRODUCT_DIR}"/symbols/ 2>dev/null || true ;
+          fi
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
         run: |
-          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db || true
+          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db 2>/dev/null || true
           # rm ~/Library/MobileDevice/Provisioning\ Profiles/build_ash_pp.provisionprofile
       - name: "Hint for pip hashing"
         id: build-sha-hash-hint
@@ -148,14 +202,15 @@ jobs:
         if: ${{ !cancelled() }}
         run: |
           for build_file in ${{ steps.buildfiles.outputs.files }} ; do
-            sha512 ${build_file} ;
+            { /usr/bin/openssl dgst -sha512 ${build_file} | tr -s ')=' '=' | cut -d\( -f2-2 ;} | sed -E -e 's/^([^=]+)([=]{1}\ +)([a-f0-9]+)$/\3  \1/g';
+            codesign -v --verify ${build_file} || true ;  # just check, do not enforce
           done
       - name: Upload build artifact
         id: upload
-        if: ${{ !cancelled() && (steps.buildfiles.outputs.files != '') && (github.repository == 'reactive-firewall/ash') }}
+        if: ${{ !cancelled() && (steps.buildfiles.outputs.archive_path != '') && (github.repository == 'reactive-firewall/ash') }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          path: build
+          path: ${{ steps.buildfiles.outputs.archive_path }}
           name: XNULike-Ash-build-${{ github.sha }}
           if-no-files-found: error
           compression-level: 3
@@ -170,29 +225,30 @@ jobs:
     needs: [BUILD]
     runs-on: ubuntu-latest
     environment: ${{ needs.BUILD.outputs.build_environment }}
+    env:
+      CONFIGURATION: ${{ vars.CONFIGURATION || 'Debug' }}
     if: ${{ !cancelled() && (github.repository == 'reactive-firewall/ash') }}
     outputs:
-      build-artifact-attestation-url: ${{ steps.multicast-build-attest.outputs.attestation-url }}
-      build-artifact-attestation-id: ${{ steps.multicast-build-attest.outputs.attestation-id }}
+      build-artifact-attestation-url: ${{ steps.ash-build-attest.outputs.attestation-url }}
+      build-artifact-attestation-id: ${{ steps.ash-build-attest.outputs.attestation-id }}
     steps:
       - name: Download All Artifacts
+        id: download-ash-product
         uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
-          path: ${{ github.workspace }}/build
-          pattern: XNULike-Ash-build-${{ github.sha }}
-          merge-multiple: true
+          name: XNULike-Ash-build-${{ github.sha }}
       - name: Calculate artifact digests
         run: |
-          shasum -a 512 dist/* > build.checksums.txt
+          { /usr/bin/openssl dgst -sha512 ${{ steps.download-ash-product.outputs.download-path }}/ash | tr -s ')=' '=' | cut -d\( -f2-2 ;} | sed -E -e 's/^([^=]+)([=]{1}\ +)([a-f0-9]+)$/\3  \1/g'; > build.checksums.txt
       - name: "Attest Build Checksums"
-        id: multicast-build-chksum-attest
+        id: ash-build-chksum-attest
         if: ${{ !cancelled() && (github.repository == 'reactive-firewall/ash') && (needs.BUILD.outputs.build_environment == 'Deployment' && startsWith(github.ref, 'refs/tags/v')) }}
         uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a # v3.0.0
         with:
           subject-checksums: build.checksums.txt
           github-token: ${{ github.token }}
       - name: "Attest Build Artifact"
-        id: multicast-build-attest
+        id: ash-build-attest
         if: ${{ !cancelled() && (github.repository == 'reactive-firewall/ash') }}
         uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a # v3.0.0
         with:
@@ -226,7 +282,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if [[ "${{ needs.BUILD.result }}" == "success" && "${{ needs.BOOTSTRAP.result }}" == "success" ]]; then
+          if [[ "${{ needs.BUILD.result }}" == "success" ]]; then
             printf "%s\n" "build_success=true" >> "$GITHUB_OUTPUT"
           else
             printf "%s\n" "build_success=false" >> "$GITHUB_OUTPUT"
@@ -261,9 +317,9 @@ jobs:
       - name: Download All Artifacts
         uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
-          path: ${{ github.workspace }}/dist
-          pattern: multicast-build-${{ github.sha }}
-          merge-multiple: true
+          path: ${{ github.workspace }}/build/${{ vars.CONFIGURATION || 'Debug' }}/ash
+          pattern: XNULike-Ash-build-${{ github.sha }}
+          merge-multiple: false
       - name: Upload build summary
         id: upload-build-info
         if: ${{ !cancelled() && (github.repository == 'reactive-firewall/ash') }}
@@ -286,7 +342,7 @@ jobs:
         run: |
           printf "%s\n\n" "# :building_construction: Build" > "${BUILD_COMMENT_BODY}"
           printf "%s\n" ":ballot_box_with_check: BUILD \`${BUILD_ID}\` succeeded with commit [${BUILD_SHA}](https://github.com/reactive-firewall/ash/commit/${BUILD_SHA})" >> "${BUILD_COMMENT_BODY}"
-          if [[ ( -d dist ) ]] ; then
+          if [[ ( -d build ) ]] ; then
             for BLD_FILE in ${BUILD_ARTIFACT_FILES} ; do
               printf "%s\n" "  * :page_facing_up: Including building the file \`${BLD_FILE}\`" >> "${BUILD_COMMENT_BODY}"
             done

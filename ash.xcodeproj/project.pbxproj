@@ -340,7 +340,6 @@
 				shell.h,
 				show.c,
 				show.h,
-				sprintf_shim.h,
 				syntax.c,
 				syntax.h,
 				test.c,
@@ -456,7 +455,6 @@
 				shell.h,
 				show.c,
 				show.h,
-				sprintf_shim.h,
 				syntax.c,
 				syntax.h,
 				test.c,
@@ -530,7 +528,6 @@
 				shell.h,
 				show.c,
 				show.h,
-				sprintf_shim.h,
 				syntax.c,
 				syntax.h,
 				test.c,
@@ -604,7 +601,6 @@
 				shell.h,
 				show.c,
 				show.h,
-				sprintf_shim.h,
 				syntax.c,
 				syntax.h,
 				test.c,
@@ -1251,7 +1247,6 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_CODE_COVERAGE = NO;
-				ENABLE_C_BOUNDS_SAFETY = YES;
 				ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER = readonly;
 				ENABLE_FILE_ACCESS_MOVIES_FOLDER = readonly;
 				ENABLE_FILE_ACCESS_MUSIC_FOLDER = readonly;
@@ -1260,8 +1255,10 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_USER_SELECTED_FILES = readwrite;
 				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_INPUT_FILETYPE = sourcecode.c.c;
 				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GENERATE_TEXT_BASED_STUBS = YES;
@@ -1326,7 +1323,6 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_CODE_COVERAGE = NO;
-				ENABLE_C_BOUNDS_SAFETY = YES;
 				ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER = readonly;
 				ENABLE_FILE_ACCESS_MOVIES_FOLDER = readonly;
 				ENABLE_FILE_ACCESS_MUSIC_FOLDER = readonly;
@@ -1390,7 +1386,6 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_CODE_COVERAGE = NO;
-				ENABLE_C_BOUNDS_SAFETY = YES;
 				ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER = readonly;
 				ENABLE_FILE_ACCESS_MOVIES_FOLDER = readonly;
 				ENABLE_FILE_ACCESS_MUSIC_FOLDER = readonly;
@@ -1459,7 +1454,6 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_CODE_COVERAGE = NO;
-				ENABLE_C_BOUNDS_SAFETY = YES;
 				ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER = readonly;
 				ENABLE_FILE_ACCESS_MOVIES_FOLDER = readonly;
 				ENABLE_FILE_ACCESS_MUSIC_FOLDER = readonly;
@@ -1468,8 +1462,10 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_USER_SELECTED_FILES = readwrite;
 				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_INPUT_FILETYPE = sourcecode.c.c;
 				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				LD_NO_PIE = NO;
@@ -1608,7 +1604,7 @@
 				GCC_ENABLE_PASCAL_STRINGS = NO;
 				GCC_INPUT_FILETYPE = sourcecode.c.c;
 				GCC_NO_COMMON_BLOCKS = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_OPTIMIZATION_LEVEL = 2;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -1617,7 +1613,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 15.6;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "$(TAPI_LANGUAGE)";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1631,7 +1627,6 @@
 				);
 				OTHER_LDFLAGS = (
 					"-v",
-					"-pie",
 					"-fPIE",
 					"-why_load",
 				);
@@ -1705,10 +1700,7 @@
 					"-fdata-sections",
 					"-fPIC",
 				);
-				OTHER_LDFLAGS = (
-					"-pie",
-					"-fPIE",
-				);
+				OTHER_LDFLAGS = "-fPIE";
 				SDKROOT = macosx;
 				SRCDIR = "$(SRCROOT)/ash";
 				STRIP_STYLE = debugging;
@@ -1796,7 +1788,6 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Automatic;
 				ENABLE_CODE_COVERAGE = NO;
-				ENABLE_C_BOUNDS_SAFETY = YES;
 				ENABLE_FILE_ACCESS_DOWNLOADS_FOLDER = readonly;
 				ENABLE_FILE_ACCESS_MOVIES_FOLDER = readonly;
 				ENABLE_FILE_ACCESS_MUSIC_FOLDER = readonly;
@@ -1805,8 +1796,10 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_USER_SELECTED_FILES = readwrite;
 				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_INPUT_FILETYPE = sourcecode.c.c;
 				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				LD_NO_PIE = NO;
