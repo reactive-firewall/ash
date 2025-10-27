@@ -55,6 +55,35 @@ __FBSDID("$FreeBSD$");
 #include <string.h>
 #include "parser.h"
 
+/* PATCH for safer snprintf */
+#ifndef HAVE_SNPRINTF
+#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+#define HAVE_SNPRINTF 1
+#else
+#define HAVE_SNPRINTF 0
+#endif
+#endif /* !HAVE_SNPRINTF */
+
+#ifndef BUFLEN
+#define BUFLEN 100		/* size of character buffers */
+#endif
+
+#if defined(HAVE_SNPRINTF) && HAVE_SNPRINTF
+#if __has_feature(bounds_safety)
+#warning "Bounded use of sprintf via safer_sprintf. This could break some things."
+#endif
+#if !defined(safer_sprintf)
+#define safer_sprintf(B, F, __VA_ARGS__) snprintf(B, BUFLEN, (const char *)(F), __VA_ARGS__)
+#endif
+#else
+#if __has_feature(bounds_safety)
+#warning "Unsafe use of sprintf via safer_sprintf. This compiler or environment is unsupported."
+#else
+#if !defined(safer_sprintf)
+#define safer_sprintf(B, F, __VA_ARGS__) sprintf(B, (const char *)(F), __VA_ARGS__)
+#endif
+#endif
+#endif
 
 struct synclass {
 	const char *name;
@@ -117,8 +146,9 @@ int
 main(int argc __unused, char **argv __unused)
 {
 	int i;
-	char buf[80];
 	int pos;
+	const int S_LN_BUFLEN = 80;
+	char buf[S_LN_BUFLEN];
 
 	/* Create output files */
 	if ((cfile = fopen("syntax.c", "w")) == NULL) {
@@ -138,7 +168,11 @@ main(int argc __unused, char **argv __unused)
 	/* Generate the #define statements in the header file */
 	fputs("/* Syntax classes */\n", hfile);
 	for (i = 0 ; synclass[i].name ; i++) {
-		sprintf(buf, "#define %s %d", synclass[i].name, i);
+#if HAVE_SNPRINTF
+		snprintf(buf, S_LN_BUFLEN, "#define %s %d", synclass[i].name, i);
+#else
+		safer_sprintf(buf, "#define %s %d", synclass[i].name, i);
+#endif
 		fputs(buf, hfile);
 		for (pos = strlen(buf) ; pos < 32 ; pos = (pos + 8) & ~07)
 			putc('\t', hfile);
@@ -147,7 +181,11 @@ main(int argc __unused, char **argv __unused)
 	putc('\n', hfile);
 	fputs("/* Syntax classes for is_ functions */\n", hfile);
 	for (i = 0 ; is_entry[i].name ; i++) {
-		sprintf(buf, "#define %s %#o", is_entry[i].name, 1 << i);
+#if HAVE_SNPRINTF
+		snprintf(buf, S_LN_BUFLEN, "#define %s %#o", is_entry[i].name, 1 << i);
+#else
+		safer_sprintf(buf, "#define %s %#o", is_entry[i].name, 1 << i);
+#endif
 		fputs(buf, hfile);
 		for (pos = strlen(buf) ; pos < 32 ; pos = (pos + 8) & ~07)
 			putc('\t', hfile);
