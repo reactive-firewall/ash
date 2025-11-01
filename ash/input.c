@@ -45,6 +45,11 @@ __FBSDID("$FreeBSD$");
 #include <stdlib.h>
 #include <string.h>
 
+/* PATCH for musl like implementation of strings.h */
+#if (!defined(strchrnul) && defined(__strchrnul))
+#define strchrnul	__strchrnul
+#endif
+
 /*
  * This file implements the input routines used by the parser.
  */
