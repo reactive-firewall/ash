@@ -64,6 +64,36 @@ __FBSDID("$FreeBSD$");
 #define MAXHISTLOOPS	4	/* max recursions through fc */
 #define DEFEDITOR	"ed"	/* default editor *should* be $EDITOR */
 
+/* PATCH for safer snprintf */
+#ifndef HAVE_SNPRINTF
+#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+#define HAVE_SNPRINTF 1
+#else
+#define HAVE_SNPRINTF 0
+#endif
+#endif /* !HAVE_SNPRINTF */
+
+#ifndef BUFLEN
+#define BUFLEN 256		/* size of history buffers */
+#endif
+
+#if defined(HAVE_SNPRINTF) && HAVE_SNPRINTF
+#if __has_feature(bounds_safety)
+#warning "Bounded use of sprintf via safer_sprintf. This could break some things."
+#endif
+#if !defined(safer_sprintf)
+#define safer_sprintf(B, F, __VA_ARGS__) snprintf(B, BUFLEN, (const char *)(F), __VA_ARGS__)
+#endif
+#else
+#if __has_feature(bounds_safety)
+#warning "Unsafe use of sprintf via safer_sprintf. This compiler or environment is unsupported."
+#else
+#if !defined(safer_sprintf)
+#define safer_sprintf(B, F, __VA_ARGS__) sprintf(B, (const char *)(F), __VA_ARGS__)
+#endif
+#endif
+#endif
+
 History *hist;	/* history cookie */
 EditLine *el;	/* editline cookie */
 int displayhist;
