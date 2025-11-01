@@ -5,7 +5,7 @@
 
 set -e
 
-# === Config — adjust as needed ===
+# === Config adjust as needed ===
 SRCDIR="${PWD}/ash"          # location of the provided Makefile and .c/.h files
 OUTDIR="${PWD}/obj/ash"      # where .o and final binary go
 CHMOD="${CHMOD:-chmod}"
