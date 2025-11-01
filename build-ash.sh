@@ -15,11 +15,15 @@ AR="${AR:-ar}"
 CC="${CC:-cc}"
 CFLAGS="-O2 -DSHELL -I${SRCDIR} -I. -fPIE -ffunction-sections -fdata-sections -fPIC"
 LDFLAGS="-Os -pie -fPIE"
-LIBS="-ledit -lreadline"     # set to "" if libedit not available
-if [[ ( -x "${YACC:-yacc}" ) ]] ; then
+ASH_LINE_LIB="${ASH_LINE_LIB:-readline}"
+LIBS="-ledit"     # set to "" if libedit not available
+if [ -n $ASH_LINE_LIB ]; then
+	LIBS="${LIBS} -weak-l${ASH_LINE_LIB}"
+fi
+if [ -x $(which "${YACC:-yacc}") ]; then
 	YACC="${YACC:-yacc}"     # or bison -y
 else
-  if [[ ( -x $(which "bison") ) ]] ; then
+  if [ -x $(which "bison") ]; then
     YACC="bison -y"          # or bison -y
   fi
 fi
@@ -48,7 +52,7 @@ done
 
 # PATCHED Build shims from their .c if present
 SHIM_LIBS="${SHIM_LIBS} -L${OUTDIR}"
-for tool in eaccess libedit; do
+for tool in eaccess; do
   src="${tool}_shim.c"
   hdr="${tool}_shim.h"
   lib="${tool}.a"
@@ -128,6 +132,7 @@ done
 # 5) Link
 echo "linking sh..."
 cd "${OUTDIR}"
+#-weak-leditline
 if ${CC} -o sh ${OBJLIST} ${LDFLAGS} ${LIBS} 2>/dev/null; then
   echo "linked with ${LIBS}"
 else
