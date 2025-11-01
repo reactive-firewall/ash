@@ -1,0 +1,315 @@
+---
+name: "Build BSDLike (sh)"
+description: "Continuous Integration workflow for building, the BSD-Like A Shell."
+run-name: Build ${{ github.ref_name }}
+#
+# Jobs included:
+# - BUILD: Ensures the project compiles correctly
+#
+# Required Secrets:
+# None
+
+on:  # yamllint disable-line rule:truthy
+  push:
+    branches: ["BSDLike-Ash", "XNULike-Ash", "MuslLike-Ash", "patch-*"]  # matches most branches
+    tags: ["v*"]
+
+# Declare default permissions as none.
+permissions: {}
+
+env:
+  # dynamic environment value
+  ENVIRONMENT: ${{ (github.ref == 'refs/heads/BSDLike-Ash' || github.ref == 'refs/heads/XNULike-Ash' || startsWith(github.ref, 'refs/tags/v')) && 'Deployment' || (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/patch-') ) && 'Testing' || 'Experimenting' }}
+  # Define C standard edition (e.g., --std=cXY) at the top level -- Expected format: cXY
+  C_LANGUAGE_STANDARD: "${{ vars.C_LANGUAGE_STANDARD || 'c99' }}"
+  BUILD_MATCH_PATTERN: ${{ vars.BUILD_MATCH_PATTERN || './obj/ash/sh' }}
+
+jobs:
+  BUILD:
+    permissions:
+      actions: read
+      contents: read
+      statuses: write
+      packages: none
+      pull-requests: read
+      security-events: none
+    if: ${{ !cancelled() && (github.repository == 'reactive-firewall/ash') }}
+    runs-on: macos-latest
+    environment: ${{ (github.ref == 'refs/heads/BSDLike-Ash' || startsWith(github.ref, 'refs/tags/v')) && 'Deployment' || (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/main') || github.ref == 'refs/heads/XNULike-Ash' || startsWith(github.ref, 'refs/heads/patch-') ) && 'Testing' || 'Experimenting' }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      LANG: "en_US.UTF-8"
+      CONFIGURATION: ${{ vars.CONFIGURATION || 'Debug' }}
+      BUILD_MATCH_PATTERN: ${{ vars.BUILD_MATCH_PATTERN || './obj/ash/sh' }}
+    outputs:
+      build_environment: ${{ env.ENVIRONMENT }}
+      build_status: ${{ steps.build.outcome }}
+      artifact-id: ${{ steps.upload.outputs.artifact-id }}
+      artifact-url: ${{ steps.upload.outputs.artifact-url }}
+      artifact-digest: ${{ steps.upload.outputs.artifact-digest }}
+      artifact-files: ${{ steps.buildfiles.outputs.files }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          submodules: true
+          # TODO ...
+      - id: output_c_language
+        name: "Bootstrap C language standard"
+        shell: bash
+        run: |
+          printf "%s\n" "::group::bootstrap-c-env"
+          printf "c-language-standard=%s\n" "${C_LANGUAGE_STANDARD}" >> "$GITHUB_OUTPUT"
+          printf "CLANG_C_LANGUAGE_STANDARD=%s\n" "${C_LANGUAGE_STANDARD}" >> "$GITHUB_ENV"
+          printf "GCC_C_LANGUAGE_STANDARD=%s\n" "${C_LANGUAGE_STANDARD}" >> "$GITHUB_ENV"
+          printf "TAPI_LANGUAGE_STANDARD=%s\n" "${C_LANGUAGE_STANDARD}" >> "$GITHUB_ENV"
+          printf "This Build will use C STD %s\n" "${C_LANGUAGE_STANDARD}"
+          printf "%s\n" "::endgroup::"
+      - name: Pre-Clean
+        id: clean
+        shell: bash
+        run: |
+          rm -vf $(git ls-files -oi --exclude-standard -- ash) 2>/dev/null || true
+          rm -vfrd ./obj/ 2>/dev/null || true
+      - name: "License"
+        id: show-build-license
+        shell: bash
+        if: ${{ !cancelled() && (github.repository == 'reactive-firewall/ash') }}
+        run: |
+          if [[ -r LICENSE.md ]] ; then
+            printf "\n\n"
+            cat <LICENSE.md ;
+            printf "\n\n"
+          else
+            printf "%s\n" "::warning title=UNLICENSED:: This is an UNLICENSED Build"
+          fi
+      - name: Build
+        id: build
+        shell: bash
+        run: ./build-ash.sh
+      - name: Get BUILD Files
+        id: buildfiles
+        if: ${{ (github.ref == 'refs/heads/BSDLike-Ash' || github.ref == 'refs/heads/XNULike-Ash' || startsWith(github.ref, 'refs/tags/v')) && success() && (github.repository == 'reactive-firewall/ash') }}
+        shell: bash
+        run: |
+          FILES=$(git ls-files -o --exclude-standard -- ${{ env.BUILD_MATCH_PATTERN }} )
+          if [ -z "$FILES" ]; then
+            printf "%s\n" "::warning file=.github/workflows/CI-BUILD.yml:: No Built files found."
+            printf "%s\n" "files=" >> "$GITHUB_OUTPUT"
+          else
+            printf "%s\n" "Built files found:"
+            printf "%s\n" "$FILES"
+            # Replace line breaks with commas for GitHub Action Output
+            FILES="${FILES//$'\n'/ }"
+            printf "%s\n" "files=$FILES" >> "$GITHUB_OUTPUT"
+          fi
+      - name: "Hint for pip hashing"
+        id: build-sha-hash-hint
+        shell: bash
+        if: ${{ !cancelled() && (steps.buildfiles.outputs.files != '') }}
+        run: |
+          for build_file in ${{ steps.buildfiles.outputs.files }} ; do
+            { /usr/bin/openssl dgst -sha512 ${build_file} | tr -s ')=' '=' | cut -d\( -f2-2 ;} | sed -E -e 's/^([^=]+)([=]{1}\ +)([a-f0-9]+)$/\3  \1/g';
+          done
+      - name: Upload build artifact
+        id: upload
+        if: ${{ !cancelled() && (steps.buildfiles.outputs.files != '') && (github.repository == 'reactive-firewall/ash') }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          path: ${{ steps.buildfiles.outputs.files }}
+          name: BSDLike-Ash-build-${{ github.sha }}
+          if-no-files-found: error
+          compression-level: 3
+          overwrite: true
+
+  BUILD_ATTEST:
+    permissions:
+      actions: read
+      id-token: write
+      contents: read
+      attestations: write
+    needs: [BUILD]
+    runs-on: ubuntu-latest
+    environment: ${{ needs.BUILD.outputs.build_environment }}
+    env:
+      CONFIGURATION: ${{ vars.CONFIGURATION || 'Debug' }}
+    if: ${{ !cancelled() && (github.repository == 'reactive-firewall/ash') }}
+    outputs:
+      build-artifact-attestation-url: ${{ steps.ash-build-attest.outputs.attestation-url }}
+      build-artifact-attestation-id: ${{ steps.ash-build-attest.outputs.attestation-id }}
+    steps:
+      - name: Download All Artifacts
+        id: download-ash-product
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: BSDLike-Ash-build-${{ github.sha }}
+      - name: Calculate artifact digests
+        run: |
+          { /usr/bin/openssl dgst -sha512 ${{ steps.download-ash-product.outputs.download-path }}/sh | tr -s ')=' '=' | cut -d\( -f2-2 ;} | sed -E -e 's/^([^=]+)([=]{1}\ +)([a-f0-9]+)$/\3  \1/g'; > build.checksums.txt
+      - name: "Attest Build Checksums"
+        id: ash-build-chksum-attest
+        if: ${{ !cancelled() && (github.repository == 'reactive-firewall/ash') && (needs.BUILD.outputs.build_environment == 'Deployment' && startsWith(github.ref, 'refs/tags/v')) }}
+        uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a # v3.0.0
+        with:
+          subject-checksums: build.checksums.txt
+          github-token: ${{ github.token }}
+      - name: "Attest Build Artifact"
+        id: ash-build-attest
+        if: ${{ !cancelled() && (github.repository == 'reactive-firewall/ash') }}
+        uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a # v3.0.0
+        with:
+          subject-name: BSDLike-Ash-build-${{ github.sha }}
+          subject-digest: sha256:${{ needs.BUILD.outputs.artifact-digest }}
+          github-token: ${{ github.token }}
+          show-summary: false
+
+  BUILD_STATUS:
+    permissions:
+      actions: read
+      contents: read
+      pull-requests: read
+    needs: [BUILD, BUILD_ATTEST]
+    runs-on: ubuntu-latest
+    environment: ${{ needs.BUILD.outputs.build_environment }}
+    if: ${{ !cancelled() && (github.repository == 'reactive-firewall/ash') }}
+    outputs:
+      didBUILD: ${{ steps.check_status.outputs.build_success }}
+      build_ref: ${{ steps.check_status.outputs.build_ref }}
+      build_ref_name: ${{ steps.check_status.outputs.build_ref_name }}
+      build-artifact-filename: ${{ steps.check_status.outputs.build_artifact_filename }}
+      build-artifact-id: ${{ needs.BUILD.outputs.artifact-id }}
+      build-artifact-url: ${{ needs.BUILD.outputs.artifact-url }}
+      build-artifact-digest: ${{ needs.BUILD.outputs.artifact-digest }}
+      build-artifact-attestation-url: ${{ needs.BUILD_ATTEST.outputs.build-artifact-attestation-url || '' }}
+      build-artifact-attestation-id: ${{ needs.BUILD_ATTEST.outputs.build-artifact-attestation-id || '' }}
+      environment: ${{ steps.check_status.outputs.build_environment }}
+    steps:
+      - id: check_status
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [[ "${{ needs.BUILD.result }}" == "success" ]]; then
+            printf "%s\n" "build_success=true" >> "$GITHUB_OUTPUT"
+          else
+            printf "%s\n" "build_success=false" >> "$GITHUB_OUTPUT"
+          fi
+          printf "%s\n" "build_url=${{ github.api_url }}" >> "$GITHUB_OUTPUT"
+          printf "%s\n" "build_ref=${{ github.ref }}" >> "$GITHUB_OUTPUT"
+          printf "%s\n" "build_sha=${{ github.sha }}" >> "$GITHUB_OUTPUT"
+          printf "%s\n" "build_ref_name=${{ github.ref_name }}" >> "$GITHUB_OUTPUT"
+          printf "%s\n" "build_artifact_filename=BSDLike-Ash-build-${{ github.sha }}.zip" >> "$GITHUB_OUTPUT"
+          printf "%s\n" "build_artifact_url=${{ needs.BUILD.outputs.artifact-url }}" >> "$GITHUB_OUTPUT"
+          printf "%s\n" "build_artifact_id=${{ needs.BUILD.outputs.artifact-id }}" >> "$GITHUB_OUTPUT"
+          printf "%s\n" "build_artifact_digest=${{ needs.BUILD.outputs.artifact-digest }}" >> "$GITHUB_OUTPUT"
+          if [[ "${{ needs.BUILD_ATTEST.result }}" == "success" ]] ; then
+            printf "%s\n" "build-artifact-attestation-url=${{ needs.BUILD_ATTEST.outputs.build-artifact-attestation-url }}" >> "$GITHUB_OUTPUT"
+            printf "%s\n" "build-artifact-attestation-id=${{ needs.BUILD_ATTEST.outputs.build-artifact-attestation-id }}" >> "$GITHUB_OUTPUT"
+          fi
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            printf "%s\n" "build_pr_number=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
+          else
+            PRS_LIST=$(gh api "/repos/reactive-firewall/ash/pulls?state=open&head=reactive-firewall:${{ github.ref_name }}" --jq '.[].number')
+            # Determine the highest pull request number or set to null
+            if [[ -n "${PRS_LIST}" ]]; then
+              highest_pr_number=$(printf "%s\n" "$PRS_LIST" | sort -n | tail -n 1)
+              printf "%s\n" "build_pr_number=$highest_pr_number" >> $GITHUB_OUTPUT
+            else
+              printf "%s\n" "build_pr_number=null" >> $GITHUB_OUTPUT
+            fi
+          fi
+          printf "%s\n" "build_environment=${ENVIRONMENT}" >> "$GITHUB_OUTPUT"
+          printf "%s\n" "build_id=${{ github.run_id }}" >> "$GITHUB_OUTPUT"
+          cat <"$GITHUB_OUTPUT" >> "BUILD-info.txt"
+      - name: Download All Artifacts
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          path: ${{ github.workspace }}/build/${{ vars.CONFIGURATION || 'Debug' }}/ash
+          pattern: BSDLike-Ash-build-${{ github.sha }}
+          merge-multiple: false
+      - name: Upload build summary
+        id: upload-build-info
+        if: ${{ !cancelled() && (github.repository == 'reactive-firewall/ash') }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          path: "BUILD-info.txt"
+          name: ash-info-${{ github.sha }}
+          if-no-files-found: error
+          compression-level: 3
+          retention-days: 1
+          overwrite: true
+      - name: "Summarize Build"
+        id: summarize-build-success
+        env:
+          BUILD_ID: ${{ github.run_id }}
+          BUILD_SHA: ${{ github.sha }}
+          BUILD_ARTIFACT_FILES: ${{ needs.BUILD.outputs.artifact-files }}
+          BUILD_COMMENT_BODY: '${{ github.workspace }}/Build-Summary-Artifact.txt'
+        shell: bash
+        run: |
+          printf "%s\n\n" "# :building_construction: Build" > "${BUILD_COMMENT_BODY}"
+          printf "%s\n" ":ballot_box_with_check: BUILD \`${BUILD_ID}\` succeeded with commit [${BUILD_SHA}](https://github.com/reactive-firewall/ash/commit/${BUILD_SHA})" >> "${BUILD_COMMENT_BODY}"
+          if [[ ( -d build ) ]] ; then
+            for BLD_FILE in ${BUILD_ARTIFACT_FILES} ; do
+              printf "%s\n" "  * :page_facing_up: Including building the file \`${BLD_FILE}\`" >> "${BUILD_COMMENT_BODY}"
+            done
+            printf "%s\n" "  * :package: Including producing the build artifact [BSDLike-Ash-build-${BUILD_SHA}](https://github.com/reactive-firewall/ash/actions/runs/${BUILD_ID}#artifacts)" >> "${BUILD_COMMENT_BODY}"
+            if [[ "${{ needs.BUILD_ATTEST.result }}" == "success" ]] ; then
+              printf "%s\n" "    * :receipt: Build Attestation Created [\`${{ needs.BUILD_ATTEST.outputs.build-artifact-attestation-id }}\`](${{ needs.BUILD_ATTEST.outputs.build-artifact-attestation-url }})" >> "${BUILD_COMMENT_BODY}"
+            else
+              printf "%s\n" "    * :no_entry_sign: Build Unattested" >> "${BUILD_COMMENT_BODY}"
+            fi
+          fi
+          cat <"${BUILD_COMMENT_BODY}" >> "$GITHUB_STEP_SUMMARY"
+        if: ${{ success() && (github.repository == 'reactive-firewall/ash') }}
+      - name: "Summarize Build (FAILED)"
+        id: summarize-build-failure
+        env:
+          BUILD_ID: ${{ github.run_id }}
+          BUILD_SHA: ${{ github.sha }}
+          BUILD_COMMENT_BODY: '${{ github.workspace }}/Build-Summary-Artifact.txt'
+        shell: bash
+        run: |
+          printf "%s\n" "# :construction: Build" > "${BUILD_COMMENT_BODY}"
+          printf "%s\n" ":x: ~BUILD \`${BUILD_ID}\` succeeded with commit [${BUILD_SHA}](https://github.com/reactive-firewall/ash/commit/${BUILD_SHA})~" > "${BUILD_COMMENT_BODY}"
+          cat <"${BUILD_COMMENT_BODY}" >> "$GITHUB_STEP_SUMMARY"
+        if: ${{ failure() && (github.repository == 'reactive-firewall/ash') }}
+      - name: Upload build summary
+        id: upload-build-summary
+        if: ${{ !cancelled() && (github.repository == 'reactive-firewall/ash') }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          path: ./Build-Summary-Artifact.txt
+          name: BSD-BUILD-COMMENT-BODY-${{ github.sha }}
+          if-no-files-found: error
+          compression-level: 3
+          retention-days: 1
+          overwrite: true
+
+  BUILD_SUMMARY:
+    permissions:
+      actions: read
+      contents: write
+    needs: [BUILD_STATUS]
+    runs-on: ubuntu-latest
+    environment: ${{ needs.BUILD_STATUS.outputs.environment }}
+    if: ${{ !cancelled() && (github.repository == 'reactive-firewall/ash') }}
+    steps:
+      - name: "Download Status Summary Artifact"
+        id: download-build-summary
+        if: ${{ !cancelled() && (github.repository == 'reactive-firewall/ash') }}
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: BSD-BUILD-COMMENT-BODY-${{ github.sha }}
+          github-token: ${{ github.token }}
+      - name: "Build commit comment"
+        id: build-commit-comment
+        if: ${{ success() && (github.repository == 'reactive-firewall/ash') }}
+        uses: peter-evans/commit-comment@f6d60c65d05bb59f750fa51ad3de1d443ba0eb52 # v4.0.0
+        with:
+          sha: ${{ github.sha }}
+          token: ${{ github.token }}
+          body-path: '${{ steps.download-build-summary.outputs.download-path }}/Build-Summary-Artifact.txt'
