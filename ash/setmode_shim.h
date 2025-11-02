@@ -13,7 +13,9 @@
 extern "C" {
 #endif
 
+#if __has_include(<sys/types.h>)
 #include <sys/types.h> /* for mode_t */
+#endif
 
 #ifndef HAVE_GETMODE
 /* If the system provides getmode/setmode, prefer those by defining HAVE_GETMODE
