@@ -137,7 +137,7 @@ jobs:
     environment: ${{ needs.BUILD.outputs.build_environment }}
     env:
       CONFIGURATION: ${{ vars.CONFIGURATION || 'Debug' }}
-    if: ${{ !cancelled() && (github.repository == 'reactive-firewall/ash') }}
+    if: ${{ !cancelled() && (needs.BUILD.outputs.artifact-files != '') && (github.repository == 'reactive-firewall/ash') }}
     outputs:
       build-artifact-attestation-url: ${{ steps.ash-build-attest.outputs.attestation-url }}
       build-artifact-attestation-id: ${{ steps.ash-build-attest.outputs.attestation-id }}
