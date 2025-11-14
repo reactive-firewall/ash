@@ -13,8 +13,8 @@ BIN_MODE="${BIN_MODE:-751}"
 TOUCH="${TOUCH:-touch}"      # needs -r and -h options
 AR="${AR:-ar}"
 CC="${CC:-cc}"
-CFLAGS="-O2 -DSHELL -I${SRCDIR} -I. -fPIE -ffunction-sections -fdata-sections -fPIC"
-LDFLAGS="-Os -pie -fPIE"
+CFLAGS="-O2 -DSHELL -I${SRCDIR} -I. -ffunction-sections -fdata-sections -fPIC"
+LDFLAGS="-fuse-ld=lld -fPIE"
 ASH_LINE_LIB="${ASH_LINE_LIB:-readline}"
 LIBS="-ledit"     # set to "" if libedit not available
 if [ -n $ASH_LINE_LIB ]; then
@@ -72,10 +72,10 @@ for tool in eaccess setmode; do
   lib="${tool}.a"
   if [ -f "${src}" ]; then
     echo "building shim: ${src}"
-    if [ -f "${hdr}" ]; then
-      ${CC} --std=c11 -fcommon -I${SRCDIR} -I. -fPIE -c "${SRCDIR}/${src}" -o "${OUTDIR}/${tool}"
+    if [ -f "${hdr}" ] ; then
+      ${CC} --std=c11 -ffunction-sections -fdata-sections -fPIC -fcommon -I${SRCDIR} -I. -fkeep-static-consts -c "${SRCDIR}/${src}" -o "${OUTDIR}/${tool}"
     else
-      ${CC} --std=c11 -fcommon -I${SRCDIR} -fPIE -c "${SRCDIR}/${src}" -o "${OUTDIR}/${tool}"
+      ${CC} --std=c11 -ffunction-sections -fdata-sections -fPIC -fcommon -I${SRCDIR} -c "${SRCDIR}/${src}" -o "${OUTDIR}/${tool}"
     fi
     ${AR} rcs "${OUTDIR}/${lib}" "${OUTDIR}/${tool}"
     SHIM_LIBS="${lib} ${SHIM_LIBS}"
@@ -155,11 +155,11 @@ done
 echo "linking sh..."
 cd "${OUTDIR}"
 #-weak-leditline
-if ${CC} -o sh ${OBJLIST} ${LDFLAGS} ${LIBS} 2>/dev/null; then
+if ${CC} -o sh -fPIE ${OBJLIST} ${LDFLAGS} ${LIBS} 2>/dev/null; then
   echo "linked successfully with ${LIBS}"
 else
   echo "linking failed, showing verbose output:"
-  ${CC} -o sh ${OBJLIST} ${LDFLAGS} ${LIBS} || true
+  ${CC} -o sh -fPIE ${OBJLIST} ${LDFLAGS} ${LIBS} || true
   exit 2;
 fi
 
