@@ -1,0 +1,82 @@
+name: FreeBSD QEMU matrix CI
+
+on:
+  push:
+  pull_request:
+
+# Declare default permissions as none.
+permissions: {}
+
+jobs:
+  freebsd-matrix:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      statuses: write
+      packages: none
+      pull-requests: read
+      security-events: none
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x86_64, aarch64]
+        freebsd_release: ["14.0", "15.0"]
+
+    env:
+      VM_NAME: freebsd-ci-${{ matrix.arch }}-${{ matrix.freebsd_release }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          submodules: false
+
+      - name: Install minimal QEMU tools
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y --no-install-recommends qemu-utils pv
+
+      - name: Start FreeBSD VM (QEMU) and run repo script
+        id: freebsd_vm
+        uses: vmactions/freebsd-vm@a6de9343ef5747433d9c25784c90e84998b9d69a # v1.4.6
+        with:
+          arch: ${{ matrix.arch }}
+          release: ${{ matrix.freebsd_release }}
+          name: ${{ env.VM_NAME }}
+          mem: 8192                # request 8GB RAM for the guest
+          # disk-size: 32G         # request 32GB disk image
+          sync-time: true
+          usesh: true
+          disable-cache: true      # don't use apt
+          # wait-for-ssh: false    # not using SSH; use run: block below
+          run: |
+            set -eux
+            # set -e -u -x: fail fast, treat unset vars as error, show commands
+            printf "%s\n" "CI: start $(date -u)"
+            uname -a
+            freebsd-version || true
+            # Ensure scripts are executable
+            chmod +x ./run-ci.sh
+            ./run-ci.sh 2>&1 | tee test-output-${{ matrix.arch }}.log
+            printf "%s\n" "CI: end $(date -u)"
+
+      - name: Upload test logs
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: freebsd-test-logs-${{ matrix.arch }}-${{ matrix.freebsd_release }}
+          path: ./test-output-${{ matrix.arch }}.log
+          # path pattern depends on action's sync destination; adjust if needed.
+
+      - name: Ensure VM shutdown & cleanup (always)
+        if: ${{ always() }}
+        run: |
+          set -eux
+          # The community action should provide cleanup automatically on action exit.
+          # As a safety net, remove local disk images or qemu leftovers the job may have created.
+          sudo pkill -f qemu || true
+          sudo rm -f ./*.qcow2 || true
+          df -h || true
