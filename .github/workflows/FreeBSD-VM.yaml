@@ -11,7 +11,7 @@ run-name: Build ${{ github.ref_name }}
 
 on:  # yamllint disable-line rule:truthy
   push:
-    branches: ["BSDLike-Ash", "XNULike-Ash", "FreeBSD-Ash", "patch-*", "feature-freebsd-vm-*"]  # matches most branches
+    branches: ["FreeBSD-Ash", "patch-*", "feature-freebsd-vm-*"]  # matches most branches
     tags: ["v*"]
 
 # Declare default permissions as none.
@@ -19,7 +19,7 @@ permissions: {}
 
 env:
   # dynamic environment value
-  ENVIRONMENT: ${{ (github.ref == 'refs/heads/BSDLike-Ash' || github.ref == 'refs/heads/XNULike-Ash' || startsWith(github.ref, 'refs/tags/v')) && 'Deployment' || (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/patch-') || startsWith(github.ref, 'refs/heads/feature-freebsd-vm-') ) && 'Testing' || 'Experimenting' }}
+  ENVIRONMENT: ${{ (github.ref == 'refs/heads/FreeBSD-Ash' || startsWith(github.ref, 'refs/tags/v')) && 'Deployment' || (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/patch-') || startsWith(github.ref, 'refs/heads/feature-freebsd-vm-') ) && 'Testing' || 'Experimenting' }}
   # Define C standard edition (e.g., --std=cXY) at the top level -- Expected format: cXY
   C_LANGUAGE_STANDARD: "${{ vars.C_LANGUAGE_STANDARD || 'c99' }}"
   BUILD_MATCH_PATTERN: ${{ vars.BUILD_MATCH_PATTERN || './obj/ash/sh' }}
@@ -35,7 +35,7 @@ jobs:
       security-events: none
     if: ${{ !cancelled() && (github.repository == 'reactive-firewall/ash') }}
     runs-on: ubuntu-latest
-    environment: ${{ (github.ref == 'refs/heads/BSDLike-Ash' || startsWith(github.ref, 'refs/tags/v')) && 'Deployment' || (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/main') || github.ref == 'refs/heads/XNULike-Ash' || startsWith(github.ref, 'refs/heads/patch-') || startsWith(github.ref, 'refs/heads/feature-freebsd-vm-') ) && 'Testing' || 'Experimenting' }}
+    environment: ${{ (github.ref == 'refs/heads/FreeBSD-Ash' || startsWith(github.ref, 'refs/tags/v')) && 'Deployment' || (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/main') || github.ref == 'refs/heads/XNULike-Ash' || startsWith(github.ref, 'refs/heads/patch-') || startsWith(github.ref, 'refs/heads/feature-freebsd-vm-') ) && 'Testing' || 'Experimenting' }}
     defaults:
       run:
         shell: bash
@@ -100,9 +100,10 @@ jobs:
           fi
       - name: Start FreeBSD VM (QEMU) and run repo script
         id: build
-        if: ${{ !cancelled() && (github.repository == 'reactive-firewall/ash') }}
+        if: ${{ (github.ref == 'refs/heads/FreeBSD-Ash' || startsWith(github.ref, 'refs/heads/feature-freebsd-vm-') || startsWith(github.ref, 'refs/tags/v')) && !cancelled() && (github.repository == 'reactive-firewall/ash') }}
         uses: vmactions/freebsd-vm@a6de9343ef5747433d9c25784c90e84998b9d69a # v1.4.6
         with:
+          envs: 'C_LANGUAGE_STANDARD CONFIGURATION CLANG_C_LANGUAGE_STANDARD TAPI_LANGUAGE_STANDARD GCC_C_LANGUAGE_STANDARD'
           arch: ${{ matrix.arch }}
           release: ${{ matrix.freebsd_release }}
           #name: ${{ env.VM_NAME }}
@@ -134,7 +135,7 @@ jobs:
             printf "%s\n" "CI: end $(date -u)"
       - name: Get BUILD Files
         id: buildfiles
-        if: ${{ (github.ref == 'refs/heads/BSDLike-Ash' || github.ref == 'refs/heads/XNULike-Ash' || github.ref == 'refs/heads/FreeBSD-Ash' || startsWith(github.ref, 'refs/heads/feature-freebsd-vm-') || startsWith(github.ref, 'refs/tags/v')) && success() && (github.repository == 'reactive-firewall/ash') }}
+        if: ${{ (github.ref == 'refs/heads/FreeBSD-Ash' || startsWith(github.ref, 'refs/heads/feature-freebsd-vm-') || startsWith(github.ref, 'refs/tags/v')) && success() && (github.repository == 'reactive-firewall/ash') }}
         shell: bash
         run: |
           FILES=$(git ls-files -o --exclude-standard -- ${{ env.BUILD_MATCH_PATTERN }} )
@@ -149,7 +150,7 @@ jobs:
             printf "%s\n" "files=$FILES" >> "$GITHUB_OUTPUT"
           fi
       - name: Upload test logs
-        if: ${{ !cancelled() }}
+        if: ${{ (github.ref == 'refs/heads/FreeBSD-Ash' || startsWith(github.ref, 'refs/heads/feature-freebsd-vm-') || startsWith(github.ref, 'refs/tags/v')) && !cancelled() && (github.repository == 'reactive-firewall/ash') }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.0
         with:
           name: freebsd-test-logs-${{ matrix.arch }}-${{ matrix.freebsd_release }}
@@ -164,7 +165,7 @@ jobs:
           sudo pkill -f qemu || true
           sudo rm -f ./*.qcow2 || true
           df -h || true
-      - name: "Hint for pip hashing"
+      - name: "Hint for hashing"
         id: build-sha-hash-hint
         shell: bash
         if: ${{ !cancelled() && (steps.buildfiles.outputs.files != '') }}
