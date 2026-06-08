@@ -25,9 +25,7 @@ RUN apk del --no-cache gcc 2>/dev/null ;
 
 # Copy the project files into the container
 COPY build-ash.sh /build/build-ash.sh
-COPY ash/* /build/ash/
-COPY ash/bltin/* /build/ash/bltin/
-COPY ash/funcs/* /build/ash/funcs/
+COPY ash /build/ash
 # TODO
 #COPY LICENSE /build/LICENSE
 # copy libbaremusl header(s) into the container
