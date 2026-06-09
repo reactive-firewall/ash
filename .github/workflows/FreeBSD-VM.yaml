@@ -29,7 +29,6 @@ jobs:
     permissions:
       actions: read
       contents: read
-      statuses: write
       packages: none
       pull-requests: read
       security-events: none
@@ -179,7 +178,7 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.0
         with:
           path: ${{ steps.buildfiles.outputs.files }}
-          name: FreeBSD$-{{ matrix.arch }}-${{ matrix.freebsd_release }}-Ash-build-${{ github.sha }}
+          name: FreeBSD-${{ matrix.arch }}-${{ matrix.freebsd_release }}-Ash-build-${{ github.sha }}
           if-no-files-found: error
           compression-level: 3
           overwrite: true
