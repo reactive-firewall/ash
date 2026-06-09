@@ -15,14 +15,14 @@ AR="${AR:-ar}"
 CC="${CC:-cc}"
 CFLAGS="-O2 -DSHELL -I${SRCDIR} -I. -ffunction-sections -fdata-sections -fPIC"
 LDFLAGS="-fPIE"
-# Function to check for weak linking support
+# Function to check for ld.lld linking support
 check_lld_link() {
 	local TEMP_SRC=".linker_use_dummy.c"
-	echo "int main() { return 0; }" > ${TEMP_SRC} ;
+	printf '%s\n' 'int main() { return 0; }' > ${TEMP_SRC} ;
 	if ${CC} -Os -fuse-ld=lld ${TEMP_SRC} -o /dev/null 2>/dev/null; then
-		echo "-fuse-ld=lld"
+		printf '%s\n' '-fuse-ld=lld'
 	else
-		echo ""
+		printf '' ;
 	fi
 	rm -f ${TEMP_SRC} 2>/dev/null ;
 	unset TEMP_SRC ;
@@ -30,17 +30,31 @@ check_lld_link() {
 # Get the appropriate linker flag
 USE_LLD_FLAG=$(check_lld_link)
 LDFLAGS="${USE_LLD_FLAG} ${LDFLAGS}"
-ASH_LINE_LIB="${ASH_LINE_LIB:-readline}"
+
+# Function to check for ld.lld linking support
+check_readline_default() {
+	local TEMP_SRC=".linker_find_dummy.c"
+	printf '%s\n' 'int main() { return 0; }' > ${TEMP_SRC} ;
+	if ${CC} -Os ${USE_LLD_FLAG} -lreadline ${TEMP_SRC} -o /dev/null 2>/dev/null; then
+		printf 'readline'
+	else
+		printf '' ;
+	fi
+	rm -f ${TEMP_SRC} 2>/dev/null ;
+	unset TEMP_SRC ;
+}
+# Determine if we can use libreadline
+ASH_LINE_LIB=$(check_readline_default)
 LIBS="-ledit"     # set to "" if libedit not available
-if [ -n $ASH_LINE_LIB ]; then
+if [ -n "$ASH_LINE_LIB" ]; then
 	# Function to check for weak linking support
 	check_weak_link() {
 		local TEMP_SRC=".linker_dummy.c"
-		echo "int main() { return 0; }" > ${TEMP_SRC} ;
+		printf '%s\n' 'int main() { return 0; }' > ${TEMP_SRC} ;
 		if ${CC} -Wl,-weak-l${ASH_LINE_LIB} ${TEMP_SRC} -o /dev/null 2>/dev/null; then
-			echo "-Wl,-weak-l"
+			printf '%s' '-Wl,-weak-l'
 		else
-			echo "-l"
+			printf '%s' '-l'
 		fi
 		rm -f ${TEMP_SRC} 2>/dev/null ;
 		unset TEMP_SRC ;
@@ -67,7 +81,7 @@ cd "${SRCDIR}"
 for tool in mknodes mksyntax mktokens mkbuiltins; do
   src="${tool}.c"
   if [ -f "${src}" ]; then
-    echo "building generator: ${src}"
+    printf '%s\n' "building generator: ${src}"
     ${CC} ${CFLAGS} -o "${OUTDIR}/${tool}" "${SRCDIR}/${src}"
   else
     if [ -f "${SRCDIR}/${tool}" ] ; then
@@ -86,7 +100,7 @@ for tool in eaccess setmode; do
   hdr="${tool}_shim.h"
   lib="lib${tool}.a"
   if [ -f "${src}" ]; then
-    echo "building shim: ${src}"
+    printf '%s\n' "building shim: ${src}"
     if [ -f "${hdr}" ]; then
       ${CC} --std=c11 -ffunction-sections -fdata-sections -fPIC -fcommon -I${SRCDIR} -I. -fkeep-static-consts -c "${SRCDIR}/${src}" -o "${OUTDIR}/${tool}"
     else
@@ -109,19 +123,19 @@ export PATH
 
 # 2) Run generator tools (if present) to create generated sources/headers
 if [ -x "${OUTDIR}/mknodes" ]; then
-  echo "running mknodes..."
+  printf '%s\n' "running mknodes..."
   "${OUTDIR}/mknodes" "${SRCDIR}/nodetypes" "${SRCDIR}/nodes.c.pat"
 fi
 if [ -x "${OUTDIR}/mksyntax" ]; then
-  echo "running mksyntax..."
+  printf '%s\n' "running mksyntax..."
   "${OUTDIR}/mksyntax"
 fi
 if [ -x "${OUTDIR}/mktokens" ]; then
-  echo "running mktokens..."
+  printf '%s\n' "running mktokens..."
   "${OUTDIR}/mktokens"
 fi
 if [ -x "${OUTDIR}/mkbuiltins" ]; then
-  echo "running mkbuiltins..."
+  printf '%s\n' "running mkbuiltins..."
   "${OUTDIR}/mkbuiltins" "${SRCDIR}"
 fi
 
@@ -159,7 +173,7 @@ for s in $SRCS; do
   if [ ${s} == *input.c* ] || [ ${s} == *output.c* ] || [ ${s} == *mail.c* ] ; then
     EXTRA_CFLAGS="${EXTRA_CFLAGS} -Wno-int-conversion"
   fi
-  echo "compiling ${s}"
+  printf '%s\n' "compiling ${s}"
   ${CC} ${CFLAGS} ${EXTRA_CFLAGS} -c "${SRCDIR}/${s}" -o "${obj}"
   OBJLIST="${OBJLIST} ${obj}"
   ${CHMOD} ${BIN_MODE} "${obj}" || true
@@ -167,23 +181,23 @@ for s in $SRCS; do
 done
 
 # 5) Link
-echo "linking sh..."
+printf '%s\n' "linking sh..."
 cd "${OUTDIR}"
 #-weak-leditline
 if ${CC} -Os -o sh -fPIE ${OBJLIST} ${LDFLAGS} ${LIBS} 2>/dev/null; then
-  echo "linked successfully with ${LIBS}"
+  printf '%s\n' "linked successfully with ${LIBS}"
 else
-  echo "linking failed, showing verbose output:"
+  printf '%s\n' "linking failed, showing verbose output:"
   ${CC} -Os -o sh -fPIE ${OBJLIST} ${LDFLAGS} ${LIBS} || true
   exit 2;
 fi
 
 # 6) Test binary quickly
 if [ -x ./sh ]; then
-  echo "build succeeded: ${OUTDIR}/sh"
+  printf '%s\n' "build succeeded: ${OUTDIR}/sh"
   ./sh -c 'echo sh_ok' 2>/dev/null || echo "built sh did not run 'echo sh_ok' successfully" >&2
 else
-  echo "sh binary not found after link"
+  printf '%s\n' "sh binary not found after link"
   exit 1
 fi
 
@@ -191,8 +205,8 @@ fi
 if [ -n "${DESTDIR}" ]; then
   dst="${DESTDIR}"
   mkdir -p "${dst}/bin"
-  echo "installing to ${dst}/bin/sh"
+  printf '%s\n' "installing to ${dst}/bin/sh"
   install -m 755 ./sh "${dst}/bin/sh"
 fi
 
-echo "done."
+printf '%s\n' "done."
