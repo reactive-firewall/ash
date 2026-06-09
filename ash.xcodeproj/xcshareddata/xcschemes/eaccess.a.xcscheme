@@ -8,16 +8,16 @@
       buildArchitectures = "Automatic">
       <BuildActionEntries>
          <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
+            buildForTesting = "NO"
+            buildForRunning = "NO"
             buildForProfiling = "YES"
             buildForArchiving = "YES"
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "843C49412E8CF80500FB21F6"
-               BuildableName = "ash"
-               BlueprintName = "ash"
+               BlueprintIdentifier = "842129172E8F3A180006FD06"
+               BuildableName = "eaccess.a"
+               BlueprintName = "eaccess.a"
                ReferencedContainer = "container:ash.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,43 +32,24 @@
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
-      selectedDebuggerIdentifier = ""
-      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      checkedAllocationsOption = "2"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "YES"
       debugDocumentVersioning = "NO"
       debugServiceExtension = "internal"
+      enableGPUValidationMode = "1"
       allowLocationSimulation = "YES"
       viewDebuggingEnabled = "No">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "843C49412E8CF80500FB21F6"
-            BuildableName = "ash"
-            BlueprintName = "ash"
-            ReferencedContainer = "container:ash.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
       shouldUseLaunchSchemeArgsEnv = "YES"
-      savedToolIdentifier = "System Trace"
+      savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      ignoresPersistentStateOnLaunch = "YES"
-      debugDocumentVersioning = "NO">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "843C49412E8CF80500FB21F6"
-            BuildableName = "ash"
-            BlueprintName = "ash"
-            ReferencedContainer = "container:ash.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
+      debugDocumentVersioning = "YES">
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

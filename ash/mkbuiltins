@@ -34,11 +34,11 @@
 #	@(#)mkbuiltins	8.2 (Berkeley) 5/4/95
 # $FreeBSD$
 
-temp=`mktemp ka.XXXXXXXXXXXX`
+temp=`mktemp ka.XXXXXXXXXXXX 2>/dev/null || mktemp -t ka`
 srcdir=$1
 havejobs=0
-if grep '^#define[	 ]*JOBS[	 ]*1' $srcdir/shell.h > /dev/null
-then	havejobs=1
+if grep '^#define[	 ]*JOBS[	 ]*1' $srcdir/shell.h > /dev/null; then
+	havejobs=1
 fi
 exec > builtins.c
 cat <<\!
@@ -52,9 +52,9 @@ cat <<\!
 
 !
 awk '/^[^#]/ {if('$havejobs' || $2 != "-j") \
-    print $0}' $srcdir/builtins.def | sed 's/-j//' > $temp
+    print $0}' $srcdir/builtins.def | sed 's/-j//' > $temp || exit 2
 echo 'int (*const builtinfunc[])(int, char **) = {'
-awk '/^[^#]/ {	printf "\t%s,\n", $1}' $temp
+awk '/^[^#]/ {	printf "\t%s,\n", $1}' $temp || exit 3
 echo '};
 
 const unsigned char builtincmd[] = {'
@@ -68,8 +68,8 @@ awk '{	for (i = 2 ; i <= NF ; i++) {
 			printf "\t\"\\%03o\\%03o%s\"\n", length($i), (spc ? 128 : 0) + NR-1, $i
 			spc = 0;
 		}
-	}}' $temp
-echo '};'
+	}}' $temp || exit 4
+echo '};' || exit 5
 
 exec > builtins.h
 cat <<\!
@@ -79,7 +79,7 @@ cat <<\!
 
 #include <sys/cdefs.h>
 !
-tr abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ < $temp |
+tr abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ < $temp | \
 	awk '{	printf "#define %s %d\n", $1, NR-1}'
 echo '
 #define BUILTIN_SPECIAL 0x80
@@ -87,7 +87,7 @@ echo '
 extern int (*const builtinfunc[])(int, char **);
 extern const unsigned char builtincmd[];
 '
-awk '{	printf "int %s(int, char **);\n", $1}' $temp
+awk '{	printf "int %s(int, char **);\n", $1}' $temp || exit 6
 
 # Build safe_builtin_always()
 cat <<EOF

@@ -15,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "843C49412E8CF80500FB21F6"
-               BuildableName = "ash"
-               BlueprintName = "ash"
+               BlueprintIdentifier = "84113F3C2E8D23410050C6E0"
+               BuildableName = "mksyntax"
+               BlueprintName = "mksyntax"
                ReferencedContainer = "container:ash.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,12 +32,12 @@
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
-      selectedDebuggerIdentifier = ""
-      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      ignoresPersistentStateOnLaunch = "YES"
-      debugDocumentVersioning = "NO"
+      ignoresPersistentStateOnLaunch = "NO"
+      debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
       viewDebuggingEnabled = "No">
@@ -45,9 +45,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "843C49412E8CF80500FB21F6"
-            BuildableName = "ash"
-            BlueprintName = "ash"
+            BlueprintIdentifier = "84113F3C2E8D23410050C6E0"
+            BuildableName = "mksyntax"
+            BlueprintName = "mksyntax"
             ReferencedContainer = "container:ash.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -55,17 +55,16 @@
    <ProfileAction
       buildConfiguration = "Release"
       shouldUseLaunchSchemeArgsEnv = "YES"
-      savedToolIdentifier = "System Trace"
+      savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      ignoresPersistentStateOnLaunch = "YES"
-      debugDocumentVersioning = "NO">
+      debugDocumentVersioning = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "843C49412E8CF80500FB21F6"
-            BuildableName = "ash"
-            BlueprintName = "ash"
+            BlueprintIdentifier = "84113F3C2E8D23410050C6E0"
+            BuildableName = "mksyntax"
+            BlueprintName = "mksyntax"
             ReferencedContainer = "container:ash.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
