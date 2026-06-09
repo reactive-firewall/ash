@@ -35,8 +35,8 @@ LDFLAGS="${USE_LLD_FLAG} ${LDFLAGS}"
 check_readline_default() {
 	local TEMP_SRC=".linker_find_dummy.c"
 	printf '%s\n' 'int main() { return 0; }' > ${TEMP_SRC} ;
-	if ${CC} -Os ${USE_LLD_FLAG} -lreadline ${TEMP_SRC} -o /dev/null 2>/dev/null; then
-		printf 'readline'
+	if ${CC} -Os ${USE_LLD_FLAG} -l${ASH_LINE_LIB:-readline} ${TEMP_SRC} -o /dev/null 2>/dev/null; then
+		printf '%s' "${ASH_LINE_LIB:-readline}" ;
 	else
 		printf '' ;
 	fi
