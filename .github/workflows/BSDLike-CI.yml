@@ -11,7 +11,7 @@ run-name: Build ${{ github.ref_name }}
 
 on:  # yamllint disable-line rule:truthy
   push:
-    branches: ["BSDLike-Ash", "XNULike-Ash", "MuslLike-Ash", "patch-*"]  # matches most branches
+    branches: ["BSDLike-Ash", "XNULike-Ash", "BSD-XNU-Hybrid-Ash", "patch-*", "feature-*"]  # matches most branches
     tags: ["v*"]
 
 # Declare default permissions as none.
@@ -19,33 +19,49 @@ permissions: {}
 
 env:
   # dynamic environment value
-  ENVIRONMENT: ${{ (github.ref == 'refs/heads/BSDLike-Ash' || github.ref == 'refs/heads/XNULike-Ash' || startsWith(github.ref, 'refs/tags/v')) && 'Deployment' || (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/patch-') ) && 'Testing' || 'Experimenting' }}
+  ENVIRONMENT: ${{ (github.ref == 'refs/heads/BSDLike-Ash' || startsWith(github.ref, 'refs/tags/v')) && 'Deployment' || (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/main') || github.ref == 'refs/heads/XNULike-Ash' || github.ref == 'refs/heads/BSD-XNU-Hybrid-Ash' || startsWith(github.ref, 'refs/heads/patch-') || startsWith(github.ref, 'refs/heads/feature-freebsd-vm-') ) && 'Testing' || 'Experimenting' }}
   # Define C standard edition (e.g., --std=cXY) at the top level -- Expected format: cXY
   C_LANGUAGE_STANDARD: "${{ vars.C_LANGUAGE_STANDARD || 'c99' }}"
   BUILD_MATCH_PATTERN: ${{ vars.BUILD_MATCH_PATTERN || './obj/ash/sh' }}
+  MERGE_MATCH_PATTERN: ${{ vars.MERGE_MATCH_PATTERN || '*sh' }}
 
 jobs:
   BUILD:
     permissions:
       actions: read
       contents: read
-      statuses: write
       packages: none
       pull-requests: read
       security-events: none
     if: ${{ !cancelled() && (github.repository == 'reactive-firewall/ash') }}
-    runs-on: macos-latest
-    environment: ${{ (github.ref == 'refs/heads/BSDLike-Ash' || startsWith(github.ref, 'refs/tags/v')) && 'Deployment' || (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/main') || github.ref == 'refs/heads/XNULike-Ash' || startsWith(github.ref, 'refs/heads/patch-') ) && 'Testing' || 'Experimenting' }}
+    environment: ${{ (github.ref == 'refs/heads/BSDLike-Ash' || startsWith(github.ref, 'refs/tags/v')) && 'Deployment' || (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/main') || github.ref == 'refs/heads/XNULike-Ash' || github.ref == 'refs/heads/BSD-XNU-Hybrid-Ash' || startsWith(github.ref, 'refs/heads/patch-') || startsWith(github.ref, 'refs/heads/feature-freebsd-vm-') ) && 'Testing' || 'Experimenting' }}
     defaults:
       run:
         shell: bash
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        os: [ubuntu-latest]
+        arch: [x86_64, aarch64]
+        freebsd_release: ["14.4", "15.0"]
+        include:
+          - os: macos-latest
+            arch: aarch64
+            freebsd_release: null
+          - os: macos-26-intel
+            arch: x86_64
+            freebsd_release: null
     env:
+      VM_NAME: freebsd-ci-${{ matrix.arch }}-${{ matrix.freebsd_release || matrix.os }}
+      OS: ${{ matrix.os }}
       LANG: "en_US.UTF-8"
       CONFIGURATION: ${{ vars.CONFIGURATION || 'Debug' }}
       BUILD_MATCH_PATTERN: ${{ vars.BUILD_MATCH_PATTERN || './obj/ash/sh' }}
     outputs:
       build_environment: ${{ env.ENVIRONMENT }}
-      build_status: ${{ steps.build.outcome }}
+      build_status: ${{ steps.build.outcome || steps.build_vm.outcome }}
       artifact-id: ${{ steps.upload.outputs.artifact-id }}
       artifact-url: ${{ steps.upload.outputs.artifact-url }}
       artifact-digest: ${{ steps.upload.outputs.artifact-digest }}
@@ -57,7 +73,12 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
           submodules: true
-          # TODO ...
+      - name: Install minimal QEMU tools
+        id: prep-qemu
+        if: ${{ (matrix.freebsd_release != null) && !cancelled() && (github.repository == 'reactive-firewall/ash') }}
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y --no-install-recommends qemu-utils pv
       - id: output_c_language
         name: "Bootstrap C language standard"
         shell: bash
@@ -87,18 +108,54 @@ jobs:
           else
             printf "%s\n" "::warning title=UNLICENSED:: This is an UNLICENSED Build"
           fi
+      - name: Build in VM (QEMU)
+        id: build_vm
+        if: ${{ (matrix.freebsd_release != null) && !cancelled() && (github.repository == 'reactive-firewall/ash') }}
+        uses: vmactions/freebsd-vm@a6de9343ef5747433d9c25784c90e84998b9d69a # v1.4.6
+        with:
+          envs: 'C_LANGUAGE_STANDARD CONFIGURATION CLANG_C_LANGUAGE_STANDARD TAPI_LANGUAGE_STANDARD GCC_C_LANGUAGE_STANDARD'
+          arch: ${{ matrix.arch }}
+          release: ${{ matrix.freebsd_release }}
+          #name: ${{ env.VM_NAME }}
+          mem: 8192                # request 8GB RAM for the guest
+          sync: scp                # try using scp for sync (localhost scp)
+          sync-time: true
+          usesh: true
+          disable-cache: true      # don't use apt
+          debug-on-error: false    # don't use VNC
+          prepare: |
+            set -eux
+            # set -e -u -x: fail fast, treat unset vars as error, show commands
+            printf "%s\n" "Pre-CI: start $(date -u)"
+            uname -a 2>&1 || true
+            freebsd-version 2>&1 || true
+            # Example package operations; keep permission/rate limits in mind
+            if command -v pkg >/dev/null 2>&1; then
+              pkg update -f 2>&1 || true
+              pkg install -y llvm22 2>&1 || true
+            fi
+            # Ensure scripts are executable
+            chmod +x ./run-ci.sh
+            printf "%s\n" "Pre-CI: end $(date -u)"
+          run: |
+            set -eu
+            # set -e -u: fail fast, treat unset vars as error
+            printf "%s\n" "CI: start $(date -u)"
+            ./run-ci.sh 2>&1 | tee test-output-${{ matrix.arch }}.log
+            printf "%s\n" "CI: end $(date -u)"
       - name: Build
         id: build
+        if: ${{ (matrix.freebsd_release == null) && !cancelled() }}
         shell: bash
         run: ./build-ash.sh
       - name: Get BUILD Files
         id: buildfiles
-        if: ${{ (github.ref == 'refs/heads/BSDLike-Ash' || github.ref == 'refs/heads/XNULike-Ash' || startsWith(github.ref, 'refs/tags/v')) && success() && (github.repository == 'reactive-firewall/ash') }}
+        if: ${{ (github.ref == 'refs/heads/BSDLike-Ash' || github.ref == 'refs/heads/XNULike-Ash' || github.ref == 'refs/heads/BSD-XNU-Hybrid-Ash' || startsWith(github.ref, 'refs/heads/feature-freebsd-vm-') || startsWith(github.ref, 'refs/tags/v')) && !cancelled() && (github.repository == 'reactive-firewall/ash') }}
         shell: bash
         run: |
           FILES=$(git ls-files -o --exclude-standard -- ${{ env.BUILD_MATCH_PATTERN }} )
           if [ -z "$FILES" ]; then
-            printf "%s\n" "::warning file=.github/workflows/CI-BUILD.yml:: No Built files found."
+            printf "%s\n" "::warning file=.github/workflows/FreeBSD-VM.yml:: No Built files found."
             printf "%s\n" "files=" >> "$GITHUB_OUTPUT"
           else
             printf "%s\n" "Built files found:"
@@ -107,6 +164,22 @@ jobs:
             FILES="${FILES//$'\n'/ }"
             printf "%s\n" "files=$FILES" >> "$GITHUB_OUTPUT"
           fi
+      - name: Upload test logs
+        if: ${{ (github.ref == 'refs/heads/FreeBSD-Ash' || startsWith(github.ref, 'refs/heads/feature-freebsd-vm-') || startsWith(github.ref, 'refs/tags/v')) && (matrix.freebsd_release != null) && (github.repository == 'reactive-firewall/ash') }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: freebsd-test-logs-${{ matrix.arch }}-${{ matrix.freebsd_release }}
+          path: ./test-output-${{ matrix.arch }}.log
+          # path pattern depends on action's sync destination; adjust if needed.
+      - name: Ensure VM shutdown & cleanup (always)
+        if: ${{ always() && (matrix.freebsd_release != null) }}
+        run: |
+          set -eux
+          # The community action should provide cleanup automatically on action exit.
+          # As a safety net, remove local disk images or qemu leftovers the job may have created.
+          sudo pkill -f qemu || true
+          sudo rm -f ./*.qcow2 || true
+          df -h || true
       - name: "Hint for hashing"
         id: build-sha-hash-hint
         shell: bash
@@ -121,7 +194,7 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           path: ${{ steps.buildfiles.outputs.files }}
-          name: BSDLike-Ash-build-${{ github.sha }}
+          name: BSD-${{ matrix.arch }}-${{ matrix.freebsd_release || matrix.os }}-Ash-build-${{ github.sha }}
           if-no-files-found: error
           compression-level: 3
           overwrite: true
@@ -139,17 +212,57 @@ jobs:
       CONFIGURATION: ${{ vars.CONFIGURATION || 'Debug' }}
     if: ${{ !cancelled() && (needs.BUILD.outputs.artifact-files != '') && (github.repository == 'reactive-firewall/ash') }}
     outputs:
+      artifact-id: ${{ steps.reupload.outputs.artifact-id }}
+      artifact-url: ${{ steps.reupload.outputs.artifact-url }}
+      artifact-digest: ${{ steps.reupload.outputs.artifact-digest }}
+      artifact-files: ${{ steps.mergefiles.outputs.files }}
       build-artifact-attestation-url: ${{ steps.ash-build-attest.outputs.attestation-url }}
       build-artifact-attestation-id: ${{ steps.ash-build-attest.outputs.attestation-id }}
     steps:
       - name: Download All Artifacts
-        id: download-ash-product
+        id: download-ash-products
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
-          name: BSDLike-Ash-build-${{ github.sha }}
+          pattern: BSD-*-Ash-build-${{ github.sha }}
+          merge-multiple: false
+      - name: Rename Downloaded Artifact Files
+        id: organize-files
+        shell: bash
+        run: |
+          mkdir ./build/
+          for DIR_PATH in $(find ${{ steps.download-ash-product.outputs.download-path }} -type f -iname "${{ env.MERGE_MATCH_PATTERN }}" -print 2>/dev/null ); do
+            mv -vf $(dirname "${DIR_PATH}") $(printf './build/%s-%s\n' $(printf '%s' $(dirname "${DIR_PATH}") | cut -d\- -f2- | cut -d\- -f1-4 | cut -dA -f1-1 ) "Ash" | tr -s '-') ;
+          done ;
+      - name: Select Downloaded Artifact Files
+        id: mergefiles
+        shell: bash
+        run: |
+          FILES=$(find build -type f -iname "${{ env.MERGE_MATCH_PATTERN }}" -print 2>/dev/null )
+          if [ -z "$FILES" ]; then
+            printf "%s\n" "::warning file=.github/workflows/BSDLike-CI.yml:: No Built files found."
+            printf "%s\n" "files=" >> "$GITHUB_OUTPUT"
+          else
+            printf "%s\n" "Built files selected:"
+            printf "%s\n" "$FILES"
+            # Replace line breaks with commas for GitHub Action Output
+            FILES="${FILES//$'\n'/ }"
+            printf "%s\n" "files=$FILES" >> "$GITHUB_OUTPUT"
+          fi
       - name: Calculate artifact digests
         run: |
-          { /usr/bin/openssl dgst -sha512 ${{ steps.download-ash-product.outputs.download-path }}/sh | tr -s ')=' '=' | cut -d\( -f2-2 ;} | sed -E -e 's/^([^=]+)([=]{1}\ +)([a-f0-9]+)$/\3  \1/g'; > build.checksums.txt
+          { { for SOME_SH_FILE in $(find build -type f -iname "${{ env.MERGE_MATCH_PATTERN }}" -print 2>/dev/null); do /usr/bin/openssl dgst -sha512 ${SOME_SH_FILE} ; done ;} | tr -s ')=' '=' | cut -d\( -f2-2 ;} | sed -E -e 's/^([^=]+)([=]{1}\ +)([a-f0-9]+)$/\3  \1/g'; > build.checksums.txt
+          # DEBUG DIAGNOSTIC (REMOVE BEFORE MERGE)
+          cat <build.checksums.txt ;
+      - name: Upload build artifact
+        id: reupload
+        if: ${{ !cancelled() && (steps.mergefiles.outputs.files != '') && (github.repository == 'reactive-firewall/ash') }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          path: 'build/**/sh'
+          name: BSDLike-Ash-build-${{ github.sha }}
+          if-no-files-found: error
+          compression-level: 3
+          overwrite: true
       - name: "Attest Build Checksums"
         id: ash-build-chksum-attest
         if: ${{ !cancelled() && (github.repository == 'reactive-firewall/ash') && (needs.BUILD.outputs.build_environment == 'Deployment' && startsWith(github.ref, 'refs/tags/v')) }}
@@ -163,7 +276,7 @@ jobs:
         uses: actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26 # v4.1.0
         with:
           subject-name: BSDLike-Ash-build-${{ github.sha }}
-          subject-digest: sha256:${{ needs.BUILD.outputs.artifact-digest }}
+          subject-digest: sha256:${{ steps.reupload.outputs.artifact-digest }}
           github-token: ${{ github.token }}
           show-summary: false
 
@@ -202,9 +315,9 @@ jobs:
           printf "%s\n" "build_sha=${{ github.sha }}" >> "$GITHUB_OUTPUT"
           printf "%s\n" "build_ref_name=${{ github.ref_name }}" >> "$GITHUB_OUTPUT"
           printf "%s\n" "build_artifact_filename=BSDLike-Ash-build-${{ github.sha }}.zip" >> "$GITHUB_OUTPUT"
-          printf "%s\n" "build_artifact_url=${{ needs.BUILD.outputs.artifact-url }}" >> "$GITHUB_OUTPUT"
-          printf "%s\n" "build_artifact_id=${{ needs.BUILD.outputs.artifact-id }}" >> "$GITHUB_OUTPUT"
-          printf "%s\n" "build_artifact_digest=${{ needs.BUILD.outputs.artifact-digest }}" >> "$GITHUB_OUTPUT"
+          printf "%s\n" "build_artifact_url=${{ needs.BUILD_ATTEST.outputs.artifact-url }}" >> "$GITHUB_OUTPUT"
+          printf "%s\n" "build_artifact_id=${{ needs.BUILD_ATTEST.outputs.artifact-id }}" >> "$GITHUB_OUTPUT"
+          printf "%s\n" "build_artifact_digest=${{ needs.BUILD_ATTEST.outputs.artifact-digest }}" >> "$GITHUB_OUTPUT"
           if [[ "${{ needs.BUILD_ATTEST.result }}" == "success" ]] ; then
             printf "%s\n" "build-artifact-attestation-url=${{ needs.BUILD_ATTEST.outputs.build-artifact-attestation-url }}" >> "$GITHUB_OUTPUT"
             printf "%s\n" "build-artifact-attestation-id=${{ needs.BUILD_ATTEST.outputs.build-artifact-attestation-id }}" >> "$GITHUB_OUTPUT"
